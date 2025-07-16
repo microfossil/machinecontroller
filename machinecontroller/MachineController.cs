@@ -12,7 +12,7 @@ public class MachineController
         this.controller = controller;
     }
 
-    // Automatic commands (WORD0 - Commands to machine)
+    // Automatic commands (WORD0 - Commands to machine) // test
     public async Task InitializeMachine()
     {
         // Set Init (WORD0.4)
