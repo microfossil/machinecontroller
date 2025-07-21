@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
+using System.Threading.Tasks; 
 
 public class MachineController
 {
@@ -42,33 +42,26 @@ public class MachineController
         await Task.Delay(500); // Documentation mentions ~500ms pulse
     }
 
-    public async Task EnableEmptySlotControl(bool enable)
-    {
-        // Enable/disable camera verification of empty slots after pickup/deposit
-        var commandWord = controller.ReadRegisters(0, 1)[0];
-
-        if (enable)
-            commandWord |= (1 << 5); // Cde_Auto.Avec_controle_vide (WORD0.5)
-        else
-            commandWord &= ~(1 << 5);
-
-        controller.WriteRegister(0, (ushort)commandWord);
-        await Task.Delay(100);
-    }
-
     // Read machine status (from machine to server)
     public async Task<int> GetCurrentMode()
     {
         // ActualMode is at WORD1 in the machine->server mapping
         // But we need to account for the offset in the actual Modbus addressing
-        var values = controller.ReadRegisters(100, 1); // Assuming machine status starts at address 100
+        var values = controller.ReadRegisters(1, 1); 
         return values[0]; // GEMMA mode
+    }
+    public async Task<int> GetPosZAxis()
+    {
+        // ActualMode is at WORD1 in the machine->server mapping
+        // But we need to account for the offset in the actual Modbus addressing
+        var values = controller.ReadRegisters(2, 1);
+        return values[0];
     }
 
     public async Task<int> GetMainCycleStep()
     {
         // G7_Main_ActiveStep is at WORD10 in machine->server mapping
-        var values = controller.ReadRegisters(110, 1); // Assuming machine status starts at address 100
+        var values = controller.ReadRegisters(110, 1); 
         return values[0];
     }
 
