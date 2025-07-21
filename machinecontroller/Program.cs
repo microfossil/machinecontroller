@@ -52,10 +52,28 @@ class Program
         //machineController.SetVisionZPosition(1500); // Set vision Z axis position
 
         // Read machine status
-        var currentMode = await machineController.GetCurrentMode();
-        var ZPos = await machineController.GetPosZAxis();
-        //var mainStep = await machineController.GetMainCycleStep();
-        Console.WriteLine($"Machine Mode: {currentMode} ({machineController.GetGemmaModeDescription(currentMode)}), Z : {ZPos}");
+        if (controller.IsConnected)
+        {
+            try
+            {
+                // Test with register 0 first (most devices have this)
+                var testRead = controller.ReadRegisters(0, 1);
+                Console.WriteLine($"Register 0 value: {testRead[0]}");
+                
+                var currentMode = await machineController.GetCurrentMode();
+                var ZPos = await machineController.GetPosZAxis();
+                Console.WriteLine($"Machine Mode: {currentMode} ({machineController.GetGemmaModeDescription(currentMode)}), Z : {ZPos}");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[KO] Register read failed: {ex.Message}");
+                Console.WriteLine("→ The device may not have registers at addresses 1 and 2");
+            }
+        }
+        else
+        {
+            Console.WriteLine("[KO] Not connected to Modbus server - cannot read registers");
+        }
 
 
         // Check if initialization is required
