@@ -14,35 +14,35 @@ class Program
         port = 502;
         Console.WriteLine($"\n=== Test de connexion à {ip_address} port {port} ===");
         var controller = new ModbusController(ip_address, port);
-        try
-        {
-            if (await controller.IsServerReachableAsync())
-            {
-                Console.WriteLine("[OK] Serveur Modbus accessible (TCP OK)");
-                await controller.ConnectAsync();
-                Console.WriteLine("[OK] Connexion réussie!");
-            }
-            else
-            {
-                Console.WriteLine("[KO] Serveur Modbus injoignable (TCP KO)");
-            }
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"[KO] Échec: {ex.Message}");
-        }
 
         try
         {
-            await controller.TestTcpPortDetailedAsync(ip_address, port);
+            await controller.ConnectAsync();
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"[KO] Échec: {ex.Message}");
+            Console.WriteLine($"[KO] Échec connexion: {ex.Message}");
         }
 
-        // Create machine control interface
-        var machineController = new MachineController(controller);
+        Console.WriteLine($"\n=== Test accès serveur ===");
+        if (controller.IsConnected)
+        {
+            try
+            {
+                await controller.IsServerReachableAsync();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[KO] Échec: {ex.Message}");
+            }
+        }
+        else
+            {
+                Console.WriteLine("\n[KO] Not connected to Modbus server - cannot read registers");
+            }
+
+            // Create machine control interface
+            var machineController = new MachineController(controller);
 
         //// Configure machine parameters before starting
         //machineController.SetVialNumber(5); // Work with vial 5
@@ -52,27 +52,31 @@ class Program
         //machineController.SetVisionZPosition(1500); // Set vision Z axis position
 
         // Read machine status
+        Console.WriteLine($"\n=== Test lecture registres ===");
         if (controller.IsConnected)
         {
             try
             {
-                // Test with register 0 first (most devices have this)
-                var testRead = controller.ReadRegisters(0, 1);
-                Console.WriteLine($"Register 0 value: {testRead[0]}");
-                
-                var currentMode = await machineController.GetCurrentMode();
-                var ZPos = await machineController.GetPosZAxis();
-                Console.WriteLine($"Machine Mode: {currentMode} ({machineController.GetGemmaModeDescription(currentMode)}), Z : {ZPos}");
+                if (!controller.IsConnected)
+                    Console.WriteLine("Server diconnected, re connection");
+                    await controller.ConnectAsync();
+                // Test reading from base address 40001 (many Modbus devices start here)
+                var testRead = controller.ReadRegisters(40003, 1);
+                Console.WriteLine($"Register 40001 value: {testRead[0]}");
+
+                // Test WORD1 and WORD2 with base offset
+                var testWord1 = controller.ReadRegisters(40002, 1); // WORD1 = ActualMode
+                var testWord2 = controller.ReadRegisters(40003, 1); // WORD2 = ActualZPosition
+                Console.WriteLine($"WORD1 (Mode): {testWord1[0]}, WORD2 (Z Position): {testWord2[0]}");
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"[KO] Register read failed: {ex.Message}");
-                Console.WriteLine("→ The device may not have registers at addresses 1 and 2");
+                Console.WriteLine($"[KO] Register read failed:\n{ex.Message}");
             }
         }
         else
         {
-            Console.WriteLine("[KO] Not connected to Modbus server - cannot read registers");
+            Console.WriteLine("\n[KO] Not connected to Modbus server - cannot read registers");
         }
 
 

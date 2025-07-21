@@ -23,67 +23,51 @@ public class ModbusController
     {
         try
         {
-            using (var client = new TcpClient())
-            {
-                var connectTask = client.ConnectAsync(ServerIp, ServerPort);
-                var timeoutTask = Task.Delay(timeoutMs);
-                var completedTask = await Task.WhenAny(connectTask, timeoutTask);
-                return completedTask == connectTask && client.Connected;
-            }
-        }
-        catch
-        {
-            return false;
-        }
-    }
-    public async Task TestTcpPortDetailedAsync(string ip, int port)
-    {
-        try
-        {
             using (var tcpClient = new TcpClient())
             {
                 tcpClient.ReceiveTimeout = 5000;
                 tcpClient.SendTimeout = 5000;
 
-                Console.WriteLine($"\nTentative de connexion à {ip}:{port}...");
-
-                var connectTask = tcpClient.ConnectAsync(ip, port);
-                var timeoutTask = Task.Delay(5000);
+                var connectTask = tcpClient.ConnectAsync(ServerIp, ServerPort);
+                var timeoutTask = Task.Delay(timeoutMs);
                 var completedTask = await Task.WhenAny(connectTask, timeoutTask);
-
                 if (completedTask == connectTask)
                 {
                     if (tcpClient.Connected)
                     {
-                        Console.WriteLine($"   [OK] Port {port}: OUVERT et ACCESSIBLE");
+                        Console.WriteLine($"[OK] Port {ServerPort}: OUVERT et ACCESSIBLE");
+                        return true;
                     }
                     else
                     {
-                        Console.WriteLine($"   [KO] Port {port}: Connexion échouée");
+                        Console.WriteLine($"[KO] Port {ServerPort}: Connexion échouée");
+                        return true;
                     }
                 }
                 else
                 {
-                    Console.WriteLine($"   [KO] Port {port}: TIMEOUT (5 secondes)");
+                    Console.WriteLine($"[KO] Port {ServerPort}: TIMEOUT (5 secondes)");
+                    return false;
                 }
             }
         }
         catch (SocketException ex)
         {
-            Console.WriteLine($"   ❌ Port {port}: SocketException - {ex.SocketErrorCode}");
+            Console.WriteLine($"[KO] Port {ServerPort}: SocketException - {ex.SocketErrorCode}");
             if (ex.SocketErrorCode == SocketError.TimedOut)
                 Console.WriteLine("      → Le serveur ne répond pas (timeout)");
             else if (ex.SocketErrorCode == SocketError.ConnectionRefused)
                 Console.WriteLine("      → Connexion refusée (pas de serveur sur ce port)");
             else if (ex.SocketErrorCode == SocketError.HostUnreachable)
                 Console.WriteLine("      → Hôte inaccessible (problème réseau)");
+            return false;
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"   ❌ Port {port}: Exception - {ex.Message}");
+            Console.WriteLine($"   [KO] Port {ServerPort}: Exception - {ex.Message}");
+            return false;
         }
     }
-
     public async Task ConnectAsync()
     {
         await Task.Run(() =>
@@ -94,11 +78,11 @@ public class ModbusController
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"❌ Échec: {ex.Message}");
+                Console.WriteLine($"[KO] Échec: {ex.Message}");
                 throw;
             }
         });
-     }
+    }
 
     public void Disconnect()
     {
