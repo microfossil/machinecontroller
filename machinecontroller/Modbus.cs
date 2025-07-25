@@ -114,32 +114,6 @@ namespace ModbusTCP_Simplified
                         DisplayWordBits(WordNumber, WordValueNew, GetBitNameFunc, 1, 1);
 
                         GetGEMMAMode();
-
-                        // Console.WriteLine($"\n----- SWITCH AUTO/MANUAL MODE -----");
-                        // int[] word90 = modbusClient.ReadHoldingRegisters(90, 1);
-                        // int word90value = word90[0];
-
-                        // // Read byte 2 from word 90
-                        // bool bitValue = (word90value & (1 << 1)) != 0;
-
-                        // Console.WriteLine($"Word 90 AUTO_MODE (bit 1): {bitValue}");
-
-                        // // Toggle bit 1 while preserving all other bits
-                        // int newValue;
-                        // if (bitValue)
-                        // {
-                        //     // Clear bit 1 (set to MANUAL)
-                        //     newValue = word90value & ~(1 << 1);
-                        // }
-                        // else
-                        // {
-                        //     // Set bit 1 (set to AUTO)
-                        //     newValue = word90value | (1 << 1);
-                        // }
-
-                        // modbusClient.WriteSingleRegister(90, newValue);
-                        // bool bitValue_new = (newValue & (1 << 1)) != 0;
-                        // Console.WriteLine($"Word 90 AUTO_MODE (bit 1): {bitValue_new}");
                         //-----------------------------------------------------
                     }
                     catch (Exception ex) { Console.WriteLine($"Holding failed: {ex.Message}"); }
