@@ -108,7 +108,7 @@ namespace ModbusTCP_Simplified
                         var GetBitNameFunc = GetBitNameFuncByReflection(WordNumber);
                         DisplayWordBits(WordNumber, WordValue, GetBitNameFunc, 1, 1);
 
-                        SetAutoModeAsync(true);
+                        await SetAutoModeAsync(true);
 
                         int WordValueNew = ReadHoldingRegister(WordNumber);
                         DisplayWordBits(WordNumber, WordValueNew, GetBitNameFunc, 1, 1);
