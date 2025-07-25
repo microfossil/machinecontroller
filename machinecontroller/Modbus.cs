@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using EasyModbus;
+using System.Reflection;
 
 namespace ModbusTCP_Simplified
 {
@@ -96,52 +97,49 @@ namespace ModbusTCP_Simplified
             {
                 try
                 {
-                    Console.WriteLine(" - Holding Registers - ");
                     try
                     {
-                        // GEMMA MODE BEFORE WRITE ATTEMPT
-                        //-----------------------------------------------------
-                        Console.WriteLine($"\n----- GEMMA MODE -----");
-                        int[] word1 = modbusClient.ReadHoldingRegisters(1, 1);
-                        int word1value = word1[0];
-                        Console.WriteLine($"Holding Registers word1: {word1value:X2}");
-                        //-----------------------------------------------------
-
                         // Write attempt
                         //-----------------------------------------------------
-                        Console.WriteLine($"\n----- SWITCH AUTO/MANUAL MODE -----");
-                        int[] word90 = modbusClient.ReadHoldingRegisters(90, 1);
-                        int word90value = word90[0];
+                        GetGEMMAMode();
 
-                        // Read byte 2 from word 90
-                        bool bitValue = (word90value & (1 << 1)) != 0;
+                        int WordNumber = 90;
+                        WordValue = ReadHoldingRegister(WordNumber);
+                        GetBitNameFunc = GetBitNameFuncByReflection(WordNumber);
+                        DisplayWordBits(WordNumber, WordValue, GetBitNameFunc, 1, 1);
 
-                        Console.WriteLine($"Word 90 AUTO_MODE (bit 1): {bitValue}");
+                        SetAutoModeAsync(true);
 
-                        // Toggle bit 1 while preserving all other bits
-                        int newValue;
-                        if (bitValue)
-                        {
-                            // Clear bit 1 (set to MANUAL)
-                            newValue = word90value & ~(1 << 1);
-                        }
-                        else
-                        {
-                            // Set bit 1 (set to AUTO)
-                            newValue = word90value | (1 << 1);
-                        }
+                        WordValueNew = ReadHoldingRegister(wordNumber);
+                        DisplayWordBits(wordNumber, WordValueNew, GetBitNameFunc, 1, 1);
 
-                        modbusClient.WriteSingleRegister(90, newValue);
-                        bool bitValue_new = (newValue & (1 << 1)) != 0;
-                        Console.WriteLine($"Word 90 AUTO_MODE (bit 1): {bitValue_new}");
-                        //-----------------------------------------------------
+                        GetGEMMAMode();
 
-                        // GEMMA MODE AFTER WRITE ATTEMPT
-                        //-----------------------------------------------------
-                        Console.WriteLine($"\n----- GEMMA MODE -----");
-                        int[] word1_new = modbusClient.ReadHoldingRegisters(1, 1);
-                        int word1value_new = word1_new[0];
-                        Console.WriteLine($"Holding Registers word1: {word1value_new:X2}");
+                        // Console.WriteLine($"\n----- SWITCH AUTO/MANUAL MODE -----");
+                        // int[] word90 = modbusClient.ReadHoldingRegisters(90, 1);
+                        // int word90value = word90[0];
+
+                        // // Read byte 2 from word 90
+                        // bool bitValue = (word90value & (1 << 1)) != 0;
+
+                        // Console.WriteLine($"Word 90 AUTO_MODE (bit 1): {bitValue}");
+
+                        // // Toggle bit 1 while preserving all other bits
+                        // int newValue;
+                        // if (bitValue)
+                        // {
+                        //     // Clear bit 1 (set to MANUAL)
+                        //     newValue = word90value & ~(1 << 1);
+                        // }
+                        // else
+                        // {
+                        //     // Set bit 1 (set to AUTO)
+                        //     newValue = word90value | (1 << 1);
+                        // }
+
+                        // modbusClient.WriteSingleRegister(90, newValue);
+                        // bool bitValue_new = (newValue & (1 << 1)) != 0;
+                        // Console.WriteLine($"Word 90 AUTO_MODE (bit 1): {bitValue_new}");
                         //-----------------------------------------------------
                     }
                     catch (Exception ex) { Console.WriteLine($"Holding failed: {ex.Message}"); }
@@ -157,7 +155,296 @@ namespace ModbusTCP_Simplified
             }
         }
 
-        // Helper function to name the bits according to your register table
+        // Higher level functions
+        //------------------------------------------------------------------------------------------
+        // Read and display GEMMA mode with description
+        public int GetGEMMAMode()
+        {
+            if (!IsConnected)
+            {
+                Console.WriteLine("Cannot read - Modbus not connected");
+                return -1;
+            }
+
+            try
+            {
+                int gemmaMode = ReadHoldingRegister(1);
+                Console.WriteLine($"\nGEMMA Mode: {gemmaMode} (0x{gemmaMode:X2}) - {GetGEMMADescription(gemmaMode)}");
+                return gemmaMode;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error reading GEMMA mode: {ex.Message}");
+                return -1;
+            }
+        }
+
+        /// Set Auto/Manual mode
+        public async Task SetAutoModeAsync(bool autoMode)
+        {
+            if (!IsConnected)
+            {
+                Console.WriteLine("Cannot write - Modbus not connected");
+                return;
+            }
+
+            try
+            {
+                int currentValue = ReadHoldingRegister(90);
+                int newValue = autoMode ? SetBit(currentValue, 1) : ClearBit(currentValue, 1);
+
+                modbusClient.WriteSingleRegister(90, newValue);
+
+                Console.WriteLine($"\nWORD90.1 (Mode_Auto) changed from 0x{currentValue:X4} to 0x{newValue:X4} ({(autoMode ? "AUTO" : "MANUAL")})");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error setting Auto mode: {ex.Message}");
+            }
+        }
+        //----------------------------------------------------------------------------------------
+
+        /// Read a single holding register and return its value
+        //------------------------------------------------------------------------------------------
+        private int ReadHoldingRegister(int register)
+        {
+            try
+            {
+                int[] result = modbusClient.ReadHoldingRegisters(register, 1);
+                return result[0];
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error reading register {register}: {ex.Message}");
+                return -1;
+            }
+        }
+        //------------------------------------------------------------------------------------------
+
+        // Bits operation functions
+        //------------------------------------------------------------------------------------------
+        // Set a specific bit to 1 (TRUE)
+        private int SetBit(int value, int position)
+        {
+            return value | (1 << position);
+        }
+        /// Clear a specific bit to 0 (FALSE)
+        private int ClearBit(int value, int position)
+        {
+            return value & ~(1 << position);
+        }
+        /// Toggle a specific bit (0→1 or 1→0)
+        private int ToggleBit(int value, int position)
+        {
+            return value ^ (1 << position);
+        }
+        /// Check if a specific bit is set
+        private bool IsBitSet(int value, int position)
+        {
+            return (value & (1 << position)) != 0;
+        }
+        //------------------------------------------------------------------------------------------
+
+        // Destination plateau
+        //------------------------------------------------------------------------------------------
+        // Set destination plateau for particle A
+        public async Task SetDestinationA_Plateau(int destination)
+        {
+            if (!IsConnected)
+            {
+                Console.WriteLine("Cannot write - Modbus not connected");
+                return;
+            }
+
+            if (destination < 0 || destination > 3)
+            {
+                Console.WriteLine("Invalid destination value. Must be 0-3 (0=Rebut; 1=Plateau Gauche; 2=Plateau Droite; 3=Analyseur)");
+                return;
+            }
+
+            try
+            {
+                modbusClient.WriteSingleRegister(96, destination);
+                Console.WriteLine($"WORD96 - Destination_A_Plateau set to: {destination} ({GetDestinationName(destination)})");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error writing Destination_A_Plateau: {ex.Message}");
+            }
+        }
+
+        /// Set X coordinate for particle A deposition (in thousandths)
+        public async Task SetDestinationA_X(int x)
+        {
+            if (!IsConnected)
+            {
+                Console.WriteLine("Cannot write - Modbus not connected");
+                return;
+            }
+
+            try
+            {
+                modbusClient.WriteSingleRegister(97, x);
+                Console.WriteLine($"WORD97 - Destination_A_X set to: {x} (thousandths)");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error writing Destination_A_X: {ex.Message}");
+            }
+        }
+
+        /// Set Y coordinate for particle A deposition (in thousandths)
+        public async Task SetDestinationA_Y(int y)
+        {
+            if (!IsConnected)
+            {
+                Console.WriteLine("Cannot write - Modbus not connected");
+                return;
+            }
+
+            try
+            {
+                modbusClient.WriteSingleRegister(98, y);
+                Console.WriteLine($"WORD98 - Destination_A_Y set to: {y} (thousandths)");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error writing Destination_A_Y: {ex.Message}");
+            }
+        }
+
+        // Set Z coordinate for particle A deposition (in thousandths)
+        public async Task SetDestinationA_Z(int z)
+        {
+            if (!IsConnected)
+            {
+                Console.WriteLine("Cannot write - Modbus not connected");
+                return;
+            }
+
+            try
+            {
+                modbusClient.WriteSingleRegister(99, z);
+                Console.WriteLine($"WORD99 - Destination_A_Z set to: {z} (thousandths)");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error writing Destination_A_Z: {ex.Message}");
+            }
+        }
+
+        // Set complete destination parameters for particle A
+        public async Task SetDestinationA_Complete(int plateau, int x, int y, int z)
+        {
+            Console.WriteLine($"\n----- SETTING PARTICLE A DESTINATION -----");
+            await SetDestinationA_Plateau(plateau);
+            if (plateau == 1 || plateau == 2) // Only set coordinates for plateaus
+            {
+                await SetDestinationA_X(x);
+                await SetDestinationA_Y(y);
+                await SetDestinationA_Z(z);
+            }
+            Console.WriteLine($"Particle A destination set: {GetDestinationName(plateau)}");
+            if (plateau == 1 || plateau == 2)
+            {
+                Console.WriteLine($"Coordinates: X={x}, Y={y}, Z={z} (thousandths)");
+            }
+            Console.WriteLine("---------------------------------------------\n");
+        }
+
+        public async Task ReadDestinationParameters()
+        {
+            if (!IsConnected)
+            {
+                Console.WriteLine("Cannot read - Modbus not connected");
+                return;
+            }
+
+            try
+            {
+                // Read all destination parameters at once
+                int[] parameters = modbusClient.ReadHoldingRegisters(96, 8);
+
+                Console.WriteLine("\n=== DESTINATION PARAMETERS ===");
+                Console.WriteLine("PARTICLE A:");
+                Console.WriteLine($"  Plateau: {parameters[0]} ({GetDestinationName(parameters[0])})");
+                Console.WriteLine($"  X: {parameters[1]} (thousandths)");
+                Console.WriteLine($"  Y: {parameters[2]} (thousandths)");
+                Console.WriteLine($"  Z: {parameters[3]} (thousandths)");
+
+                Console.WriteLine("PARTICLE B:");
+                Console.WriteLine($"  Plateau: {parameters[4]} ({GetDestinationName(parameters[4])})");
+                Console.WriteLine($"  X: {parameters[5]} (thousandths)");
+                Console.WriteLine($"  Y: {parameters[6]} (thousandths)");
+                Console.WriteLine($"  Z: {parameters[7]} (thousandths)");
+                Console.WriteLine("==============================\n");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error reading destination parameters: {ex.Message}");
+            }
+        }
+        //------------------------------------------------------------------------------------------
+
+        // Get bits values
+        //------------------------------------------------------------------------------------------
+        private void DisplayWordBits(int wordNumber, int wordValue, Func<int, string> getBitNameFunc, int startBit = 0, int maxBits = 16)
+        {
+            Console.WriteLine($"\n- Holding Registers word{wordNumber}:");
+            for (int ind = startBit; ind < maxBits; ind++)
+            {
+                bool bitValue = (wordValue & (1 << ind)) != 0;
+                string bitName = getBitNameFunc(ind);
+                Console.WriteLine($"    Bit {ind}: {bitValue} - {bitName}");
+            }
+        }
+        //------------------------------------------------------------------------------------------
+
+        // Helper function to name the bits/words/GEMMA modes according to your register table
+        //------------------------------------------------------------------------------------------
+
+        /// <summary>
+        /// Get GEMMA description - hex-based encoding
+        /// </summary>
+        private string GetGEMMADescription(int mode)
+        {
+            return mode switch
+            {
+                // Stop states (A series) - hex encoded
+                161 => "A1 - Arrêt dans état initial",                    // 0xA1
+                162 => "A2 - Arrêt demandé en fin de cycle",             // 0xA2
+                163 => "A3 - Arrêt demandé dans état déterminé",         // 0xA3
+                164 => "A4 - Arrêt obtenu",                              // 0xA4
+                165 => "A5 - Préparation pour remise en route après défaillance", // 0xA5
+                166 => "A6 - Mise en position pour production",          // 0xA6
+                167 => "A7 - Mise en énergie",                           // 0xA7
+                
+                // Operating states (F series) - hex encoded
+                241 => "F1 - Production normale",                        // 0xF1
+                242 => "F2 - Marche de préparation",                     // 0xF2
+                243 => "F3 - Marche de clôture",                         // 0xF3
+                244 => "F4 - Marche de vérification dans le désordre",   // 0xF4
+                245 => "F5 - Marche de vérification dans l'ordre",       // 0xF5
+                246 => "F6 - Marche de test",                            // 0xF6
+                
+                // Fault states (D series) - hex encoded
+                209 => "D1 - Arrêt d'urgence",                           // 0xD1
+                210 => "D2 - Diagnostic/traitement défaillance",         // 0xD2
+                211 => "D3 - Production tout de même",                   // 0xD3
+                
+                _ => $"Mode non défini ({mode} = 0x{mode:X2})"
+            };
+        }
+
+        // Allow to dynamically get GetBitNameWord{wordNumber} functions
+        private Func<int, string> GetBitNameFuncByReflection(int wordNumber)
+        {
+            var method = GetType().GetMethod($"GetBitNameWord{wordNumber}", BindingFlags.Instance | BindingFlags.NonPublic);
+            if (method != null)
+                return (bit) => (string)method.Invoke(this, new object[] { bit });
+            return (bit) => $"Bit {bit} - Non défini pour WORD{wordNumber}";
+        }
+        
         private string GetBitNameWord0(int bit)
         {
             return bit switch
@@ -622,6 +909,47 @@ namespace ModbusTCP_Simplified
                 11 => "ParticuleAnalyseur_Manip_B_A_Verifier",
                 12 => "ParticuleManipulateur_Presence",
                 13 => "Réserve",
+                _ => "Réserve"
+            };
+        }
+
+        private string GetBitNameWord90(int bit)
+        {
+            return bit switch
+            {
+                0 => "Cde_Auto.Acquit - Demande d'acquittement des défauts",
+                1 => "Cde_Auto.Mode_Auto - Passage en mode Auto (Auto=TRUE/MANU=FALSE)",
+                2 => "Cde_Auto.Start - Demande départ cycle : Passage en Mode F1",
+                3 => "Cde_Auto.Stop - Demande arrêt cycle : Passage de F1 en A2 (puis A1 quand cycle terminé)",
+                4 => "Cde_Auto.Init - Demande initialisation : Passage de D2 ou F4 en A6 (puis A2 quand initialisation terminée)",
+                5 => "Cde_Auto.Avec_controle_vide - Mode vérification slot vide par caméra après prise/dépose (mode actif=TRUE)",
+                6 => "Cde_Auto.Collect_Start - Démarrage du cycle principale de la fiole N (Param_N_Fiole)",
+                7 => "Cde_Auto.Collect_Stop - Demande d'arrêt de collecte de la fiole N (déclenche la vidange et la fin du cycle principale)",
+                8 => "Cde_Auto.Vidange_Stop - Demande d'arrêt de la vidange (arrête la vidange même si le convoyage n'est pas vide)",
+                _ => "Réserve"
+            };
+        }
+
+        private string GetBitNameWord91(int bit)
+        {
+            return bit switch
+            {
+                0 => "Cde_Auto.Vision_Analyse_A_Done - Retour d'information fin d'analyse vision du slot A",
+                1 => "Cde_Auto.Vision_Analyse_B_Done - Retour d'information fin d'analyse vision du slot B",
+                2 => "Cde_Auto.Vision_Controle_vide_A_Done - Retour d'information fin de contrôle vide du slot A",
+                3 => "Cde_Auto.Vision_Controle_vide_B_Done - Retour d'information fin de contrôle vide du slot B",
+                4 => "Cde_Auto.Vision_presence_A - Présence particule dans le slot A (TRUE=Présence/FALSE=Absence)",
+                5 => "Cde_Auto.Vision_presence_B - Présence particule dans le slot B (TRUE=Présence/FALSE=Absence)",
+                6 => "Cde_Auto.Axe_Vision_Z_Execute - Demande déplacement axe vision à la position",
+                7 => "Réserve",
+                8 => "Cde_Auto.Vision_A_Eclairage1 - Demande Eclairage vision A (Section 1)",
+                9 => "Cde_Auto.Vision_A_Eclairage2 - Demande Eclairage vision A (Section 2)",
+                10 => "Cde_Auto.Vision_A_Eclairage3 - Demande Eclairage vision A (Section 3)",
+                11 => "Cde_Auto.Vision_A_Eclairage4 - Demande Eclairage vision A (Section 4)",
+                12 => "Cde_Auto.Vision_B_Eclairage1 - Demande Eclairage vision B (Section 1)",
+                13 => "Cde_Auto.Vision_B_Eclairage2 - Demande Eclairage vision B (Section 2)",
+                14 => "Cde_Auto.Vision_B_Eclairage3 - Demande Eclairage vision B (Section 3)",
+                15 => "Cde_Auto.Vision_B_Eclairage4 - Demande Eclairage vision B (Section 4)",
                 _ => "Réserve"
             };
         }
