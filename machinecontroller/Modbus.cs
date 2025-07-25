@@ -169,7 +169,9 @@ namespace ModbusTCP_Simplified
             try
             {
                 int gemmaMode = ReadHoldingRegister(1);
-                Console.WriteLine($"\nGEMMA Mode: {gemmaMode} (0x{gemmaMode:X2}) - {GetGEMMADescription(gemmaMode)}");
+                Console.WriteLine($"\n- GEMMA Mode:");
+                Console.WriteLine($"    {gemmaMode} (decimal) -> {gemmaMode:X2} (hexa) || {GetGEMMADescription(gemmaMode)}");
+
                 return gemmaMode;
             }
             catch (Exception ex)
@@ -195,7 +197,11 @@ namespace ModbusTCP_Simplified
 
                 modbusClient.WriteSingleRegister(90, newValue);
 
-                Console.WriteLine($"\nWORD90.1 (Mode_Auto) changed from 0x{currentValue:X4} to 0x{newValue:X4} ({(autoMode ? "AUTO" : "MANUAL")})");
+                bool currentBit = GetBit(currentValue, 1);
+                bool newBit = GetBit(newValue, 1);
+
+                Console.WriteLine($"\n- SetAutoModeAsync:");
+                Console.WriteLine($"    WORD90.1 (Mode_Auto) changed from {currentBit} to {newBit} ({(autoMode ? "AUTO" : "MANUAL")})");
             }
             catch (Exception ex)
             {
@@ -221,6 +227,21 @@ namespace ModbusTCP_Simplified
         }
         //------------------------------------------------------------------------------------------
 
+        // Get bits values
+        //------------------------------------------------------------------------------------------
+        private void DisplayWordBits(int wordNumber, int wordValue, Func<int, string> getBitNameFunc, int startBit = 0, int count = 16)
+        {
+            Console.WriteLine($"\n- Holding Registers word{wordNumber}:");
+            for (int i = 0; i < count; i++)
+            {
+                int bitIndex = startBit + i;
+                bool bitValue = GetBit(wordValue, bitIndex);
+                string bitName = getBitNameFunc(bitIndex);
+                Console.WriteLine($"    Bit {bitIndex}: {bitValue} - {bitName}");
+            }
+        }
+        //------------------------------------------------------------------------------------------
+
         // Bits operation functions
         //------------------------------------------------------------------------------------------
         // Set a specific bit to 1 (TRUE)
@@ -239,7 +260,7 @@ namespace ModbusTCP_Simplified
             return value ^ (1 << position);
         }
         /// Check if a specific bit is set
-        private bool IsBitSet(int value, int position)
+        private bool GetBit(int value, int position)
         {
             return (value & (1 << position)) != 0;
         }
@@ -382,20 +403,6 @@ namespace ModbusTCP_Simplified
             catch (Exception ex)
             {
                 Console.WriteLine($"Error reading destination parameters: {ex.Message}");
-            }
-        }
-        //------------------------------------------------------------------------------------------
-
-        // Get bits values
-        //------------------------------------------------------------------------------------------
-        private void DisplayWordBits(int wordNumber, int wordValue, Func<int, string> getBitNameFunc, int startBit = 0, int maxBits = 16)
-        {
-            Console.WriteLine($"\n- Holding Registers word{wordNumber}:");
-            for (int ind = startBit; ind < maxBits; ind++)
-            {
-                bool bitValue = (wordValue & (1 << ind)) != 0;
-                string bitName = getBitNameFunc(ind);
-                Console.WriteLine($"    Bit {ind}: {bitValue} - {bitName}");
             }
         }
         //------------------------------------------------------------------------------------------
