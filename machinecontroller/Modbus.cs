@@ -104,14 +104,14 @@ namespace ModbusTCP_Simplified
                         GetGEMMAMode();
 
                         int WordNumber = 90;
-                        WordValue = ReadHoldingRegister(WordNumber);
-                        GetBitNameFunc = GetBitNameFuncByReflection(WordNumber);
+                        int WordValue = ReadHoldingRegister(WordNumber);
+                        var GetBitNameFunc = GetBitNameFuncByReflection(WordNumber);
                         DisplayWordBits(WordNumber, WordValue, GetBitNameFunc, 1, 1);
 
                         SetAutoModeAsync(true);
 
-                        WordValueNew = ReadHoldingRegister(wordNumber);
-                        DisplayWordBits(wordNumber, WordValueNew, GetBitNameFunc, 1, 1);
+                        int WordValueNew = ReadHoldingRegister(WordNumber);
+                        DisplayWordBits(WordNumber, WordValueNew, GetBitNameFunc, 1, 1);
 
                         GetGEMMAMode();
 
