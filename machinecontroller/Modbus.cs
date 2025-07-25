@@ -403,9 +403,7 @@ namespace ModbusTCP_Simplified
         // Helper function to name the bits/words/GEMMA modes according to your register table
         //------------------------------------------------------------------------------------------
 
-        /// <summary>
         /// Get GEMMA description - hex-based encoding
-        /// </summary>
         private string GetGEMMADescription(int mode)
         {
             return mode switch
@@ -418,7 +416,7 @@ namespace ModbusTCP_Simplified
                 165 => "A5 - Préparation pour remise en route après défaillance", // 0xA5
                 166 => "A6 - Mise en position pour production",          // 0xA6
                 167 => "A7 - Mise en énergie",                           // 0xA7
-                
+
                 // Operating states (F series) - hex encoded
                 241 => "F1 - Production normale",                        // 0xF1
                 242 => "F2 - Marche de préparation",                     // 0xF2
@@ -426,13 +424,26 @@ namespace ModbusTCP_Simplified
                 244 => "F4 - Marche de vérification dans le désordre",   // 0xF4
                 245 => "F5 - Marche de vérification dans l'ordre",       // 0xF5
                 246 => "F6 - Marche de test",                            // 0xF6
-                
+
                 // Fault states (D series) - hex encoded
                 209 => "D1 - Arrêt d'urgence",                           // 0xD1
                 210 => "D2 - Diagnostic/traitement défaillance",         // 0xD2
                 211 => "D3 - Production tout de même",                   // 0xD3
-                
+
                 _ => $"Mode non défini ({mode} = 0x{mode:X2})"
+            };
+        }
+
+        // Get destination name based on destination code
+        private string GetDestinationName(int destination)
+        {
+            return destination switch
+            {
+                0 => "Rebut",
+                1 => "Plateau Gauche",
+                2 => "Plateau Droite",
+                3 => "Analyseur",
+                _ => $"Destination inconnue ({destination})"
             };
         }
 
