@@ -3,13 +3,13 @@ using System;
 using System.Net.Sockets;
 using System.Threading.Tasks;
 
-public class ModbusController
+public class ModbusController_old
 {
     private ModbusClient modbusClient;
 
     public bool IsConnected => modbusClient?.Connected ?? false;
 
-    public ModbusController(string ip, int port)
+    public ModbusController_old(string ip, int port)
     {
         modbusClient = new ModbusClient(ip, port);
         ServerIp = ip;
@@ -96,7 +96,19 @@ public class ModbusController
 
     public int[] ReadRegisters(int startAddress, int count)
     {
-        return modbusClient.ReadHoldingRegisters(startAddress, count);
+        try
+        {
+            Console.WriteLine($"\n[ModbusController] Reading registers {startAddress}-{startAddress + count - 1}, Connected: {IsConnected}");
+            return modbusClient.ReadHoldingRegisters(startAddress, count);
+            // return modbusClient.ReadHoldingRegisters(startAddress, count);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Connection state = {modbusClient.Connected}");
+            Console.WriteLine($"Check connection = {this.IsConnected}");
+            Console.WriteLine($"[ModbusController] ReadRegisters failed at address {startAddress}: {ex.Message}");
+            throw;
+        }
     }
 
     public ushort ReadSingleRegister(int address)

@@ -34,7 +34,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>Program</StartupObject>
+    <StartupObject>ModbusTCP_Simplified.Program</StartupObject>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="EasyModbus, Version=5.6.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -50,10 +50,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="NetworkTest.cs" />
-    <Compile Include="MachineController.cs" />
-    <Compile Include="ModbusController.cs" />
+    <Compile Include="Machine.cs" />
+    <Compile Include="Modbus.cs" />
     <Compile Include="Program.cs" />
+    <Compile Include="TestConnection\ModbusConnectionTest.cs" />
+    <Compile Include="TestConnection\NetworkTest.cs" />
+    <Compile Include="old\MachineController_old.cs" />
+    <Compile Include="old\ModbusController_old.cs" />
+    <Compile Include="old\Program_old.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

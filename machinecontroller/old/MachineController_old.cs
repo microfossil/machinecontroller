@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks; 
 
-public class MachineController
+public class MachineController_old
 {
-    private readonly ModbusController controller;
+    private readonly ModbusController_old controller;
 
-    public MachineController(ModbusController controller)
+    public MachineController_old(ModbusController_old controller)
     {
         this.controller = controller;
     }
@@ -394,7 +394,7 @@ public static class MachineParameterExtensions
     /// <summary>
     /// Helper method to set destination using enum for better readability
     /// </summary>
-    public static void SetDestinationA(this MachineController controller, DestinationPlateau plateau, int x = 0, int y = 0, int z = 0)
+    public static void SetDestinationA(this MachineController_old controller, DestinationPlateau plateau, int x = 0, int y = 0, int z = 0)
     {
         controller.SetDestinationA((int)plateau, x, y, z);
     }
@@ -402,7 +402,7 @@ public static class MachineParameterExtensions
     /// <summary>
     /// Helper method to set destination using enum for better readability
     /// </summary>
-    public static void SetDestinationB(this MachineController controller, DestinationPlateau plateau, int x = 0, int y = 0, int z = 0)
+    public static void SetDestinationB(this MachineController_old controller, DestinationPlateau plateau, int x = 0, int y = 0, int z = 0)
     {
         controller.SetDestinationB((int)plateau, x, y, z);
     }
@@ -410,7 +410,7 @@ public static class MachineParameterExtensions
     /// <summary>
     /// Get human-readable description of GEMMA mode
     /// </summary>
-    public static string GetGemmaModeDescription(this MachineController controller, int mode)
+    public static string GetGemmaModeDescription(this MachineController_old controller, int mode)
     {
         return mode switch
         {
