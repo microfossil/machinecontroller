@@ -154,7 +154,7 @@ namespace ModbusTCP_Simplified
         {
             if (!IsConnected)
             {
-                Console.WriteLine("Cannot read - Modbus not connected");
+                Console.WriteLine("\nCannot read - Modbus not connected");
                 return -1;
             }
 
@@ -167,7 +167,7 @@ namespace ModbusTCP_Simplified
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error reading GEMMA mode: {ex.Message}");
+                Console.WriteLine($"\nError reading GEMMA mode: {ex.Message}");
                 return -1;
             }
         }
@@ -195,7 +195,7 @@ namespace ModbusTCP_Simplified
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error setting Auto mode: {ex.Message}");
+                Console.WriteLine($"\nError setting Auto mode: {ex.Message}");
             }
         }
 
@@ -204,7 +204,7 @@ namespace ModbusTCP_Simplified
         {
             if (!IsConnected)
             {
-                Console.WriteLine("Cannot write - Modbus not connected");
+                Console.WriteLine("\nCannot write - Modbus not connected");
                 return;
             }
 
@@ -215,11 +215,11 @@ namespace ModbusTCP_Simplified
 
                 await WriteSingleRegisterAsync(wordNumber, newValue);
 
-                Console.WriteLine($"WORD{wordNumber}.{bitIndex} ({role}) changed {GetBit(currentValue, bitIndex)} -> {GetBit(newValue, bitIndex)}");
+                Console.WriteLine($"\nWORD{wordNumber}.{bitIndex} ({role}) changed {GetBit(currentValue, bitIndex)} -> {GetBit(newValue, bitIndex)}");
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error writing to WORD{wordNumber}.{bitIndex}: {ex.Message}");
+                Console.WriteLine($"\nError writing to WORD{wordNumber}.{bitIndex}: {ex.Message}");
             }
         }
 
@@ -227,7 +227,7 @@ namespace ModbusTCP_Simplified
         {
             if (!IsConnected)
             {
-                Console.WriteLine("Cannot write - Modbus not connected");
+                Console.WriteLine("\nCannot write - Modbus not connected");
                 return;
             }
 
@@ -235,11 +235,11 @@ namespace ModbusTCP_Simplified
             {
                 int currentvalue = await ReadHoldingRegisterAsync(wordNumber);
                 await WriteSingleRegisterAsync(wordNumber, value);
-                Console.WriteLine($"WORD{wordNumber} ({role}) changed {currentvalue} (decimal) / 0x{currentvalue:X2} (hex) -> {value} (decimal) / 0x{value:X2} (hex)");
+                Console.WriteLine($"\nWORD{wordNumber} ({role}) changed {currentvalue} (decimal) / 0x{currentvalue:X2} (hex) -> {value} (decimal) / 0x{value:X2} (hex)");
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error writing to WORD{wordNumber}: {ex.Message}");
+                Console.WriteLine($"\nError writing to WORD{wordNumber}: {ex.Message}");
             }
         }
         //----------------------------------------------------------------------------------------
@@ -259,7 +259,7 @@ namespace ModbusTCP_Simplified
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error reading register {register}: {ex.Message}");
+                Console.WriteLine($"\nError reading register {register}: {ex.Message}");
                 return -1;
             }
         }
@@ -279,7 +279,7 @@ namespace ModbusTCP_Simplified
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error writing to register {register}: {ex.Message}");
+                Console.WriteLine($"\nError writing to register {register}: {ex.Message}");
             }
         }
         //------------------------------------------------------------------------------------------
