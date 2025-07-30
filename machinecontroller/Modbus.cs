@@ -200,7 +200,7 @@ namespace ModbusTCP_Simplified
         }
 
         // Write specific bit in a word
-        public async Task WriteBitAsync(string role="Unknown", int wordNumber, int bitIndex, bool value)
+        public async Task WriteBitAsync(int wordNumber, int bitIndex, bool value, string role="Unknown")
         {
             if (!IsConnected)
             {
@@ -223,7 +223,7 @@ namespace ModbusTCP_Simplified
             }
         }
 
-        public async Task WriteWordAsync(string role="Unknown", int wordNumber, int value)
+        public async Task WriteWordAsync(int wordNumber, int value, string role="Unknown")
         {
             if (!IsConnected)
             {
