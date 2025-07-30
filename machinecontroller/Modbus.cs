@@ -101,13 +101,13 @@ namespace ModbusTCP_Simplified
                     {
                         // Param
                         //--------------------------------------------------------------------------
-                        wd_gestion_cycle = 90;
-                        wd_param_n_fiole = 105;
-                        wd_param_vibration_amorcageVidange = 116;
-                        bit_auto_mode = 1;
-                        bit_demande_depart_cycle = 2;
-                        bit_demande_initialisation = 4;
-                        bit_depart_cycle = 6;
+                        int wd_gestion_cycle = 90;
+                        int wd_param_n_fiole = 105;
+                        int wd_param_vibration_amorcageVidange = 116;
+                        int bit_auto_mode = 1;
+                        int bit_demande_depart_cycle = 2;
+                        int bit_demande_initialisation = 4;
+                        int bit_depart_cycle = 6;
                         //--------------------------------------------------------------------------
 
                         // Préparation run
@@ -233,7 +233,7 @@ namespace ModbusTCP_Simplified
 
             try
             {
-                currentvalue = ReadHoldingRegister(wordNumber);
+                int currentvalue = ReadHoldingRegister(wordNumber);
                 WriteSingleRegister(wordNumber, value);
                 Console.WriteLine($"WORD{wordNumber} ({role}) changed {currentvalue} (decimal) / 0x{currentvalue:X2} (hex) -> {value} (decimal) / 0x{value:X2} (hex)");
             }
