@@ -99,22 +99,40 @@ namespace ModbusTCP_Simplified
                 {
                     try
                     {
-                        // Write attempt
-                        //-----------------------------------------------------
+                        // Param
+                        //--------------------------------------------------------------------------
+                        wd_gestion_cycle = 90;
+                        wd_param_n_fiole = 105;
+                        wd_param_vibration_amorcageVidange = 116;
+                        bit_auto_mode = 1;
+                        bit_demande_depart_cycle = 2;
+                        bit_demande_initialisation = 4;
+                        bit_depart_cycle = 6;
+                        //--------------------------------------------------------------------------
+
+                        // Préparation run
+                        //--------------------------------------------------------------------------
+                        GetGEMMAMode();
+                        await WriteBitAsync("Auto mode", wd_gestion_cycle, bit_auto_mode, false); // Set Auto mode off
+                        GetGEMMAMode();
+                        await WriteBitAsync("Auto mode", wd_gestion_cycle, bit_auto_mode, true); // Set Auto mode on
                         GetGEMMAMode();
 
-                        int WordNumber = 90;
-                        int WordValue = ReadHoldingRegister(WordNumber);
-                        var GetBitNameFunc = GetBitNameFuncByReflection(WordNumber);
-                        DisplayWordBits(WordNumber, WordValue, GetBitNameFunc, 1, 1);
+                        DisplayWordBits(wd_gestion_cycle, 0, 16);
 
-                        await SetAutoModeAsync(true);
-
-                        int WordValueNew = ReadHoldingRegister(WordNumber);
-                        DisplayWordBits(WordNumber, WordValueNew, GetBitNameFunc, 1, 1);
-
+                        // await SetAutoModeAsync(true);
+                        await WriteBitAsync("Initialisation", wd_gestion_cycle, bit_demande_initialisation, true); // Demande initialisation A6 puis A1
                         GetGEMMAMode();
-                        //-----------------------------------------------------
+                        await WriteBitAsync("Demande départ cycle", wd_gestion_cycle, bit_demande_depart_cycle, true); // Demande départ cycle : Passage en Mode F1
+                        GetGEMMAMode();
+                        await WriteWordAsync("n° fiole", wd_param_n_fiole, 1); // Fiole n°1 à traiter
+                        await WriteWordAsync("Vibration amorçage vidange %", wd_param_vibration_amorcageVidange, 100); // Vibration amorçage vidange à 100%
+                        //--------------------------------------------------------------------------
+
+                        // Launch cycle
+                        //--------------------------------------------------------------------------
+                        await WriteBitAsync("Départ cycle", wd_gestion_cycle, bit_depart_cycle, true); // Départ cycle bit 6 -> True
+                        //--------------------------------------------------------------------------
                     }
                     catch (Exception ex) { Console.WriteLine($"Holding failed: {ex.Message}"); }
 
@@ -143,8 +161,7 @@ namespace ModbusTCP_Simplified
             try
             {
                 int gemmaMode = ReadHoldingRegister(1);
-                Console.WriteLine($"\n- GEMMA Mode:");
-                Console.WriteLine($"    {gemmaMode} (decimal) -> {gemmaMode:X2} (hexa) || {GetGEMMADescription(gemmaMode)}");
+                Console.WriteLine($"\nGEMMA Mode: {gemmaMode} (decimal) -> {gemmaMode:X2} (hexa) || {GetGEMMADescription(gemmaMode)}");
 
                 return gemmaMode;
             }
@@ -174,12 +191,55 @@ namespace ModbusTCP_Simplified
                 bool currentBit = GetBit(currentValue, 1);
                 bool newBit = GetBit(newValue, 1);
 
-                Console.WriteLine($"\n- SetAutoModeAsync:");
-                Console.WriteLine($"    WORD90.1 (Mode_Auto) changed from {currentBit} to {newBit} ({(autoMode ? "AUTO" : "MANUAL")})");
+                Console.WriteLine($"\nWORD90.1 (Mode_Auto) changed from {currentBit} to {newBit} ({(autoMode ? "AUTO" : "MANUAL")})");
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Error setting Auto mode: {ex.Message}");
+            }
+        }
+
+        // Write specific bit in a word
+        public async Task WriteBitAsync(string role="Unknown", int wordNumber, int bitIndex, bool value)
+        {
+            if (!IsConnected)
+            {
+                Console.WriteLine("Cannot write - Modbus not connected");
+                return;
+            }
+
+            try
+            {
+                int currentValue = ReadHoldingRegister(wordNumber);
+                int newValue = value ? SetBit(currentValue, bitIndex) : ClearBit(currentValue, bitIndex);
+
+                WriteSingleRegister(wordNumber, newValue);
+
+                Console.WriteLine($"WORD{wordNumber}.{bitIndex} ({role}) changed {GetBit(currentValue, bitIndex)} -> {GetBit(newValue, bitIndex)}");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error writing to WORD{wordNumber}.{bitIndex}: {ex.Message}");
+            }
+        }
+
+        public async Task WriteWordAsync(string role="Unknown", int wordNumber, int value)
+        {
+            if (!IsConnected)
+            {
+                Console.WriteLine("Cannot write - Modbus not connected");
+                return;
+            }
+
+            try
+            {
+                currentvalue = ReadHoldingRegister(wordNumber);
+                WriteSingleRegister(wordNumber, value);
+                Console.WriteLine($"WORD{wordNumber} ({role}) changed {currentvalue} (decimal) / 0x{currentvalue:X2} (hex) -> {value} (decimal) / 0x{value:X2} (hex)");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error writing to WORD{wordNumber}: {ex.Message}");
             }
         }
         //----------------------------------------------------------------------------------------
@@ -201,11 +261,28 @@ namespace ModbusTCP_Simplified
         }
         //------------------------------------------------------------------------------------------
 
+        /// Write a single holding register with the specified value
+        //------------------------------------------------------------------------------------------
+        private void WriteSingleRegister(int register, int value)
+        {
+            try
+            {
+                modbusClient.WriteSingleRegister(register, value);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error writing to register {register}: {ex.Message}");
+            }
+        }
+        //------------------------------------------------------------------------------------------
+
         // Get bits values
         //------------------------------------------------------------------------------------------
-        private void DisplayWordBits(int wordNumber, int wordValue, Func<int, string> getBitNameFunc, int startBit = 0, int count = 16)
+        private void DisplayWordBits(int wordNumber, int startBit = 0, int count = 16)
         {
             Console.WriteLine($"\n- Holding Registers word{wordNumber}:");
+            int wordValue = ReadHoldingRegister(wordNumber);
+            var getBitNameFunc = GetBitNameFuncByReflection(wordNumber);
             for (int i = 0; i < count; i++)
             {
                 int bitIndex = startBit + i;
