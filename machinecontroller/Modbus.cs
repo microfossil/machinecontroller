@@ -113,25 +113,25 @@ namespace ModbusTCP_Simplified
                         // Préparation run
                         //--------------------------------------------------------------------------
                         GetGEMMAMode();
-                        await WriteBitAsync("Auto mode", wd_gestion_cycle, bit_auto_mode, false); // Set Auto mode off
+                        await WriteBitAsync(wd_gestion_cycle, bit_auto_mode, false, "Auto mode"); // Set Auto mode off
                         GetGEMMAMode();
-                        await WriteBitAsync("Auto mode", wd_gestion_cycle, bit_auto_mode, true); // Set Auto mode on
+                        await WriteBitAsync(wd_gestion_cycle, bit_auto_mode, true, "Auto mode"); // Set Auto mode on
                         GetGEMMAMode();
 
                         DisplayWordBits(wd_gestion_cycle, 0, 16);
 
                         // await SetAutoModeAsync(true);
-                        await WriteBitAsync("Initialisation", wd_gestion_cycle, bit_demande_initialisation, true); // Demande initialisation A6 puis A1
+                        await WriteBitAsync(wd_gestion_cycle, bit_demande_initialisation, true, "Initialisation"); // Demande initialisation A6 puis A1
                         GetGEMMAMode();
-                        await WriteBitAsync("Demande départ cycle", wd_gestion_cycle, bit_demande_depart_cycle, true); // Demande départ cycle : Passage en Mode F1
+                        await WriteBitAsync(wd_gestion_cycle, bit_demande_depart_cycle, true, "Demande départ cycle"); // Demande départ cycle : Passage en Mode F1
                         GetGEMMAMode();
-                        await WriteWordAsync("n° fiole", wd_param_n_fiole, 1); // Fiole n°1 à traiter
-                        await WriteWordAsync("Vibration amorçage vidange %", wd_param_vibration_amorcageVidange, 100); // Vibration amorçage vidange à 100%
+                        await WriteWordAsync(wd_param_n_fiole, 1, "n° fiole"); // Fiole n°1 à traiter
+                        await WriteWordAsync(wd_param_vibration_amorcageVidange, 100, "Vibration amorçage vidange %"); // Vibration amorçage vidange à 100%
                         //--------------------------------------------------------------------------
 
                         // Launch cycle
                         //--------------------------------------------------------------------------
-                        await WriteBitAsync("Départ cycle", wd_gestion_cycle, bit_depart_cycle, true); // Départ cycle bit 6 -> True
+                        await WriteBitAsync(wd_gestion_cycle, bit_depart_cycle, true, "Départ cycle"); // Départ cycle bit 6 -> True
                         //--------------------------------------------------------------------------
                     }
                     catch (Exception ex) { Console.WriteLine($"Holding failed: {ex.Message}"); }
