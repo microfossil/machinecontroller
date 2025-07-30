@@ -183,10 +183,10 @@ namespace ModbusTCP_Simplified
 
             try
             {
-                int currentValue = ReadHoldingRegister(90);
+                int currentValue = await ReadHoldingRegisterAsync(90);
                 int newValue = autoMode ? SetBit(currentValue, 1) : ClearBit(currentValue, 1);
 
-                modbusClient.WriteSingleRegister(90, newValue);
+                await WriteSingleRegisterAsync(90, newValue);
 
                 bool currentBit = GetBit(currentValue, 1);
                 bool newBit = GetBit(newValue, 1);
@@ -210,10 +210,10 @@ namespace ModbusTCP_Simplified
 
             try
             {
-                int currentValue = ReadHoldingRegister(wordNumber);
+                int currentValue = await ReadHoldingRegisterAsync(wordNumber);
                 int newValue = value ? SetBit(currentValue, bitIndex) : ClearBit(currentValue, bitIndex);
 
-                WriteSingleRegister(wordNumber, newValue);
+                await WriteSingleRegisterAsync(wordNumber, newValue);
 
                 Console.WriteLine($"WORD{wordNumber}.{bitIndex} ({role}) changed {GetBit(currentValue, bitIndex)} -> {GetBit(newValue, bitIndex)}");
             }
@@ -233,8 +233,8 @@ namespace ModbusTCP_Simplified
 
             try
             {
-                int currentvalue = ReadHoldingRegister(wordNumber);
-                WriteSingleRegister(wordNumber, value);
+                int currentvalue = await ReadHoldingRegisterAsync(wordNumber);
+                await WriteSingleRegisterAsync(wordNumber, value);
                 Console.WriteLine($"WORD{wordNumber} ({role}) changed {currentvalue} (decimal) / 0x{currentvalue:X2} (hex) -> {value} (decimal) / 0x{value:X2} (hex)");
             }
             catch (Exception ex)
@@ -246,6 +246,10 @@ namespace ModbusTCP_Simplified
 
         /// Read a single holding register and return its value
         //------------------------------------------------------------------------------------------
+        private async Task<int> ReadHoldingRegisterAsync(int register)
+        {
+            return await Task.Run(() => ReadHoldingRegister(register));
+        }
         private int ReadHoldingRegister(int register)
         {
             try
@@ -263,6 +267,10 @@ namespace ModbusTCP_Simplified
 
         /// Write a single holding register with the specified value
         //------------------------------------------------------------------------------------------
+        private async Task WriteSingleRegisterAsync(int register, int value)
+        {
+            await Task.Run(() => WriteSingleRegister(register, value));
+        }
         private void WriteSingleRegister(int register, int value)
         {
             try
