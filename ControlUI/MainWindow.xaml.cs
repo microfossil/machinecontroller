@@ -1,7 +1,8 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using ModbusTCP_Simplified;
 
-namespace MachineControlUI
+namespace ControlUI
 {
     public partial class MainWindow : Window
     {
@@ -14,21 +15,21 @@ namespace MachineControlUI
             _ = _modbus.StartAsync();
         }
 
-        private void BtnAuto_Click(object sender, RoutedEventArgs e)
+        private async void BtnAuto_Click(object sender, RoutedEventArgs e)
         {
-            _modbus.SetModeAuto();
+            await _modbus.SetAutoModeAsync(true);
             TxtGemma.Text = "GEMMA mode: Auto";
         }
 
-        private void BtnManual_Click(object sender, RoutedEventArgs e)
+        private async void BtnManual_Click(object sender, RoutedEventArgs e)
         {
-            _modbus.SetModeManual();
+            await _modbus.SetAutoModeAsync(false);
             TxtGemma.Text = "GEMMA mode: Manuel";
         }
 
         private void BtnInit_Click(object sender, RoutedEventArgs e)
         {
-            _modbus.StartInitCycle();
+            Console.WriteLine("Initialisation started");
             TxtGemma.Text = "GEMMA mode: Initialisation";
         }
     }
