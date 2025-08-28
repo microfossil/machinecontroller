@@ -15,15 +15,28 @@ namespace ControlUI
             _ = _modbus.StartAsync();
         }
 
+        private void ReadGemmaMode_Click(object sender, RoutedEventArgs e)
+        {
+            int mode = _modbus.GetGEMMAMode();
+            if (mode >= 0)
+            {
+                GemmaModeText.Text = $"Mode: {mode} ({_modbus.GetGEMMADescription(mode)})";
+            }
+            else
+            {
+                GemmaModeText.Text = "Erreur de lecture (non connecté ?)";
+            }
+        }
+
         private async void BtnAuto_Click(object sender, RoutedEventArgs e)
         {
-            await _modbus.SetAutoModeAsync(true);
+            // await _modbus.SetAutoModeAsync(true);
             TxtGemma.Text = "GEMMA mode: Auto";
         }
 
         private async void BtnManual_Click(object sender, RoutedEventArgs e)
         {
-            await _modbus.SetAutoModeAsync(false);
+            // await _modbus.SetAutoModeAsync(false);
             TxtGemma.Text = "GEMMA mode: Manuel";
         }
 
