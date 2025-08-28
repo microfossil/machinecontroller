@@ -31,19 +31,19 @@ namespace ControlUI
         private async void BtnAuto_Click(object sender, RoutedEventArgs e)
         {
             // await _modbus.SetAutoModeAsync(true);
-            TxtGemma.Text = "GEMMA mode: Auto";
+            TxtGemma.Text = "Auto mode enabled";
         }
 
         private async void BtnManual_Click(object sender, RoutedEventArgs e)
         {
             // await _modbus.SetAutoModeAsync(false);
-            TxtGemma.Text = "GEMMA mode: Manuel";
+            TxtGemma.Text = "Manual mode enabled";
         }
 
         private void BtnInit_Click(object sender, RoutedEventArgs e)
         {
             Console.WriteLine("Initialisation started");
-            TxtGemma.Text = "GEMMA mode: Initialisation";
+            TxtGemma.Text = "Initialisation launched";
         }
     }
 }

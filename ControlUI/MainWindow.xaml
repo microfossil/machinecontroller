@@ -22,11 +22,12 @@
             <Button x:Name="BtnManual" Content="Mode Manuel" Width="150" Height="40" Margin="5" Click="BtnManual_Click"/>
             <Button x:Name="BtnInit" Content="Cycle Init" Width="150" Height="40" Margin="5" Click="BtnInit_Click"/>
 
-            <!-- <TextBlock x:Name="TxtGemma" 
-                   Text="GEMMA mode: Inconnu"
+            <TextBlock x:Name="TxtGemma" 
+                   Text=""
                    FontSize="16" 
                    Margin="10" 
-                   HorizontalAlignment="Center"/> -->
+                   HorizontalAlignment="Center"
+                   FontStyle="Italic"/>
 
         </StackPanel>
 
