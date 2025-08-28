@@ -1,15 +1,17 @@
 ﻿using System.Windows;
+using ModbusTCP_Simplified;
 
 namespace MachineControlUI
 {
     public partial class MainWindow : Window
     {
-        private ModbusClient _modbus;
+        private Modbus _modbus;
 
         public MainWindow()
         {
             InitializeComponent();
-            _modbus = new ModbusClient("192.168.0.100", 502); // exemple
+            _modbus = new Modbus();
+            _ = _modbus.StartAsync();
         }
 
         private void BtnAuto_Click(object sender, RoutedEventArgs e)
