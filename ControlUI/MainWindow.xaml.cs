@@ -9,9 +9,16 @@ namespace ControlUI
     {
         public Modbus Modbus { get; set; }
 
-        public async Task ConnectAsync()
+        public MainWindow()
         {
             InitializeComponent();
+
+            // lancer la connexion après chargement de la fenêtre
+            Loaded += async (s, e) => await ConnectAsync();
+        }
+
+        public async Task ConnectAsync()
+        {
             Modbus = new Modbus();
             await Modbus.StartAsync();
 
