@@ -8,6 +8,7 @@ namespace ControlUI
     public partial class MainWindow : Window
     {
         public Modbus Modbus { get; set; }
+        private int OldFioleNumber;
 
         public MainWindow()
         {

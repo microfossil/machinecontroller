@@ -314,7 +314,7 @@ namespace ModbusTCP_Simplified
 
         /// Read a single holding register and return its value
         //------------------------------------------------------------------------------------------
-        private async Task<int> ReadHoldingRegisterAsync(int register)
+        public async Task<int> ReadHoldingRegisterAsync(int register)
         {
             return await Task.Run(() => ReadHoldingRegister(register));
         }
