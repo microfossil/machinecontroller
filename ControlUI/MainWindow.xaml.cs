@@ -8,7 +8,6 @@ namespace ControlUI
     public partial class MainWindow : Window
     {
         public Modbus Modbus { get; set; }
-        private int OldFioleNumber;
 
         public MainWindow()
         {
@@ -75,9 +74,9 @@ namespace ControlUI
         {
             if (int.TryParse(FioleInput.Text, out int NewFioleNumber))
             {
-                OldFioleNumber = await Modbus.ReadHoldingRegisterAsync(105);
+                int CurrentFioleNumber = await Modbus.ReadHoldingRegisterAsync(105);
                 await Modbus.SetVialNbAsync(NewFioleNumber);
-                TxtFiole.Text = $"Old: {OldFioleNumber}, New: {NewFioleNumber}";
+                TxtFiole.Text = $"Old: {CurrentFioleNumber}, New: {NewFioleNumber}";
                 MessageBox.Show($"Valeur validée : {NewFioleNumber}", "Confirmation", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             else
