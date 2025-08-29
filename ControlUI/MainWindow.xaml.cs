@@ -42,13 +42,13 @@ namespace ControlUI
 
         private async void BtnInit_Click(object sender, RoutedEventArgs e)
         {
-            await InitAsync();
+            await _modbus.InitAsync();
             TxtStatus.Text = "Cde_Auto.Init - demande initialisation";
         }
 
         private async void BtnStartCycle_Click(object sender, RoutedEventArgs e)
         {
-            await StartCycleAsync();
+            await _modbus.StartCycleAsync();
             TxtStatus.Text = "Cde_Auto.Start - demande départ cycle";
         }
 
@@ -56,7 +56,7 @@ namespace ControlUI
         {
             if (int.TryParse(FioleInput.Text, out int fioleNumber))
             {
-                await SetVialNbAsync(fioleNumber);
+                await _modbus.SetVialNbAsync(fioleNumber);
                 TxtFiole.Text = fioleNumber.ToString();
                 MessageBox.Show($"Valeur validée : {fioleNumber}", "Confirmation", MessageBoxButton.OK, MessageBoxImage.Information);
             }
