@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows;
+using System.Threading.Tasks;
 using ModbusTCP_Simplified;
 
 namespace ControlUI
@@ -8,11 +9,20 @@ namespace ControlUI
     {
         public Modbus Modbus { get; set; }
 
-        public MainWindow()
+        public async Task ConnectAsync()
         {
             InitializeComponent();
             Modbus = new Modbus();
             await Modbus.StartAsync();
+
+            if (Modbus.IsConnected)
+            {
+                TxtStatus.Text = "Connection successful";
+            }
+            else
+            {
+                TxtStatus.Text = "Connection failed";
+            }
         }
 
         private void ReadGemmaMode_Click(object sender, RoutedEventArgs e)
