@@ -35,14 +35,15 @@ namespace ControlUI
         private void ReadGemmaMode_Click(object sender, RoutedEventArgs e)
         {
             int mode = Modbus.GetGEMMAMode();
-            if (mode >= 0)
-            {
-                TxtGEMMAMode.Text = $"Mode: {mode} ({Modbus.GetGEMMADescription(mode)})";
-            }
-            else
-            {
-                TxtGEMMAMode.Text = "Erreur de lecture (non connecté ?)";
-            }
+            TxtGEMMAMode.Text = $"Mode: {mode} (decimal) -> {mode:X2} (hexa)\n({Modbus.GetGEMMADescription(mode)})";
+            // if (mode >= 0)
+            // {
+                // TxtGEMMAMode.Text = $"Mode: {mode} ({Modbus.GetGEMMADescription(mode)})";
+            // }
+            // else
+            // {
+                // TxtGEMMAMode.Text = "Erreur de lecture (non connecté ?)";
+            // }
         }
 
         private async void BtnAuto_Click(object sender, RoutedEventArgs e)
