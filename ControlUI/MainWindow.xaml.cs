@@ -72,11 +72,12 @@ namespace ControlUI
 
         private async void ValidateFiole_Click(object sender, RoutedEventArgs e)
         {
-            if (int.TryParse(FioleInput.Text, out int fioleNumber))
+            if (int.TryParse(FioleInput.Text, out int NewFioleNumber))
             {
-                await Modbus.SetVialNbAsync(fioleNumber);
-                TxtFiole.Text = fioleNumber.ToString();
-                MessageBox.Show($"Valeur validée : {fioleNumber}", "Confirmation", MessageBoxButton.OK, MessageBoxImage.Information);
+                OldFioleNumber = await Modbus.ReadHoldingRegisterAsync(105);
+                await Modbus.SetVialNbAsync(NewFioleNumber);
+                TxtFiole.Text = $"Old: {OldFioleNumber}, New: {NewFioleNumber}";
+                MessageBox.Show($"Valeur validée : {NewFioleNumber}", "Confirmation", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             else
             {
