@@ -35,7 +35,7 @@ namespace ControlUI
         private void ReadGemmaMode_Click(object sender, RoutedEventArgs e)
         {
             int mode = Modbus.GetGEMMAMode();
-            TxtGEMMAMode.Text = $"Mode: {mode} (decimal) -> {mode:X2} (hexa)\n({Modbus.GetGEMMADescription(mode)})";
+            TxtGEMMAMode.Text = $"{mode} (decimal)\n{mode:X2} (hexa)\n({Modbus.GetGEMMADescription(mode)})";
             // if (mode >= 0)
             // {
                 // TxtGEMMAMode.Text = $"Mode: {mode} ({Modbus.GetGEMMADescription(mode)})";
