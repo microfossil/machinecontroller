@@ -6,21 +6,21 @@ namespace ControlUI
 {
     public partial class MainWindow : Window
     {
-        private Modbus _modbus;
+        public Modbus Modbus { get; set; }
 
         public MainWindow()
         {
             InitializeComponent();
-            _modbus = new Modbus();
-            _ = _modbus.StartAsync();
+            Modbus = new Modbus();
+            await Modbus.StartAsync();
         }
 
         private void ReadGemmaMode_Click(object sender, RoutedEventArgs e)
         {
-            int mode = _modbus.GetGEMMAMode();
+            int mode = Modbus.GetGEMMAMode();
             if (mode >= 0)
             {
-                TxtGEMMAMode.Text = $"Mode: {mode} ({_modbus.GetGEMMADescription(mode)})";
+                TxtGEMMAMode.Text = $"Mode: {mode} ({Modbus.GetGEMMADescription(mode)})";
             }
             else
             {
@@ -30,25 +30,25 @@ namespace ControlUI
 
         private async void BtnAuto_Click(object sender, RoutedEventArgs e)
         {
-            await _modbus.SetAutoModeAsync(true);
+            await Modbus.SetAutoModeAsync(true);
             TxtStatus.Text = "Cde_Auto.Mode_Auto - mode auto";
         }
 
         private async void BtnManual_Click(object sender, RoutedEventArgs e)
         {
-            await _modbus.SetAutoModeAsync(false);
+            await Modbus.SetAutoModeAsync(false);
             TxtStatus.Text = "Cde_Auto.Mode_Auto - mode manuel";
         }
 
         private async void BtnInit_Click(object sender, RoutedEventArgs e)
         {
-            await _modbus.InitAsync();
+            await Modbus.InitAsync();
             TxtStatus.Text = "Cde_Auto.Init - demande initialisation";
         }
 
         private async void BtnStartCycle_Click(object sender, RoutedEventArgs e)
         {
-            await _modbus.StartCycleAsync();
+            await Modbus.StartCycleAsync();
             TxtStatus.Text = "Cde_Auto.Start - demande départ cycle";
         }
 
@@ -56,7 +56,7 @@ namespace ControlUI
         {
             if (int.TryParse(FioleInput.Text, out int fioleNumber))
             {
-                await _modbus.SetVialNbAsync(fioleNumber);
+                await Modbus.SetVialNbAsync(fioleNumber);
                 TxtFiole.Text = fioleNumber.ToString();
                 MessageBox.Show($"Valeur validée : {fioleNumber}", "Confirmation", MessageBoxButton.OK, MessageBoxImage.Information);
             }
