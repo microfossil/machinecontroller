@@ -20,11 +20,11 @@ namespace ControlUI
             int mode = _modbus.GetGEMMAMode();
             if (mode >= 0)
             {
-                GemmaModeText.Text = $"Mode: {mode} ({_modbus.GetGEMMADescription(mode)})";
+                TxtGEMMAMode.Text = $"Mode: {mode} ({_modbus.GetGEMMADescription(mode)})";
             }
             else
             {
-                GemmaModeText.Text = "Erreur de lecture (non connecté ?)";
+                TxtGEMMAMode.Text = "Erreur de lecture (non connecté ?)";
             }
         }
 

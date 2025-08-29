@@ -538,7 +538,7 @@ namespace ModbusTCP_Simplified
         //------------------------------------------------------------------------------------------
 
         /// Get GEMMA description - hex-based encoding
-        private string GetGEMMADescription(int mode)
+        public string GetGEMMADescription(int mode)
         {
             return mode switch
             {
