@@ -191,75 +191,7 @@ namespace ModbusTCP_Simplified
                 bool currentBit = GetBit(currentValue, 1);
                 bool newBit = GetBit(newValue, 1);
 
-                Console.WriteLine($"\nWORD90.1 (Cde_Auto.Mode_Auto) changed from {currentBit} to {newBit} ({(autoMode ? "AUTO" : "MANUAL")})");
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"\nError setting Auto mode: {ex.Message}");
-            }
-        }
-
-        public async Task InitAsync()
-        {
-            if (!IsConnected)
-            {
-                Console.WriteLine("Cannot write - Modbus not connected");
-                return;
-            }
-            try
-            {
-                int currentValue = await ReadHoldingRegisterAsync(90);
-                int newValue = SetBit(currentValue, 4);
-
-                await WriteSingleRegisterAsync(90, newValue);
-
-                bool currentBit = GetBit(currentValue, 4);
-                bool newBit = GetBit(newValue, 4);
-
-                Console.WriteLine($"\nWORD90.4 (Cde_Auto.Init) demande initialisation done");
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"\nError setting Auto mode: {ex.Message}");
-            }
-        }
-
-        public async Task StartCycleAsync()
-        {
-            if (!IsConnected)
-            {
-                Console.WriteLine("Cannot write - Modbus not connected");
-                return;
-            }
-            try
-            {
-                int currentValue = await ReadHoldingRegisterAsync(90);
-                int newValue = SetBit(currentValue, 2);
-
-                await WriteSingleRegisterAsync(90, newValue);
-
-                bool currentBit = GetBit(currentValue, 2);
-                bool newBit = GetBit(newValue, 2);
-
-                Console.WriteLine($"\nWORD90.2 (Cde_Auto.Start) demande départ cycle done");
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"\nError setting Auto mode: {ex.Message}");
-            }
-        }
-
-        public async Task SetVialNbAsync(int vial_number)
-        {
-            if (!IsConnected)
-            {
-                Console.WriteLine("Cannot write - Modbus not connected");
-                return;
-            }
-            try
-            {
-                await WriteSingleRegisterAsync(105, vial_number);
-                Console.WriteLine($"\nWORD105 (Vial Number) set to {vial_number}");
+                Console.WriteLine($"\nWORD90.1 (Mode_Auto) changed from {currentBit} to {newBit} ({(autoMode ? "AUTO" : "MANUAL")})");
             }
             catch (Exception ex)
             {
