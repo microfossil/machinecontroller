@@ -8,6 +8,7 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
         <StackPanel Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center">
@@ -20,17 +21,29 @@
 
             <Button x:Name="BtnAuto" Content="Mode Auto" Width="150" Height="40" Margin="5" Click="BtnAuto_Click"/>
             <Button x:Name="BtnManual" Content="Mode Manuel" Width="150" Height="40" Margin="5" Click="BtnManual_Click"/>
-            <Button x:Name="BtnInit" Content="Cycle Init" Width="150" Height="40" Margin="5" Click="BtnInit_Click"/>
+            <Button x:Name="BtnInit" Content="Init Cycle" Width="150" Height="40" Margin="5" Click="BtnInit_Click"/>
+            <Button x:Name="BtnStartCycle" Content="Démarrer Cycle" Width="150" Height="40" Margin="5" Click="BtnStartCycle_Click"/>
 
-            <TextBlock x:Name="TxtGemma" 
+            <TextBlock x:Name="TxtStatus" 
                    Text=""
                    FontSize="16" 
-                   Margin="10" 
+                   Margin="10"
                    HorizontalAlignment="Center"
                    FontStyle="Italic"/>
-
         </StackPanel>
 
+        <StackPanel Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <TextBlock Text="Numéro de fiole :" Margin="0,15,0,0" FontWeight="Bold"/>
+            <TextBlock x:Name="TxtFiole" 
+                Text="NaN"
+                FontSize="16" 
+                Margin="10"
+                HorizontalAlignment="Center"/>
+            <StackPanel Orientation="Horizontal">
+                <TextBox x:Name="FioleInput" Width="80" Margin="0,0,10,0"/>
+                <Button Content="Valider" Click="ValidateFiole_Click"/>
+            </StackPanel>
+        </StackPanel>
 
     </Grid>
 
