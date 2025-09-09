@@ -299,10 +299,26 @@ namespace ModbusTCP_Simplified
 
         /// Read / Write methods
         //------------------------------------------------------------------------------------------
-        public Task<int> ReadHoldingRegisterAsync(int address)
+        public async Task<int> ReadHoldingRegisterAsync(int address)
         {
-            return Task.Run(() => modbusClient.ReadHoldingRegisters(address, 1)[0]);
+            if (!IsConnected)
+            {
+                Console.WriteLine($"[ReadHoldingRegisterAsync] Not connected (address {address})");
+                return -1;
+            }
+
+            try
+            {
+                return await Task.Run(() => modbusClient.ReadHoldingRegisters(address, 1)[0]);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[ReadHoldingRegisterAsync] Error at address {address}: {ex.Message}");
+                IsConnected = false;
+                return -1;
+            }
         }
+
 
         public Task WriteSingleRegisterAsync(int address, int value)
         {
