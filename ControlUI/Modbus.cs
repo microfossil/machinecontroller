@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Threading;
+using System.Reflection;
 using EasyModbus;
 
 namespace ModbusTCP_Simplified
@@ -22,7 +23,7 @@ namespace ModbusTCP_Simplified
         public bool Enabled { get; private set; }
 
         public int GemmaMode { get; private set; }
-        public int AutoManualWord { get; private set; }
+        public int Word90 { get; private set; }
         public int FioleNumber { get; private set; }
 
         public Modbus()
@@ -311,10 +312,10 @@ namespace ModbusTCP_Simplified
 
         // Get bits values
         //------------------------------------------------------------------------------------------
-        private void DisplayWordBits(int wordNumber, int startBit = 0, int count = 16)
+        private async Task DisplayWordBits(int wordNumber, int startBit = 0, int count = 16)
         {
             Console.WriteLine($"\n- Holding Registers word{wordNumber}:");
-            int wordValue = ReadHoldingRegister(wordNumber);
+            int wordValue = await ReadHoldingRegisterAsync(wordNumber);
             var getBitNameFunc = GetBitNameFuncByReflection(wordNumber);
             for (int i = 0; i < count; i++)
             {
@@ -490,15 +491,6 @@ namespace ModbusTCP_Simplified
             }
         }
         //------------------------------------------------------------------------------------------
-
-
-        public class PollData
-        {
-            public int GemmaMode { get; set; }
-            public int FioleNumber { get; set; }
-            public int VibrationParam { get; set; }
-            public int GestionCycle { get; set; }
-        }
 
         // Helper function to name the bits/words/GEMMA modes according to your register table
         //------------------------------------------------------------------------------------------
