@@ -198,14 +198,35 @@ namespace ModbusTCP_Simplified
             {
                 int currentValue = await ReadHoldingRegisterAsync(90);
                 int newValue = SetBit(currentValue, 4);
-
                 await WriteSingleRegisterAsync(90, newValue);
 
-                Console.WriteLine($"\nWORD90.4 (Cde_Auto.Init) demande initialisation done");
+                Console.WriteLine($"\nWORD90.4 (Cde_Auto.Init) demande initialisation sent");
+
+                // GEMMA mode is constantly tracked and once it is not anymore in A5, we reset the Init bit
+                await Task.Run(async () =>
+                {
+                    while (true)
+                    {
+                        int gemmaMode = GemmaMode; // updated by PollAsync()
+
+                        if (gemmaMode != 0xA5) // As soon as GEMMA leaves A5 (0xA5 (hex) = 165 (decimal) & In C#, $"{165:X2}" yields "A5"
+                        {
+                            Console.WriteLine($"Init done (GEMMA={gemmaMode:X2}), reset du bit Init");
+
+                            // remettre bit 4 à 0
+                            int resetValue = ClearBit(newValue, 4);
+                            await WriteSingleRegisterAsync(90, resetValue);
+                            break;
+                        }
+
+                        // wait a bit before reading again (avoids saturating CPU)
+                        await Task.Delay(200);
+                    }
+                });
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"\nError setting Auto mode: {ex.Message}");
+                Console.WriteLine($"Error during Init: {ex.Message}");
             }
         }
 
