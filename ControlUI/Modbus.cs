@@ -213,7 +213,7 @@ namespace ModbusTCP_Simplified
                         {
                             Console.WriteLine($"Init done (GEMMA={gemmaMode:X2}), reset du bit Init");
 
-                            // remettre bit 4 à 0
+                            // reset bit 4 to 0
                             int resetValue = ClearBit(newValue, 4);
                             await WriteSingleRegisterAsync(90, resetValue);
                             break;
@@ -241,19 +241,37 @@ namespace ModbusTCP_Simplified
             {
                 int currentValue = await ReadHoldingRegisterAsync(90);
                 int newValue = SetBit(currentValue, 2);
-
                 await WriteSingleRegisterAsync(90, newValue);
 
-                bool currentBit = GetBit(currentValue, 2);
-                bool newBit = GetBit(newValue, 2);
+                Console.WriteLine($"\nWORD90.2 (Cde_Auto.Start) demande départ cycle sent");
 
-                Console.WriteLine($"\nWORD90.2 (Cde_Auto.Start) demande départ cycle done");
+                // GEMMA mode is constantly tracked and once it is not anymore in A1, we reset the Start bit
+                await Task.Run(async () =>
+                {
+                    while (true)
+                    {
+                        int gemmaMode = GemmaMode; // valeur actualisée par PollAsync()
+
+                        if (gemmaMode != 0xA1) // dès que GEMMA quitte A1
+                        {
+                            Console.WriteLine($"Cycle terminé (GEMMA={gemmaMode:X2}), reset du bit Start");
+
+                            // reset bit 2 to 0
+                            int resetValue = ClearBit(newValue, 2);
+                            await WriteSingleRegisterAsync(90, resetValue);
+                            break;
+                        }
+
+                        await Task.Delay(200); // pause pour ne pas saturer le CPU
+                    }
+                });
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"\nError setting Auto mode: {ex.Message}");
+                Console.WriteLine($"Error during StartCycle: {ex.Message}");
             }
         }
+
 
         public async Task SetVialNbAsync(int vial_number)
         {
