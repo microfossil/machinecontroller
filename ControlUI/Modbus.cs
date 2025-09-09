@@ -1,37 +1,55 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Threading;
 using EasyModbus;
-using System.Reflection;
 
 namespace ModbusTCP_Simplified
 {
     /// <summary>
-    /// Classe ultra-simplifiée pour la connexion Modbus TCP
-    /// Contient uniquement l'essentiel pour établir une connexion
+    /// Classe simplifiée pour la connexion Modbus TCP
+    /// Avec polling régulier via DispatcherTimer
     /// </summary>
     public class Modbus
     {
+        private DispatcherTimer timer;
+        private ModbusClient modbusClient;
+        private SemaphoreSlim _semaphoreSlim = new SemaphoreSlim(1, 1);
+
         public string IPAddress { get; set; }
         public int Port { get; set; }
         public bool IsConnected { get; private set; }
-        public bool Enabled { get; set; }
+        public bool Enabled { get; private set; }
 
-        private ModbusClient modbusClient;
-        private SemaphoreSlim _semaphoreSlim = new SemaphoreSlim(1, 1);
+        public int GemmaMode { get; private set; }
+        public int AutoManualWord { get; private set; }
+        public int FioleNumber { get; private set; }
 
         public Modbus()
         {
             IPAddress = "192.168.0.1";
             Port = 502;
+
             modbusClient = new ModbusClient(IPAddress, Port);
+            modbusClient.UnitIdentifier = 1;
             modbusClient.ConnectedChanged += (sender) =>
             {
                 IsConnected = modbusClient.Connected;
                 Console.WriteLine($"[MODBUS] Connection status changed: {(IsConnected ? "CONNECTED" : "DISCONNECTED")}");
             };
+
             Enabled = false;
-            modbusClient.UnitIdentifier = 1;
+
+            timer = new DispatcherTimer
+            {
+                Interval = TimeSpan.FromMilliseconds(500) // sondage toutes les 500 ms
+            };
+            timer.Tick += Timer_Tick;
+        }
+
+        private async void Timer_Tick(object sender, EventArgs e)
+        {
+            await PollAsync();
         }
 
         /// <summary>
@@ -42,6 +60,10 @@ namespace ModbusTCP_Simplified
             Console.WriteLine("----- Modbus.StartAsync called -----");
             Enabled = true;
             await ConnectAsync();
+            await PollAsync(); // Premier poll immédiat
+
+            if (IsConnected)
+                timer.Start();
             Console.WriteLine("----- Modbus.StartAsync END call -----\n");
         }
 
@@ -52,7 +74,9 @@ namespace ModbusTCP_Simplified
         {
             Console.WriteLine("Stopping Modbus connection...");
             Enabled = false;
+            timer.Stop();
             modbusClient.Disconnect();
+            IsConnected = false;
         }
 
         /// <summary>
@@ -69,11 +93,13 @@ namespace ModbusTCP_Simplified
                     {
                         Console.WriteLine($"Connecting to {IPAddress}:{Port}");
                         modbusClient.Connect();
+                        IsConnected = modbusClient.Connected;
                         Console.WriteLine("Connected successfully!");
                     }
                     catch (Exception ex)
                     {
                         Console.WriteLine($"Connection error: {ex.Message}");
+                        IsConnected = false;
                     }
                     _semaphoreSlim.Release();
                 });
@@ -85,72 +111,34 @@ namespace ModbusTCP_Simplified
             Console.WriteLine("----- Modbus.ConnectAsync END call -----\n");
         }
 
-        /// <summary>
-        /// Test de connexion simple
-        /// </summary>
+
+        // Poll function
+        //------------------------------------------------------------------------------------------
         public async Task PollAsync()
         {
-            Console.WriteLine("----- Modbus.PollAsync called -----");
-            if (!Enabled) return;
-            if (!IsConnected) await ConnectAsync();
-            if (IsConnected)
+            if (!Enabled || !IsConnected) return;
+
+            try
             {
-                try
-                {
-                    try
-                    {
-                        // Param
-                        //--------------------------------------------------------------------------
-                        int wd_gestion_cycle = 90;
-                        int wd_param_n_fiole = 105;
-                        int wd_param_vibration_amorcageVidange = 116;
-                        int bit_auto_mode = 1;
-                        int bit_demande_depart_cycle = 2;
-                        int bit_demande_initialisation = 4;
-                        int bit_depart_cycle = 6;
-                        //--------------------------------------------------------------------------
+                // Lire les registres d'intérêt
+                GemmaMode = await ReadHoldingRegisterAsync(1);
+                Word90 = await ReadHoldingRegisterAsync(90);
+                FioleNumber = await ReadHoldingRegisterAsync(105);
 
-                        // Préparation run
-                        //--------------------------------------------------------------------------
-                        GetGEMMAMode();
-                        await WriteBitAsync(wd_gestion_cycle, bit_auto_mode, false, "Auto mode"); // Set Auto mode off
-                        GetGEMMAMode();
-                        await WriteBitAsync(wd_gestion_cycle, bit_auto_mode, true, "Auto mode"); // Set Auto mode on
-                        GetGEMMAMode();
-
-                        DisplayWordBits(wd_gestion_cycle, 0, 16);
-
-                        // await SetAutoModeAsync(true);
-                        await WriteBitAsync(wd_gestion_cycle, bit_demande_initialisation, true, "Initialisation"); // Demande initialisation A6 puis A1
-                        GetGEMMAMode();
-                        await WriteBitAsync(wd_gestion_cycle, bit_demande_depart_cycle, true, "Demande départ cycle"); // Demande départ cycle : Passage en Mode F1
-                        GetGEMMAMode();
-                        await WriteWordAsync(wd_param_n_fiole, 1, "n° fiole"); // Fiole n°1 à traiter
-                        await WriteWordAsync(wd_param_vibration_amorcageVidange, 100, "Vibration amorçage vidange %"); // Vibration amorçage vidange à 100%
-                        //--------------------------------------------------------------------------
-
-                        // Launch cycle
-                        //--------------------------------------------------------------------------
-                        await WriteBitAsync(wd_gestion_cycle, bit_depart_cycle, true, "Départ cycle"); // Départ cycle bit 6 -> True
-                        //--------------------------------------------------------------------------
-                    }
-                    catch (Exception ex) { Console.WriteLine($"Holding failed: {ex.Message}"); }
-
-                    Console.WriteLine("\nPoll OK");
-                    Console.WriteLine("----- Modbus.PollAsync END call -----\n");
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"Poll error: {ex.Message}");
-                    Console.WriteLine("----- Modbus.PollAsync END call -----\n");
-                }
+                Console.WriteLine($"[Poll] GEMMA={GemmaMode:X2}, Auto/Man={Word90}, Fiole={FioleNumber}");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Erreur lecture Modbus : {ex.Message}");
+                IsConnected = false;
             }
         }
+        //------------------------------------------------------------------------------------------
 
         // Higher level functions
         //------------------------------------------------------------------------------------------
         // Read and display GEMMA mode with description
-        public int GetGEMMAMode()
+        public async Task<int> GetGEMMAMode()
         {
             if (!IsConnected)
             {
@@ -160,9 +148,8 @@ namespace ModbusTCP_Simplified
 
             try
             {
-                int gemmaMode = ReadHoldingRegister(1);
+                int gemmaMode = await ReadHoldingRegisterAsync(1);
                 Console.WriteLine($"\nGEMMA Mode: {gemmaMode} (decimal) -> {gemmaMode:X2} (hexa) || {GetGEMMADescription(gemmaMode)}");
-
                 return gemmaMode;
             }
             catch (Exception ex)
@@ -212,9 +199,6 @@ namespace ModbusTCP_Simplified
                 int newValue = SetBit(currentValue, 4);
 
                 await WriteSingleRegisterAsync(90, newValue);
-
-                bool currentBit = GetBit(currentValue, 4);
-                bool newBit = GetBit(newValue, 4);
 
                 Console.WriteLine($"\nWORD90.4 (Cde_Auto.Init) demande initialisation done");
             }
@@ -312,43 +296,16 @@ namespace ModbusTCP_Simplified
         }
         //----------------------------------------------------------------------------------------
 
-        /// Read a single holding register and return its value
+        /// Read / Write methods
         //------------------------------------------------------------------------------------------
-        public async Task<int> ReadHoldingRegisterAsync(int register)
+        public Task<int> ReadHoldingRegisterAsync(int address)
         {
-            return await Task.Run(() => ReadHoldingRegister(register));
+            return Task.Run(() => modbusClient.ReadHoldingRegisters(address, 1)[0]);
         }
-        private int ReadHoldingRegister(int register)
-        {
-            try
-            {
-                int[] result = modbusClient.ReadHoldingRegisters(register, 1);
-                return result[0];
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"\nError reading register {register}: {ex.Message}");
-                return -1;
-            }
-        }
-        //------------------------------------------------------------------------------------------
 
-        /// Write a single holding register with the specified value
-        //------------------------------------------------------------------------------------------
-        private async Task WriteSingleRegisterAsync(int register, int value)
+        public Task WriteSingleRegisterAsync(int address, int value)
         {
-            await Task.Run(() => WriteSingleRegister(register, value));
-        }
-        private void WriteSingleRegister(int register, int value)
-        {
-            try
-            {
-                modbusClient.WriteSingleRegister(register, value);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"\nError writing to register {register}: {ex.Message}");
-            }
+            return Task.Run(() => modbusClient.WriteSingleRegister(address, value));
         }
         //------------------------------------------------------------------------------------------
 
@@ -533,6 +490,15 @@ namespace ModbusTCP_Simplified
             }
         }
         //------------------------------------------------------------------------------------------
+
+
+        public class PollData
+        {
+            public int GemmaMode { get; set; }
+            public int FioleNumber { get; set; }
+            public int VibrationParam { get; set; }
+            public int GestionCycle { get; set; }
+        }
 
         // Helper function to name the bits/words/GEMMA modes according to your register table
         //------------------------------------------------------------------------------------------

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using System.Threading.Tasks;
+using System.Windows.Threading;
 using ModbusTCP_Simplified;
 
 namespace ControlUI
@@ -8,6 +9,7 @@ namespace ControlUI
     public partial class MainWindow : Window
     {
         public Modbus Modbus { get; set; }
+        private DispatcherTimer uiTimer;
 
         public MainWindow()
         {
@@ -24,27 +26,38 @@ namespace ControlUI
 
             if (Modbus.IsConnected)
             {
-                TxtStatus.Text = "Connection successful";
+                TxtStatus.Text = "✅ Connection successful";
+
+                // Timer UI pour rafraîchir les valeurs affichées
+                uiTimer = new DispatcherTimer();
+                uiTimer.Interval = TimeSpan.FromMilliseconds(500);
+                uiTimer.Tick += (s2, e2) => UpdateUI();
+                uiTimer.Start();
             }
             else
             {
-                TxtStatus.Text = "Connection failed";
+                TxtStatus.Text = "❌ Connection failed";
             }
         }
 
-        private void ReadGemmaMode_Click(object sender, RoutedEventArgs e)
+        private void UpdateUI()
         {
-            int mode = Modbus.GetGEMMAMode();
-            TxtGEMMAMode.Text = $"{mode} (decimal)\n{mode:X2} (hexa)\n({Modbus.GetGEMMADescription(mode)})";
-            // if (mode >= 0)
-            // {
-                // TxtGEMMAMode.Text = $"Mode: {mode} ({Modbus.GetGEMMADescription(mode)})";
-            // }
-            // else
-            // {
-                // TxtGEMMAMode.Text = "Erreur de lecture (non connecté ?)";
-            // }
+            if (Modbus.IsConnected)
+            {
+                TxtGEMMAMode.Text = $"{Modbus.GemmaMode} (decimal)\n{Modbus.GemmaMode:X2} (hexa)\n({Modbus.GetGEMMADescription(Modbus.GemmaMode)})";
+                TxtFiole.Text = $"Fiole n°{Modbus.FioleNumber}";
+            }
+            else
+            {
+                TxtStatus.Text = "❌ Disconnected";
+            }
         }
+
+        // private void ReadGemmaMode_Click(object sender, RoutedEventArgs e)
+        // {
+        //     int mode = Modbus.GetGEMMAMode();
+        //     TxtGEMMAMode.Text = $"{mode} (decimal)\n{mode:X2} (hexa)\n({Modbus.GetGEMMADescription(mode)})";
+        // }
 
         private async void BtnAuto_Click(object sender, RoutedEventArgs e)
         {
@@ -74,10 +87,11 @@ namespace ControlUI
         {
             if (int.TryParse(FioleInput.Text, out int NewFioleNumber))
             {
-                int CurrentFioleNumber = await Modbus.ReadHoldingRegisterAsync(105);
+                // int CurrentFioleNumber = await Modbus.ReadHoldingRegisterAsync(105);
                 await Modbus.SetVialNbAsync(NewFioleNumber);
-                TxtFiole.Text = $"Old: {CurrentFioleNumber}, New: {NewFioleNumber}";
-                MessageBox.Show($"Valeur validée : {NewFioleNumber}", "Confirmation", MessageBoxButton.OK, MessageBoxImage.Information);
+                TxtStatus.Text = $"Numéro de fiole demandé : {NewFioleNumber}";
+                // TxtFiole.Text = $"Old: {CurrentFioleNumber}, New: {NewFioleNumber}";
+                // MessageBox.Show($"Valeur validée : {NewFioleNumber}", "Confirmation", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             else
             {
