@@ -59,7 +59,7 @@
                     Width="100" Height="40" 
                     Margin="5,5,5,20" 
                     Click="BtnHardReset_Click" 
-                    Background="#eb3b6a"
+                    Background="#eb878e"
                     VerticalAlignment="Bottom"/>
         </Grid>
         
