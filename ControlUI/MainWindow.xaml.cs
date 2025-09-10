@@ -92,7 +92,7 @@ namespace ControlUI
 
         private async void BtnAcquitDef_Click(object sender, RoutedEventArgs e)
         {
-            await Modbus.AcknowledgeFaultAsync();
+            await Modbus.AcquitDefaultAsync();
             TxtStatus.Text = "Cde_Auto.Acquit - demande acquittement défaut";
         }
 
