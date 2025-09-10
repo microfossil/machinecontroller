@@ -57,7 +57,7 @@
                     x:Name="BtnHardReset" 
                     Content="Hard Reset" 
                     Width="100" Height="40" 
-                    Margin="5" 
+                    Margin="5,5,5,20" 
                     Click="BtnHardReset_Click" 
                     Background="#eb3b6a"
                     VerticalAlignment="Bottom"/>
