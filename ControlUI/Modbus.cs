@@ -462,6 +462,27 @@ namespace ModbusTCP_Simplified
             }
         }
 
+        public async Task HardResetAsync()
+        {
+            if (!IsConnected)
+            {
+                Console.WriteLine("Cannot write - Modbus not connected");
+                return;
+            }
+            try
+            {
+                int newValue = SetBit(Word90, 15); // Word90 updated by PollAsync()
+                await WriteSingleRegisterAsync(90, newValue);
+                DoneFlag = true; // Set the flag to true when done
+
+                Console.WriteLine($"\nWORD90.15 (Cde_Auto.HardReset) hard reset sent");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error during HardReset: {ex.Message}");
+            }
+        }
+
         public async Task SetVialNbAsync(int vial_number)
         {
             if (!IsConnected)

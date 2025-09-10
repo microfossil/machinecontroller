@@ -124,6 +124,12 @@ namespace ControlUI
             await Modbus.StopCollectAsync();
         }
 
+        private async void BtnHardReset_Click(object sender, RoutedEventArgs e)
+        {
+            TxtStatus.Text = "Cde_Auto.HardReset\nhard reset";
+            await Modbus.HardResetAsync();
+        }
+
         private async void ValidateFiole_Click(object sender, RoutedEventArgs e)
         {
             if (int.TryParse(FioleInput.Text, out int NewFioleNumber))
