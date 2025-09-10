@@ -27,13 +27,13 @@
             <Button x:Name="BtnStopCycle" Content="Arrêter Cycle" Width="150" Height="40" Margin="5" Click="BtnStopCycle_Click"/>
             <Button x:Name="BtnAcquitDef" Content="Acquitter Défaut" Width="150" Height="40" Margin="5" Click="BtnAcquitDef_Click"/>
 
-            <Button x:Name="BtnStartCollect" Content="Start collect" Width="150" Height="40" Margin="10" Click="StartCollect_Click" IsEnabled="False"/>
-            <Button x:Name="BtnStopCollect" Content="Stop collect" Width="150" Height="40" Margin="5" Click="StopCollect_Click" IsEnabled="False"/>
+            <Button x:Name="BtnStartCollect" Content="Start collect" Width="150" Height="40" Margin="20,5,5,5" Click="StartCollect_Click" IsEnabled="False"/>
+            <Button x:Name="BtnStopCollect" Content="Stop collect" Width="150" Height="40" Margin="5,5,5,5" Click="StopCollect_Click" IsEnabled="False"/>
 
             <TextBlock x:Name="TxtStatus" 
                    Text=""
                    FontSize="16" 
-                   Margin="10"
+                   Margin="20,5,5,5"
                    HorizontalAlignment="Center"
                    FontStyle="Italic"
                    TextWrapping="Wrap"/>
