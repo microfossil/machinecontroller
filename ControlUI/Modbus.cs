@@ -281,6 +281,7 @@ namespace ModbusTCP_Simplified
                         }
 
                         await Task.Delay(200); // wait before reading again (avoids saturating CPU)
+                    }
                 });
             }
             catch (Exception ex)
