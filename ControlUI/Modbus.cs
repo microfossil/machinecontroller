@@ -1,4 +1,5 @@
 ﻿using System;
+using system.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Threading;
@@ -24,6 +25,7 @@ namespace ModbusTCP_Simplified
 
         public int GemmaMode { get; private set; }
         public int Word90 { get; private set; }
+        public string TxtWord90 { get; private set; }
         public int FioleNumber { get; private set; }
 
         public Modbus()
