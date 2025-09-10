@@ -47,7 +47,7 @@
                 <TextBox x:Name="FioleInput" Width="80" Margin="0,10,10,0"/>
                 <Button Content="Valider" Margin="0,10,0,0" Click="ValidateFiole_Click"/>
             </StackPanel>
-            <StackPanel VerticalAlignment="Bottom" HorizontalAlignment="Center">
+            <StackPanel VerticalAlignment="Bottom" HorizontalAlignment="Bottom">
                 <Button x:Name="BtnHardReset" Content="Hard Reset" Width="100" Height="40" Margin="5,5,5,5" Click="BtnHardReset_Click" Background="#eb3b6a"/>
             </StackPanel>
         </StackPanel>
