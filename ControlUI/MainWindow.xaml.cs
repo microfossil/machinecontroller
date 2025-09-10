@@ -49,7 +49,7 @@ namespace ControlUI
                 TxtWord90.Text = Modbus.TxtWord90;
                 if (Modbus.DoneFlag)
                 {
-                    TxtStatus.Text = TxtStatus.Text + " DONE";
+                    TxtStatus.Text = TxtStatus.Text + "\n[DONE]";
                     Modbus.DoneFlag = false; // reset the flag
                 }
             }
@@ -67,37 +67,37 @@ namespace ControlUI
 
         private async void BtnAuto_Click(object sender, RoutedEventArgs e)
         {
-            TxtStatus.Text = "Cde_Auto.Mode_Auto - mode auto";
+            TxtStatus.Text = "Cde_Auto.Mode_Auto\nmode auto";
             await Modbus.SetAutoModeAsync(true);
         }
 
         private async void BtnManual_Click(object sender, RoutedEventArgs e)
         {
-            TxtStatus.Text = "Cde_Auto.Mode_Auto - mode manuel";
+            TxtStatus.Text = "Cde_Auto.Mode_Auto\nmode manuel";
             await Modbus.SetAutoModeAsync(false);
         }
 
         private async void BtnInit_Click(object sender, RoutedEventArgs e)
         {
-            TxtStatus.Text = "Cde_Auto.Init - demande initialisation";
+            TxtStatus.Text = "Cde_Auto.Init\ndemande initialisation";
             await Modbus.InitAsync();
         }
 
         private async void BtnStartCycle_Click(object sender, RoutedEventArgs e)
         {
-            TxtStatus.Text = "Cde_Auto.Start - demande départ cycle";
+            TxtStatus.Text = "Cde_Auto.Start\ndemande départ cycle";
             await Modbus.StartCycleAsync();
         }
 
         private async void BtnStopCycle_Click(object sender, RoutedEventArgs e)
         {
-            TxtStatus.Text = "Cde_Auto.Stop - demande arrêt cycle";
+            TxtStatus.Text = "Cde_Auto.Stop\ndemande arrêt cycle";
             await Modbus.StopCycleAsync();
         }
 
         private async void BtnAcquitDef_Click(object sender, RoutedEventArgs e)
         {
-            TxtStatus.Text = "Cde_Auto.Acquit - demande acquittement défaut";
+            TxtStatus.Text = "Cde_Auto.Acquit\ndemande acquittement défaut";
             await Modbus.AcquitDefaultAsync();
         }
 
