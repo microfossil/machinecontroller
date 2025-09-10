@@ -152,7 +152,6 @@ namespace ModbusTCP_Simplified
 
             return sb.ToString();
         }
-
         //------------------------------------------------------------------------------------------
 
         // Higher level functions
@@ -215,8 +214,9 @@ namespace ModbusTCP_Simplified
             }
             try
             {
-                int currentValue = await ReadHoldingRegisterAsync(90);
-                int newValue = SetBit(currentValue, 4);
+                // int currentValue = await ReadHoldingRegisterAsync(90);
+                // int newValue = SetBit(currentValue, 4);
+                int newValue = SetBit(Word90, 4); // Word90 updated by PollAsync()
                 await WriteSingleRegisterAsync(90, newValue);
 
                 Console.WriteLine($"\nWORD90.4 (Cde_Auto.Init) demande initialisation sent");
@@ -226,7 +226,7 @@ namespace ModbusTCP_Simplified
                 {
                     while (true)
                     {
-                        int gemmaMode = GemmaMode; // updated by PollAsync()
+                        int gemmaMode = GemmaMode; // GemmaMode updated by PollAsync()
 
                         if (gemmaMode != 0xA5) // As soon as GEMMA leaves A5 (0xA5 (hex) = 165 (decimal) & In C#, $"{165:X2}" yields "A5"
                         {
@@ -238,8 +238,7 @@ namespace ModbusTCP_Simplified
                             break;
                         }
 
-                        // wait a bit before reading again (avoids saturating CPU)
-                        await Task.Delay(200);
+                        await Task.Delay(200); // wait before reading again (avoids saturating CPU)
                     }
                 });
             }
@@ -269,9 +268,9 @@ namespace ModbusTCP_Simplified
                 {
                     while (true)
                     {
-                        int gemmaMode = GemmaMode; // valeur actualisée par PollAsync()
+                        int gemmaMode = GemmaMode; // GemmaMode updated by PollAsync()
 
-                        if (gemmaMode != 0xA1) // dès que GEMMA quitte A1
+                        if (gemmaMode != 0xA1) // As soon as GEMMA leaves A1
                         {
                             Console.WriteLine($"Cycle terminé (GEMMA={gemmaMode:X2}), reset du bit Start");
 
@@ -281,8 +280,7 @@ namespace ModbusTCP_Simplified
                             break;
                         }
 
-                        await Task.Delay(200); // pause pour ne pas saturer le CPU
-                    }
+                        await Task.Delay(200); // wait before reading again (avoids saturating CPU)
                 });
             }
             catch (Exception ex)
@@ -291,6 +289,89 @@ namespace ModbusTCP_Simplified
             }
         }
 
+        public async Task StopCycleAsync()
+        {
+            if (!IsConnected)
+            {
+                Console.WriteLine("Cannot write - Modbus not connected");
+                return;
+            }
+            try
+            {
+                int currentValue = await ReadHoldingRegisterAsync(90);
+                int newValue = SetBit(currentValue, 3);
+                await WriteSingleRegisterAsync(90, newValue);
+
+                Console.WriteLine($"\nWORD90.3 (Cde_Auto.Stop) demande arrêt cycle sent");
+
+                // GEMMA mode is constantly tracked and once it is not anymore in F1, we reset the Stop bit
+                await Task.Run(async () =>
+                {
+                    while (true)
+                    {
+                        int gemmaMode = GemmaMode; // GemmaMode updated by PollAsync()
+
+                        if (gemmaMode != 0xF1) // As soon as GEMMA leaves F1
+                        {
+                            Console.WriteLine($"Cycle arrêté (GEMMA={gemmaMode:X2}), reset du bit Stop");
+
+                            // reset bit 3 to 0
+                            int resetValue = ClearBit(newValue, 3);
+                            await WriteSingleRegisterAsync(90, resetValue);
+                            break;
+                        }
+
+                        await Task.Delay(200); // wait before reading again (avoids saturating CPU)
+                    }
+                });
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error during StopCycle: {ex.Message}");
+            }
+        }
+
+        public async Task AcquitDefaultAsync()
+        {
+            if (!IsConnected)
+            {
+                Console.WriteLine("Cannot write - Modbus not connected");
+                return;
+            }
+            try
+            {
+                int currentValue = await ReadHoldingRegisterAsync(90);
+                int newValue = SetBit(currentValue, 0);
+                await WriteSingleRegisterAsync(90, newValue);
+
+                Console.WriteLine($"\nWORD90.0 (Cde_Auto.Acquit) demande acquittement défaut sent");
+
+                // GEMMA mode is constantly tracked and once it is not anymore in D2, we reset the Acquit bit
+                await Task.Run(async () =>
+                {
+                    while (true)
+                    {
+                        int gemmaMode = GemmaMode; // GemmaMode updated by PollAsync()
+
+                        if (gemmaMode != 0xD2) // As soon as GEMMA leaves D2
+                        {
+                            Console.WriteLine($"Acquittement effectué (GEMMA={gemmaMode:X2}), reset du bit Acquit");
+
+                            // reset bit 5 to 0
+                            int resetValue = ClearBit(newValue, 5);
+                            await WriteSingleRegisterAsync(90, resetValue);
+                            break;
+                        }
+
+                        await Task.Delay(200); // wait before reading again (avoids saturating CPU)
+                    }
+                });
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error during AcquitDefaut: {ex.Message}");
+            }
+        }
 
         public async Task SetVialNbAsync(int vial_number)
         {

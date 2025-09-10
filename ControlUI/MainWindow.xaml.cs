@@ -84,6 +84,18 @@ namespace ControlUI
             TxtStatus.Text = "Cde_Auto.Start - demande départ cycle";
         }
 
+        private async void BtnStopCycle_Click(object sender, RoutedEventArgs e)
+        {
+            await Modbus.StopCycleAsync();
+            TxtStatus.Text = "Cde_Auto.Stop - demande arrêt cycle";
+        }
+
+        private async void BtnAcquitDef_Click(object sender, RoutedEventArgs e)
+        {
+            await Modbus.AcknowledgeFaultAsync();
+            TxtStatus.Text = "Cde_Auto.Acquit - demande acquittement défaut";
+        }
+
         private async void ValidateFiole_Click(object sender, RoutedEventArgs e)
         {
             if (int.TryParse(FioleInput.Text, out int NewFioleNumber))
