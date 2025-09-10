@@ -27,7 +27,7 @@ namespace ModbusTCP_Simplified
         public int Word90 { get; private set; }
         public string TxtWord90 { get; private set; }
         public int FioleNumber { get; private set; }
-        public bool DoneFlag { get; private set; }
+        public bool DoneFlag { get; set; }
 
         public Modbus()
         {
