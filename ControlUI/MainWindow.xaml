@@ -20,20 +20,20 @@
 
         <StackPanel Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center">
 
-            <Button x:Name="BtnAuto" Content="Mode Auto" Width="150" Height="40" Margin="5" Click="BtnAuto_Click" Background="#9c9d9d"/>
-            <Button x:Name="BtnManual" Content="Mode Manuel" Width="150" Height="40" Margin="5" Click="BtnManual_Click" Background="#9c9d9d"/>
-            <Button x:Name="BtnInit" Content="Init Cycle" Width="150" Height="40" Margin="5" Click="BtnInit_Click" Background="#FF5733"/>
-            <Button x:Name="BtnStartCycle" Content="Démarrer Cycle" Width="150" Height="40" Margin="5" Click="BtnStartCycle_Click" Background="#8dbec9"/>
-            <Button x:Name="BtnStopCycle" Content="Arrêter Cycle" Width="150" Height="40" Margin="5" Click="BtnStopCycle_Click" Background="#8dbec9"/>
-            <Button x:Name="BtnAcquitDef" Content="Acquitter Défaut" Width="150" Height="40" Margin="5" Click="BtnAcquitDef_Click" Background="#c9a24b"/>
+            <Button x:Name="BtnAuto" Content="Mode Auto" Width="150" Height="40" Margin="5" Click="BtnAuto_Click"/>
+            <Button x:Name="BtnManual" Content="Mode Manuel" Width="150" Height="40" Margin="5" Click="BtnManual_Click"/>
+            <Button x:Name="BtnInit" Content="Init Cycle" Width="150" Height="40" Margin="5" Click="BtnInit_Click" Background="#b5e0b3"/>
+            <Button x:Name="BtnStartCycle" Content="Démarrer Cycle" Width="150" Height="40" Margin="5" Click="BtnStartCycle_Click" Background="#9dd2e0"/>
+            <Button x:Name="BtnStopCycle" Content="Arrêter Cycle" Width="150" Height="40" Margin="5" Click="BtnStopCycle_Click" Background="#9dd2e0"/>
+            <Button x:Name="BtnAcquitDef" Content="Acquitter Défaut" Width="150" Height="40" Margin="5" Click="BtnAcquitDef_Click" Background="#d2c58d"/>
 
-            <Button x:Name="BtnStartCollect" Content="Start collect" Width="150" Height="40" Margin="5,5,20,5" Click="StartCollect_Click" IsEnabled="False" Background="#93c97a"/>
-            <Button x:Name="BtnStopCollect" Content="Stop collect" Width="150" Height="40" Margin="5,5,5,5" Click="StopCollect_Click" IsEnabled="False" Background="#93c97a"/>
+            <Button x:Name="BtnStartCollect" Content="Start collect" Width="150" Height="40" Margin="5,20,5,5" Click="StartCollect_Click" IsEnabled="False" Background="#b5e0b3"/>
+            <Button x:Name="BtnStopCollect" Content="Stop collect" Width="150" Height="40" Margin="5,5,5,5" Click="StopCollect_Click" IsEnabled="False" Background="#b5e0b3"/>
 
             <TextBlock x:Name="TxtStatus" 
                    Text=""
                    FontSize="16" 
-                   Margin="5,5,20,5"
+                   Margin="5,20,5,5"
                    HorizontalAlignment="Center"
                    FontStyle="Italic"
                    TextWrapping="Wrap"/>
