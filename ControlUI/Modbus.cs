@@ -43,7 +43,7 @@ namespace ModbusTCP_Simplified
 
             timer = new DispatcherTimer
             {
-                Interval = TimeSpan.FromMilliseconds(500) // sondage toutes les 500 ms
+                Interval = TimeSpan.FromMilliseconds(500) // Poll every 500 ms
             };
             timer.Tick += Timer_Tick;
         }
@@ -123,8 +123,10 @@ namespace ModbusTCP_Simplified
             {
                 // Lire les registres d'intérêt
                 GemmaMode = await ReadHoldingRegisterAsync(1);
-                Word90 = await ReadHoldingRegisterAsync(90);
                 FioleNumber = await ReadHoldingRegisterAsync(105);
+
+                Word90 = await ReadHoldingRegisterAsync(90);
+                TxtWord90 = GetTxtWord90();
 
                 Console.WriteLine($"[Poll] GEMMA={GemmaMode:X2}, Auto/Man={Word90}, Fiole={FioleNumber}");
             }
@@ -134,6 +136,21 @@ namespace ModbusTCP_Simplified
                 IsConnected = false;
             }
         }
+
+        private string GetTxtWord90()
+        {
+            StringBuilder sb = new StringBuilder();
+
+            for (int i = 0; i < 8; i++)
+            {
+                bool bitValue = GetBit(Word90, i);
+                string bitName = GetBitNameWord90Short(i);
+                sb.AppendLine($"{bitName} - {bitValue}");
+            }
+
+            return sb.ToString();
+        }
+
         //------------------------------------------------------------------------------------------
 
         // Higher level functions
@@ -1084,6 +1101,23 @@ namespace ModbusTCP_Simplified
                 6 => "Cde_Auto.Collect_Start - Démarrage du cycle principale de la fiole N (Param_N_Fiole)",
                 7 => "Cde_Auto.Collect_Stop - Demande d'arrêt de collecte de la fiole N (déclenche la vidange et la fin du cycle principale)",
                 8 => "Cde_Auto.Vidange_Stop - Demande d'arrêt de la vidange (arrête la vidange même si le convoyage n'est pas vide)",
+                _ => "Réserve"
+            };
+        }
+
+        private string GetBitNameWord90Short(int bit)
+        {
+            return bit switch
+            {
+                0 => "Cde_Auto.Acquit",
+                1 => "Cde_Auto.Mode_Auto",
+                2 => "Cde_Auto.Start",
+                3 => "Cde_Auto.Stop",
+                4 => "Cde_Auto.Init",
+                5 => "Cde_Auto.Avec_controle_vide",
+                6 => "Cde_Auto.Collect_Start",
+                7 => "Cde_Auto.Collect_Stop",
+                8 => "Cde_Auto.Vidange_Stop",
                 _ => "Réserve"
             };
         }

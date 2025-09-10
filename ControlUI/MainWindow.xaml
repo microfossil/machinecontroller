@@ -1,11 +1,12 @@
 ﻿<Window x:Class="ControlUI.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Machine Control" Height="300" Width="700">
+        Title="Machine Control" Height="300" Width="900">
 
     <Grid>
 
         <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
@@ -42,6 +43,13 @@
                 <TextBox x:Name="FioleInput" Width="80" Margin="0,10,10,0"/>
                 <Button Content="Valider" Margin="0,10,0,0" Click="ValidateFiole_Click"/>
             </StackPanel>
+        </StackPanel>
+        
+        <StackPanel Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <TextBlock Text="Numéro de fiole :" FontWeight="Bold" FontSize="16"/>
+            <TextBlock x:Name="TxtWord90" 
+                Text="NaN"
+                FontSize="14"/>
         </StackPanel>
 
     </Grid>
