@@ -26,6 +26,7 @@ namespace ModbusTCP_Simplified
         public int GemmaMode { get; private set; }
         public int Word90 { get; private set; }
         public string TxtWord90 { get; private set; }
+        public int StepCyclePrincipal { get; private set; }
         public int FioleNumber { get; private set; }
         public bool DoneFlag { get; set; }
 
@@ -126,10 +127,13 @@ namespace ModbusTCP_Simplified
             {
                 // Lire les registres d'intérêt
                 GemmaMode = await ReadHoldingRegisterAsync(1);
-                FioleNumber = await ReadHoldingRegisterAsync(105);
 
                 Word90 = await ReadHoldingRegisterAsync(90);
                 TxtWord90 = GetTxtWord90();
+
+                StepCyclePrincipal = await ReadHoldingRegisterAsync(10);
+
+                FioleNumber = await ReadHoldingRegisterAsync(105);
 
                 Console.WriteLine($"[Poll] GEMMA={GemmaMode:X2}, Auto/Man={Word90}, Fiole={FioleNumber}");
             }
@@ -215,8 +219,6 @@ namespace ModbusTCP_Simplified
             }
             try
             {
-                // int currentValue = await ReadHoldingRegisterAsync(90);
-                // int newValue = SetBit(currentValue, 4);
                 int newValue = SetBit(Word90, 4); // Word90 updated by PollAsync()
                 await WriteSingleRegisterAsync(90, newValue);
 
@@ -259,8 +261,7 @@ namespace ModbusTCP_Simplified
             }
             try
             {
-                int currentValue = await ReadHoldingRegisterAsync(90);
-                int newValue = SetBit(currentValue, 2);
+                int newValue = SetBit(Word90, 2); // Word90 updated by PollAsync()
                 await WriteSingleRegisterAsync(90, newValue);
 
                 Console.WriteLine($"\nWORD90.2 (Cde_Auto.Start) demande départ cycle sent");
@@ -302,8 +303,7 @@ namespace ModbusTCP_Simplified
             }
             try
             {
-                int currentValue = await ReadHoldingRegisterAsync(90);
-                int newValue = SetBit(currentValue, 3);
+                int newValue = SetBit(Word90, 3); // Word90 updated by PollAsync()
                 await WriteSingleRegisterAsync(90, newValue);
 
                 Console.WriteLine($"\nWORD90.3 (Cde_Auto.Stop) demande arrêt cycle sent");
@@ -345,8 +345,7 @@ namespace ModbusTCP_Simplified
             }
             try
             {
-                int currentValue = await ReadHoldingRegisterAsync(90);
-                int newValue = SetBit(currentValue, 0);
+                int newValue = SetBit(Word90, 0); // Word90 updated by PollAsync()
                 await WriteSingleRegisterAsync(90, newValue);
 
                 Console.WriteLine($"\nWORD90.0 (Cde_Auto.Acquit) demande acquittement défaut sent");
@@ -376,6 +375,90 @@ namespace ModbusTCP_Simplified
             catch (Exception ex)
             {
                 Console.WriteLine($"Error during AcquitDefaut: {ex.Message}");
+            }
+        }
+
+        public async Task StartCollectAsync()
+        {
+            if (!IsConnected)
+            {
+                Console.WriteLine("Cannot write - Modbus not connected");
+                return;
+            }
+            try
+            {
+                int newValue = SetBit(Word90, 6); // Word90 updated by PollAsync()
+                await WriteSingleRegisterAsync(90, newValue);
+
+                Console.WriteLine($"\nWORD90.6 (Cde_Auto.StartCollect) start collect");
+
+                // GEMMA mode is constantly tracked and once it is not anymore in D2, we reset the Acquit bit
+                await Task.Run(async () =>
+                {
+                    while (true)
+                    {
+                        int stepCyclePrincipal = StepCyclePrincipal; // StepCyclePrincipal updated by PollAsync()
+
+                        if (stepCyclePrincipal != 0) // As soon as Step is not 0 anymore
+                        {
+                            Console.WriteLine($"Acquittement effectué (GEMMA={stepCyclePrincipal:X2}), reset du bit Start collect");
+
+                            // reset bit 6 to 0
+                            int resetValue = ClearBit(newValue, 6);
+                            await WriteSingleRegisterAsync(90, resetValue);
+                            DoneFlag = true; // Set the flag to true when done
+                            break;
+                        }
+
+                        await Task.Delay(200); // wait before reading again (avoids saturating CPU)
+                    }
+                });
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error during StartCollect: {ex.Message}");
+            }
+        }
+
+        public async Task StopCollectAsync()
+        {
+            if (!IsConnected)
+            {
+                Console.WriteLine("Cannot write - Modbus not connected");
+                return;
+            }
+            try
+            {
+                int newValue = SetBit(Word90, 7); // Word90 updated by PollAsync()
+                await WriteSingleRegisterAsync(90, newValue);
+
+                Console.WriteLine($"\nWORD90.7 (Cde_Auto.StopCollect) stop collect");
+
+                // GEMMA mode is constantly tracked and once it is not anymore in D2, we reset the Acquit bit
+                await Task.Run(async () =>
+                {
+                    while (true)
+                    {
+                        int stepCyclePrincipal = StepCyclePrincipal; // StepCyclePrincipal updated by PollAsync()
+
+                        if (stepCyclePrincipal != 35) // As soon as Step is not 35 anymore
+                        {
+                            Console.WriteLine($"Acquittement effectué (GEMMA={stepCyclePrincipal:X2}), reset du bit Stop collect");
+
+                            // reset bit 7 to 0
+                            int resetValue = ClearBit(newValue, 7);
+                            await WriteSingleRegisterAsync(90, resetValue);
+                            DoneFlag = true; // Set the flag to true when done
+                            break;
+                        }
+
+                        await Task.Delay(200); // wait before reading again (avoids saturating CPU)
+                    }
+                });
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error during StopCollect: {ex.Message}");
             }
         }
 

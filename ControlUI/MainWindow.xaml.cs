@@ -52,6 +52,18 @@ namespace ControlUI
                     TxtStatus.Text = TxtStatus.Text + "\n[DONE]";
                     Modbus.DoneFlag = false; // reset the flag
                 }
+
+                // Activate Btn startCollect and StopCollect when GEMMA is in mode F1
+                if (Modbus.GemmaMode == 0xF1)
+                    {
+                        BtnStartCollect.IsEnabled = true;
+                        BtnStopCollect.IsEnabled = true;
+                    }
+                    else
+                    {
+                        BtnStartCollect.IsEnabled = false;
+                        BtnStopCollect.IsEnabled = false;
+                    }
             }
             else
             {
@@ -99,6 +111,17 @@ namespace ControlUI
         {
             TxtStatus.Text = "Cde_Auto.Acquit\ndemande acquittement défaut";
             await Modbus.AcquitDefaultAsync();
+        }
+
+        private async void StartCollect_Click(object sender, RoutedEventArgs e)
+        {
+            TxtStatus.Text = "Cde_Auto.StartCollect\nstart collect";
+            await Modbus.StartCollectAsync();
+        }
+        private async void StopCollect_Click(object sender, RoutedEventArgs e)
+        {
+            TxtStatus.Text = "Cde_Auto.StopCollect\nstop collect";
+            await Modbus.StopCollectAsync();
         }
 
         private async void ValidateFiole_Click(object sender, RoutedEventArgs e)
