@@ -27,6 +27,7 @@ namespace ModbusTCP_Simplified
         public int Word90 { get; private set; }
         public string TxtWord90 { get; private set; }
         public int FioleNumber { get; private set; }
+        public bool DoneFlag { get; private set; }
 
         public Modbus()
         {
@@ -235,6 +236,8 @@ namespace ModbusTCP_Simplified
                             // reset bit 4 to 0
                             int resetValue = ClearBit(newValue, 4);
                             await WriteSingleRegisterAsync(90, resetValue);
+                            // TxtStatus = "Cde_Auto.Init - demande initialisation DONE";
+                            DoneFlag = true; // Set the flag to true when done
                             break;
                         }
 

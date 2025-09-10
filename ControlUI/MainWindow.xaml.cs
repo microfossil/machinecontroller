@@ -47,6 +47,11 @@ namespace ControlUI
                 TxtGEMMAMode.Text = $"{Modbus.GemmaMode} (decimal)\n{Modbus.GemmaMode:X2} (hexa)\n({Modbus.GetGEMMADescription(Modbus.GemmaMode)})";
                 TxtFiole.Text = $"Fiole n°{Modbus.FioleNumber}";
                 TxtWord90.Text = Modbus.TxtWord90;
+                if (Modbus.DoneFlag)
+                {
+                    TxtStatus.Text = TxtStatus.Text + " DONE";
+                    Modbus.DoneFlag = false; // reset the flag
+                }
             }
             else
             {
@@ -62,38 +67,38 @@ namespace ControlUI
 
         private async void BtnAuto_Click(object sender, RoutedEventArgs e)
         {
-            await Modbus.SetAutoModeAsync(true);
             TxtStatus.Text = "Cde_Auto.Mode_Auto - mode auto";
+            await Modbus.SetAutoModeAsync(true);
         }
 
         private async void BtnManual_Click(object sender, RoutedEventArgs e)
         {
-            await Modbus.SetAutoModeAsync(false);
             TxtStatus.Text = "Cde_Auto.Mode_Auto - mode manuel";
+            await Modbus.SetAutoModeAsync(false);
         }
 
         private async void BtnInit_Click(object sender, RoutedEventArgs e)
         {
-            await Modbus.InitAsync();
             TxtStatus.Text = "Cde_Auto.Init - demande initialisation";
+            await Modbus.InitAsync();
         }
 
         private async void BtnStartCycle_Click(object sender, RoutedEventArgs e)
         {
-            await Modbus.StartCycleAsync();
             TxtStatus.Text = "Cde_Auto.Start - demande départ cycle";
+            await Modbus.StartCycleAsync();
         }
 
         private async void BtnStopCycle_Click(object sender, RoutedEventArgs e)
         {
-            await Modbus.StopCycleAsync();
             TxtStatus.Text = "Cde_Auto.Stop - demande arrêt cycle";
+            await Modbus.StopCycleAsync();
         }
 
         private async void BtnAcquitDef_Click(object sender, RoutedEventArgs e)
         {
-            await Modbus.AcquitDefaultAsync();
             TxtStatus.Text = "Cde_Auto.Acquit - demande acquittement défaut";
+            await Modbus.AcquitDefaultAsync();
         }
 
         private async void ValidateFiole_Click(object sender, RoutedEventArgs e)
@@ -101,8 +106,8 @@ namespace ControlUI
             if (int.TryParse(FioleInput.Text, out int NewFioleNumber))
             {
                 // int CurrentFioleNumber = await Modbus.ReadHoldingRegisterAsync(105);
-                await Modbus.SetVialNbAsync(NewFioleNumber);
                 TxtStatus.Text = $"Numéro de fiole demandé : {NewFioleNumber}";
+                await Modbus.SetVialNbAsync(NewFioleNumber);
                 // TxtFiole.Text = $"Old: {CurrentFioleNumber}, New: {NewFioleNumber}";
                 // MessageBox.Show($"Valeur validée : {NewFioleNumber}", "Confirmation", MessageBoxButton.OK, MessageBoxImage.Information);
             }
