@@ -236,7 +236,6 @@ namespace ModbusTCP_Simplified
                             // reset bit 4 to 0
                             int resetValue = ClearBit(newValue, 4);
                             await WriteSingleRegisterAsync(90, resetValue);
-                            // TxtStatus = "Cde_Auto.Init - demande initialisation DONE";
                             DoneFlag = true; // Set the flag to true when done
                             break;
                         }
@@ -280,6 +279,7 @@ namespace ModbusTCP_Simplified
                             // reset bit 2 to 0
                             int resetValue = ClearBit(newValue, 2);
                             await WriteSingleRegisterAsync(90, resetValue);
+                            DoneFlag = true; // Set the flag to true when done
                             break;
                         }
 
@@ -322,6 +322,7 @@ namespace ModbusTCP_Simplified
                             // reset bit 3 to 0
                             int resetValue = ClearBit(newValue, 3);
                             await WriteSingleRegisterAsync(90, resetValue);
+                            DoneFlag = true; // Set the flag to true when done
                             break;
                         }
 
@@ -364,6 +365,7 @@ namespace ModbusTCP_Simplified
                             // reset bit 5 to 0
                             int resetValue = ClearBit(newValue, 5);
                             await WriteSingleRegisterAsync(90, resetValue);
+                            DoneFlag = true; // Set the flag to true when done
                             break;
                         }
 
