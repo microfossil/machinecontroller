@@ -70,7 +70,7 @@
                 <Ellipse x:Name="LedRequestControlVoidB" Width="16" Height="16" Stroke="Black" StrokeThickness="1" Fill="Gray"/>
             </StackPanel>
 
-            <Button x:Name="BtnHardReset" Content="Hard Reset" Width="100" Height="40" Margin="5,50,5,5" Click="BtnHardReset_Click" Background="#eb878e"/>
+            <Button x:Name="BtnHardReset" Content="Hard Reset" Width="100" Height="40" Margin="5,150,5,5" Click="BtnHardReset_Click" Background="#eb878e"/>
         </StackPanel>
         
         <StackPanel Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center">
