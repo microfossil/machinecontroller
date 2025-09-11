@@ -50,13 +50,13 @@ namespace ControlUI
                 TxtFiole.Text = $"Vial n°{Modbus.FioleNumber}";
 
                 TxtDest_P_A.Text = $"{Modbus.Dest_P_A}";
-                TxtDest_X_A.Text = $"{Modbus.Dest_X_A}µm";
-                TxtDest_Y_A.Text = $"{Modbus.Dest_Y_A}µm";
-                TxtDest_Z_A.Text = $"{Modbus.Dest_Z_A}µm";
+                TxtDest_X_A.Text = $"{Modbus.Dest_X_A}mm"; //µm
+                TxtDest_Y_A.Text = $"{Modbus.Dest_Y_A}mm";
+                TxtDest_Z_A.Text = $"{Modbus.Dest_Z_A}mm";
                 TxtDest_P_B.Text = $"{Modbus.Dest_P_B}";
-                TxtDest_X_B.Text = $"{Modbus.Dest_X_B}µm";
-                TxtDest_Y_B.Text = $"{Modbus.Dest_Y_B}µm";
-                TxtDest_Z_B.Text = $"{Modbus.Dest_Z_B}µm";
+                TxtDest_X_B.Text = $"{Modbus.Dest_X_B}mm";
+                TxtDest_Y_B.Text = $"{Modbus.Dest_Y_B}mm";
+                TxtDest_Z_B.Text = $"{Modbus.Dest_Z_B}mm";
 
                 TxtWord90.Text = Modbus.TxtWord90;
                 TxtStepCyclePrincipal.Text = $"{Modbus.StepCyclePrincipal}";

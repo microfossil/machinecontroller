@@ -553,23 +553,23 @@ namespace ModbusTCP_Simplified
                 return;
             }
 
-            int x_coord = 30 * (x_multiple_slide - 1) + 6 * (x_multiple_cavity - 1);
-            int y_coord = 84 * (y_multiple_slide - 1) + 6 * (y_multiple_cavity - 1);
+            int x_coord_mm = 30 * (x_multiple_slide - 1) + 6 * (x_multiple_cavity - 1);
+            int y_coord_mm = 84 * (y_multiple_slide - 1) + 6 * (y_multiple_cavity - 1);
 
-            int x_coord_µm = x_coord * 1000; // Convert to micrometers
-            int y_coord_µm = y_coord * 1000; // Convert to micrometers
+            int x_coord_µm = x_coord_mm * 1000; // Convert to micrometers
+            int y_coord_µm = y_coord_mm * 1000; // Convert to micrometers
 
             try
             {
                 await WriteSingleRegisterAsync(96, plateau_nb);  // Destination_A_Plateau
-                await WriteSingleRegisterAsync(97, x_coord_µm); // Destination_A_X
-                await WriteSingleRegisterAsync(98, y_coord_µm); // Destination_A_Y
+                await WriteSingleRegisterAsync(97, x_coord_mm); // Destination_A_X
+                await WriteSingleRegisterAsync(98, y_coord_mm); // Destination_A_Y
 
                 await WriteSingleRegisterAsync(100, plateau_nb);  // Destination_B_Plateau
-                await WriteSingleRegisterAsync(101, x_coord_µm); // Destination_B_X
-                await WriteSingleRegisterAsync(102, y_coord_µm); // Destination_B_Y
+                await WriteSingleRegisterAsync(101, x_coord_mm); // Destination_B_X
+                await WriteSingleRegisterAsync(102, y_coord_mm); // Destination_B_Y
 
-                Console.WriteLine($"\nCoordinates sent to GEMMA: Plateau={plateau_nb}, X={x_coord_µm} µm, Y={y_coord_µm} µm");
+                Console.WriteLine($"\nCoordinates sent to GEMMA: Plateau={plateau_nb}, X={x_coord_mm} mm, Y={y_coord_mm} mm");
             }
             catch (Exception ex)
             {
