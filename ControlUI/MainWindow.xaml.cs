@@ -186,7 +186,7 @@ namespace ControlUI
             if (int.TryParse(FioleInput.Text, out int NewFioleNumber))
             {
                 // int CurrentFioleNumber = await Modbus.ReadHoldingRegisterAsync(105);
-                TxtStatus.Text = $"Numéro de fiole demandé : {NewFioleNumber}";
+                TxtStatus.Text = $"Vial nb requested : {NewFioleNumber}";
                 await Modbus.SetVialNbAsync(NewFioleNumber);
                 // TxtFiole.Text = $"Old: {CurrentFioleNumber}, New: {NewFioleNumber}";
                 // MessageBox.Show($"Valeur validée : {NewFioleNumber}", "Confirmation", MessageBoxButton.OK, MessageBoxImage.Information);

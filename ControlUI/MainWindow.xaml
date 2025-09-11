@@ -18,11 +18,11 @@
 
             <Separator Margin="0,20,0,0" />
 
-            <TextBlock Text="Numéro de fiole :" FontWeight="Bold" FontSize="16" Margin="0,20,0,0"/>
+            <TextBlock Text="Vial number:" FontWeight="Bold" FontSize="16" Margin="0,20,0,0"/>
             <TextBlock x:Name="TxtFiole" Text="NaN" FontSize="14"/>
             <StackPanel Orientation="Horizontal">
                 <TextBox x:Name="FioleInput" Width="80" Margin="0,5,10,0"/>
-                <Button Content="Valider" Margin="0,5,0,0" Click="ValidateFiole_Click"/>
+                <Button Content="Validate" Margin="0,5,0,0" Click="ValidateFiole_Click"/>
             </StackPanel>
 
             <Separator Margin="0,20,0,0" />
