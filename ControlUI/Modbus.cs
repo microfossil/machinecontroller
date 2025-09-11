@@ -24,6 +24,12 @@ namespace ModbusTCP_Simplified
         public bool Enabled { get; private set; }
 
         public int GemmaMode { get; private set; }
+        public int Word0 { get; private set; }
+        public bool RequestAnalyseVisionA { get; private set; }
+        public bool RequestAnalyseVisionB { get; private set; }
+        public bool RequestControlVoidA { get; private set; }
+        public bool RequestControlVoidB { get; private set; }
+        public string TxtWord0 { get; private set; }
         public int Word90 { get; private set; }
         public string TxtWord90 { get; private set; }
         public int StepCyclePrincipal { get; private set; }
