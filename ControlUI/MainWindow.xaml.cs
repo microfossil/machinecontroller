@@ -47,6 +47,8 @@ namespace ControlUI
                 TxtGEMMAMode.Text = $"{Modbus.GemmaMode} (decimal)\n{Modbus.GemmaMode:X2} (hexa)\n({Modbus.GetGEMMADescription(Modbus.GemmaMode)})";
                 TxtFiole.Text = $"Fiole n°{Modbus.FioleNumber}";
                 TxtWord90.Text = Modbus.TxtWord90;
+                TxtStepCyclePrincipal.Text = Modbus.StepCyclePrincipal;
+
                 if (Modbus.DoneFlag)
                 {
                     TxtStatus.Text = TxtStatus.Text + "\n[DONE]";
