@@ -14,7 +14,7 @@
 
         <StackPanel Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center">
             <TextBlock Text="GEMMA Mode :" FontWeight="Bold" FontSize="16"/>
-            <TextBlock x:Name="TxtGEMMAMode" Text="NaN" FontSize="14" TextWrapping="Wrap"/>
+            <TextBlock x:Name="TxtGEMMAMode" Text="NaN" FontSize="14" TextWrapping="Wrap" Margin="0,0,0,50"/>
 
             <TextBlock Text="Numéro de fiole :" FontWeight="Bold" FontSize="16"/>
             <TextBlock x:Name="TxtFiole" Text="NaN" FontSize="14"/>
