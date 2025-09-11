@@ -64,15 +64,35 @@ namespace ControlUI
 
                 // Activate Btn startCollect and StopCollect when GEMMA is in mode F1
                 if (Modbus.GemmaMode == 0xF1)
-                    {
-                        BtnStartCollect.IsEnabled = true;
-                        BtnStopCollect.IsEnabled = true;
-                    }
-                    else
-                    {
-                        BtnStartCollect.IsEnabled = false;
-                        BtnStopCollect.IsEnabled = false;
-                    }
+                {
+                    BtnStartCollect.IsEnabled = true;
+                    BtnStopCollect.IsEnabled = true;
+                }
+                else
+                {
+                    BtnStartCollect.IsEnabled = false;
+                    BtnStopCollect.IsEnabled = false;
+                }
+
+                // Activate Btn AnalyseVisionADone when RequestAnalyseVisionA is true
+                if (Modbus.RequestAnalyseVisionA)
+                {
+                    BtnAnalyseVisionADone.IsEnabled = true;
+                }
+                else
+                {
+                    BtnAnalyseVisionADone.IsEnabled = false;
+                }
+
+                // Activate Btn AnalyseVisionBDone when RequestAnalyseVisionB is true
+                if (Modbus.RequestAnalyseVisionB)
+                {
+                    BtnAnalyseVisionBDone.IsEnabled = true;
+                }
+                else
+                {
+                    BtnAnalyseVisionBDone.IsEnabled = false;
+                }
             }
             else
             {
@@ -137,6 +157,18 @@ namespace ControlUI
         {
             TxtStatus.Text = "Cde_Auto.HardReset\nhard reset";
             await Modbus.HardResetAsync();
+        }
+
+        private async void AnalyseVisionADone_Click(object sender, RoutedEventArgs e)
+        {
+            TxtStatus.Text = "Cde_Auto.AnalyseVisionADone\nAnalyse Vision A Done";
+            await Modbus.AnalyseVisionADoneAsync();
+        }
+
+        private async void AnalyseVisionBDone_Click(object sender, RoutedEventArgs e)
+        {
+            TxtStatus.Text = "Cde_Auto.AnalyseVisionBDone\nAnalyse Vision B Done";
+            await Modbus.AnalyseVisionBDoneAsync();
         }
 
         private async void ValidateFiole_Click(object sender, RoutedEventArgs e)

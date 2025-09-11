@@ -32,6 +32,8 @@ namespace ModbusTCP_Simplified
         public string TxtWord0 { get; private set; }
         public int Word90 { get; private set; }
         public string TxtWord90 { get; private set; }
+        public int Word91 { get; private set; }
+        public string TxtWord91 { get; private set; }
         public int StepCyclePrincipal { get; private set; }
         public int FioleNumber { get; private set; }
         public bool DoneFlag { get; set; }
@@ -142,6 +144,9 @@ namespace ModbusTCP_Simplified
 
                 Word90 = await ReadHoldingRegisterAsync(90);
                 TxtWord90 = GetTxtWord(90);
+
+                Word91 = await ReadHoldingRegisterAsync(91);
+                // TxtWord91 = GetTxtWord(91);
 
                 StepCyclePrincipal = await ReadHoldingRegisterAsync(10);
 
@@ -472,6 +477,53 @@ namespace ModbusTCP_Simplified
             catch (Exception ex)
             {
                 Console.WriteLine($"Error during StopCollect: {ex.Message}");
+            }
+        }
+
+
+        public async Task AnalyseVisionADoneAsync()
+        {
+            if (!IsConnected)
+            {
+                Console.WriteLine("Cannot write - Modbus not connected");
+                return;
+            }
+            try
+            {
+                int newValue = SetBit(Word91, 0); // Word91 updated by PollAsync()
+                await WriteSingleRegisterAsync(91, newValue);
+                DoneFlag = true; // Set the flag to true when done
+
+                // TODO Check to reset the bit to 0
+
+                Console.WriteLine($"\nWORD91.0 (Cde_Auto.AnalyseVisionA) analyse vision A done sent");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error during AnalyseVisionADone: {ex.Message}");
+            }
+        }
+
+        public async Task AnalyseVisionBDoneAsync()
+        {
+            if (!IsConnected)
+            {
+                Console.WriteLine("Cannot write - Modbus not connected");
+                return;
+            }
+            try
+            {
+                int newValue = SetBit(Word91, 1); // Word91 updated by PollAsync()
+                await WriteSingleRegisterAsync(91, newValue);
+                DoneFlag = true; // Set the flag to true when done
+
+                // TODO Check to reset the bit to 0
+
+                Console.WriteLine($"\nWORD91.0 (Cde_Auto.AnalyseVisionA) analyse vision A done sent");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error during AnalyseVisionADone: {ex.Message}");
             }
         }
 
