@@ -47,7 +47,7 @@ namespace ControlUI
             if (Modbus.IsConnected)
             {
                 TxtGEMMAMode.Text = $"{Modbus.GemmaMode} (decimal)\n{Modbus.GemmaMode:X2} (hexa)\n({Modbus.GetGEMMADescription(Modbus.GemmaMode)})";
-                TxtFiole.Text = $"Fiole n°{Modbus.FioleNumber}";
+                TxtFiole.Text = $"Vial n°{Modbus.FioleNumber}";
 
                 TxtDest_P_A.Text = $"{Modbus.Dest_P_A}";
                 TxtDest_X_A.Text = $"{Modbus.Dest_X_A}µm";
@@ -186,7 +186,7 @@ namespace ControlUI
             if (int.TryParse(FioleInput.Text, out int NewFioleNumber))
             {
                 // int CurrentFioleNumber = await Modbus.ReadHoldingRegisterAsync(105);
-                TxtStatus.Text = $"Vial nb requested : {NewFioleNumber}";
+                TxtStatus.Text = $"Vial nb requested: {NewFioleNumber}";
                 await Modbus.SetVialNbAsync(NewFioleNumber);
                 // TxtFiole.Text = $"Old: {CurrentFioleNumber}, New: {NewFioleNumber}";
                 // MessageBox.Show($"Valeur validée : {NewFioleNumber}", "Confirmation", MessageBoxButton.OK, MessageBoxImage.Information);

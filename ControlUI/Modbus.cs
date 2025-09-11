@@ -170,7 +170,7 @@ namespace ModbusTCP_Simplified
 
                 FioleNumber = await ReadHoldingRegisterAsync(105);
 
-                Console.WriteLine($"[Poll] GEMMA={GemmaMode:X2}, Auto/Man={Word90}, Fiole={FioleNumber}");
+                Console.WriteLine($"[Poll] GEMMA={GemmaMode:X2}, Auto/Man={Word90}, Vial={FioleNumber}");
             }
             catch (Exception ex)
             {
