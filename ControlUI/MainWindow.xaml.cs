@@ -46,6 +46,12 @@ namespace ControlUI
             {
                 TxtGEMMAMode.Text = $"{Modbus.GemmaMode} (decimal)\n{Modbus.GemmaMode:X2} (hexa)\n({Modbus.GetGEMMADescription(Modbus.GemmaMode)})";
                 TxtFiole.Text = $"Fiole n°{Modbus.FioleNumber}";
+
+                LedRequestAnalyseVisionA.Fill = Modbus.RequestAnalyseVisionA ? Brushes.LimeGreen : Brushes.Red;
+                LedRequestAnalyseVisionB.Fill = Modbus.RequestAnalyseVisionB ? Brushes.LimeGreen : Brushes.Red;
+                LedRequestControlVoidA.Fill = Modbus.RequestControlVoidA ? Brushes.LimeGreen : Brushes.Red;
+                LedRequestControlVoidB.Fill = Modbus.RequestControlVoidB ? Brushes.LimeGreen : Brushes.Red;
+
                 TxtWord90.Text = Modbus.TxtWord90;
                 TxtStepCyclePrincipal.Text = $"{Modbus.StepCyclePrincipal}";
 

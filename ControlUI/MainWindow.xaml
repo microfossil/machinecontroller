@@ -49,7 +49,28 @@
         </StackPanel>
 
         <StackPanel Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <Button x:Name="BtnHardReset" Content="Hard Reset" Width="100" Height="40" Margin="5,5,5,20" Click="BtnHardReset_Click" Background="#eb878e"/>
+            <TextBlock Text="Word 0:" FontWeight="Bold" FontSize="16"/>
+            <StackPanel Orientation="Horizontal" Margin="2">
+                <TextBlock Text="Request Analyse Vision A" Width="150"/>
+                <Ellipse x:Name="LedRequestAnalyseVisionA" Width="16" Height="16" Stroke="Black" StrokeThickness="1" Fill="Gray"/>
+            </StackPanel>
+        
+            <StackPanel Orientation="Horizontal" Margin="2">
+                <TextBlock Text="Request Analyse Vision B" Width="150"/>
+                <Ellipse x:Name="LedRequestAnalyseVisionB" Width="16" Height="16" Stroke="Black" StrokeThickness="1" Fill="Gray"/>
+            </StackPanel>
+        
+            <StackPanel Orientation="Horizontal" Margin="2">
+                <TextBlock Text="Request Control Void A" Width="150"/>
+                <Ellipse x:Name="LedRequestControlVoidA" Width="16" Height="16" Stroke="Black" StrokeThickness="1" Fill="Gray"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Margin="2">
+                <TextBlock Text="Request Control Void B" Width="150"/>
+                <Ellipse x:Name="LedRequestControlVoidB" Width="16" Height="16" Stroke="Black" StrokeThickness="1" Fill="Gray"/>
+            </StackPanel>
+
+            <Button x:Name="BtnHardReset" Content="Hard Reset" Width="100" Height="40" Margin="5,5,5,50" Click="BtnHardReset_Click" Background="#eb878e"/>
         </StackPanel>
         
         <StackPanel Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center">

@@ -125,11 +125,17 @@ namespace ModbusTCP_Simplified
 
             try
             {
-                // Lire les registres d'intérêt
+                Word0 = await ReadHoldingRegisterAsync(0);
+                RequestAnalyseVisionA = GetBit(Word0, 0);
+                RequestAnalyseVisionB = GetBit(Word0, 1);
+                RequestControlVoidA = GetBit(Word0, 2);
+                RequestControlVoidB = GetBit(Word0, 3);
+                TxtWord0 = GetTxtWord(0);
+
                 GemmaMode = await ReadHoldingRegisterAsync(1);
 
                 Word90 = await ReadHoldingRegisterAsync(90);
-                TxtWord90 = GetTxtWord90();
+                TxtWord90 = GetTxtWord(90);
 
                 StepCyclePrincipal = await ReadHoldingRegisterAsync(10);
 
@@ -144,14 +150,15 @@ namespace ModbusTCP_Simplified
             }
         }
 
-        private string GetTxtWord90()
+        private string GetTxtWord(int wordNumber)
         {
             StringBuilder sb = new StringBuilder();
+            var getBitNameFunc = GetBitNameFuncByReflection(wordNumber);
 
             for (int i = 0; i < 8; i++)
             {
                 bool bitValue = GetBit(Word90, i);
-                string bitName = GetBitNameWord90Short(i);
+                string bitName = getBitNameFunc(i);
                 sb.AppendLine($"{bitName} - {bitValue}");
             }
 
@@ -759,6 +766,15 @@ namespace ModbusTCP_Simplified
 
         // Helper function to name the bits/words/GEMMA modes according to your register table
         //------------------------------------------------------------------------------------------
+        // Use reflection to get the appropriate GetBitNameWord{wordNumber} method
+        private Func<int, string> GetBitNameFuncByReflection(int wordNumber)
+        {
+            var method = GetType().GetMethod($"GetBitNameWord{wordNumber}", BindingFlags.Instance | BindingFlags.NonPublic);
+            if (method != null)
+                return (bit) => (string)method.Invoke(this, new object[] { bit });
+            return (bit) => $"Bit {bit} - Non défini pour WORD{wordNumber}";
+        }
+        
 
         /// Get GEMMA description - hex-based encoding
         public string GetGEMMADescription(int mode)
@@ -805,14 +821,7 @@ namespace ModbusTCP_Simplified
         }
 
         // Allow to dynamically get GetBitNameWord{wordNumber} functions
-        private Func<int, string> GetBitNameFuncByReflection(int wordNumber)
-        {
-            var method = GetType().GetMethod($"GetBitNameWord{wordNumber}", BindingFlags.Instance | BindingFlags.NonPublic);
-            if (method != null)
-                return (bit) => (string)method.Invoke(this, new object[] { bit });
-            return (bit) => $"Bit {bit} - Non défini pour WORD{wordNumber}";
-        }
-        
+
         private string GetBitNameWord0(int bit)
         {
             return bit switch
@@ -1281,24 +1290,24 @@ namespace ModbusTCP_Simplified
             };
         }
 
-        private string GetBitNameWord90(int bit)
-        {
-            return bit switch
-            {
-                0 => "Cde_Auto.Acquit - Demande d'acquittement des défauts",
-                1 => "Cde_Auto.Mode_Auto - Passage en mode Auto (Auto=TRUE/MANU=FALSE)",
-                2 => "Cde_Auto.Start - Demande départ cycle : Passage en Mode F1",
-                3 => "Cde_Auto.Stop - Demande arrêt cycle : Passage de F1 en A2 (puis A1 quand cycle terminé)",
-                4 => "Cde_Auto.Init - Demande initialisation : Passage de D2 ou F4 en A6 (puis A2 quand initialisation terminée)",
-                5 => "Cde_Auto.Avec_controle_vide - Mode vérification slot vide par caméra après prise/dépose (mode actif=TRUE)",
-                6 => "Cde_Auto.Collect_Start - Démarrage du cycle principale de la fiole N (Param_N_Fiole)",
-                7 => "Cde_Auto.Collect_Stop - Demande d'arrêt de collecte de la fiole N (déclenche la vidange et la fin du cycle principale)",
-                8 => "Cde_Auto.Vidange_Stop - Demande d'arrêt de la vidange (arrête la vidange même si le convoyage n'est pas vide)",
-                _ => "Réserve"
-            };
-        }
+        // private string GetBitNameWord90(int bit)
+        // {
+        //     return bit switch
+        //     {
+        //         0 => "Cde_Auto.Acquit - Demande d'acquittement des défauts",
+        //         1 => "Cde_Auto.Mode_Auto - Passage en mode Auto (Auto=TRUE/MANU=FALSE)",
+        //         2 => "Cde_Auto.Start - Demande départ cycle : Passage en Mode F1",
+        //         3 => "Cde_Auto.Stop - Demande arrêt cycle : Passage de F1 en A2 (puis A1 quand cycle terminé)",
+        //         4 => "Cde_Auto.Init - Demande initialisation : Passage de D2 ou F4 en A6 (puis A2 quand initialisation terminée)",
+        //         5 => "Cde_Auto.Avec_controle_vide - Mode vérification slot vide par caméra après prise/dépose (mode actif=TRUE)",
+        //         6 => "Cde_Auto.Collect_Start - Démarrage du cycle principale de la fiole N (Param_N_Fiole)",
+        //         7 => "Cde_Auto.Collect_Stop - Demande d'arrêt de collecte de la fiole N (déclenche la vidange et la fin du cycle principale)",
+        //         8 => "Cde_Auto.Vidange_Stop - Demande d'arrêt de la vidange (arrête la vidange même si le convoyage n'est pas vide)",
+        //         _ => "Réserve"
+        //     };
+        // }
 
-        private string GetBitNameWord90Short(int bit)
+        private string GetBitNameWord90(int bit)
         {
             return bit switch
             {
