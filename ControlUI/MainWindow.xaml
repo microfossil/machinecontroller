@@ -117,6 +117,8 @@
             <Button x:Name="BtnSendCoord" Content="Send coordinates" Width="120" Height="20" Margin="0,20,0,0" Click="BtnSendCoord_Click" Background="#d9ddf9"/>
         </StackPanel>
 
+        <Border Grid.Column="1" BorderBrush="Black" BorderThickness="1,0,0,0"/>
+        
         <StackPanel Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center">
             <Button x:Name="BtnAcquitDef" Content="Acquit. Def." Width="100" Height="40" Margin="5" Click="BtnAcquitDef_Click" Background="#d2c58d"/>
 
@@ -147,6 +149,8 @@
                    FontStyle="Italic"
                    TextWrapping="Wrap"/>
         </StackPanel>
+
+        <Border Grid.Column="2" BorderBrush="Black" BorderThickness="1,0,0,0"/>
 
         <StackPanel Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center">
             <TextBlock Text="Word 0:" FontWeight="Bold" FontSize="16"/>
@@ -179,7 +183,9 @@
 
             <Button x:Name="BtnHardReset" Content="Hard Reset" Width="100" Height="40" Margin="5,50,5,5" Click="BtnHardReset_Click" Background="#eb878e"/>
         </StackPanel>
-        
+
+        <Border Grid.Column="3" BorderBrush="Black" BorderThickness="1,0,0,0"/>
+
         <StackPanel Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center">
 
             <TextBlock Text="Main cycle step:" FontWeight="Bold" FontSize="16"/>
