@@ -565,8 +565,8 @@ namespace ModbusTCP_Simplified
             int x_coord = 30 * (x_multiple_slide - 1) + 6 * (x_multiple_cavity - 1);
             int y_coord = 84 * (y_multiple_slide - 1) + 6 * (y_multiple_cavity - 1);
 
-            x_coord_µm = x_coord * 1000; // Convert to micrometers
-            y_coord_µm = y_coord * 1000; // Convert to micrometers
+            int x_coord_µm = x_coord * 1000; // Convert to micrometers
+            int y_coord_µm = y_coord * 1000; // Convert to micrometers
 
             return (x_coord_µm, y_coord_µm);
 
