@@ -357,12 +357,12 @@ namespace ModbusTCP_Simplified
                     {
                         int gemmaMode = GemmaMode; // GemmaMode updated by PollAsync()
 
-                        if (gemmaMode != 0xD2) // As soon as GEMMA leaves D2
+                        if (gemmaMode != 0xD1) // As soon as GEMMA leaves D1
                         {
                             Console.WriteLine($"Acquittement effectué (GEMMA={gemmaMode:X2}), reset du bit Acquit");
 
-                            // reset bit 5 to 0
-                            int resetValue = ClearBit(newValue, 5);
+                            // reset bit 0 to 0
+                            int resetValue = ClearBit(newValue, 0);
                             await WriteSingleRegisterAsync(90, resetValue);
                             DoneFlag = true; // Set the flag to true when done
                             break;
