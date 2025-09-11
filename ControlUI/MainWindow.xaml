@@ -14,14 +14,107 @@
 
         <StackPanel Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center">
             <TextBlock Text="GEMMA Mode :" FontWeight="Bold" FontSize="16"/>
-            <TextBlock x:Name="TxtGEMMAMode" Text="NaN" FontSize="14" TextWrapping="Wrap" Margin="0,0,0,50"/>
+            <TextBlock x:Name="TxtGEMMAMode" Text="NaN" FontSize="14" TextWrapping="Wrap"/>
 
-            <TextBlock Text="Numéro de fiole :" FontWeight="Bold" FontSize="16"/>
+            <Separator Margin="0,20,0,0" />
+
+            <TextBlock Text="Numéro de fiole :" FontWeight="Bold" FontSize="16" Margin="0,20,0,0"/>
             <TextBlock x:Name="TxtFiole" Text="NaN" FontSize="14"/>
             <StackPanel Orientation="Horizontal">
-                <TextBox x:Name="FioleInput" Width="80" Margin="0,10,10,0"/>
-                <Button Content="Valider" Margin="0,10,0,0" Click="ValidateFiole_Click"/>
+                <TextBox x:Name="FioleInput" Width="80" Margin="0,5,10,0"/>
+                <Button Content="Valider" Margin="0,5,0,0" Click="ValidateFiole_Click"/>
             </StackPanel>
+
+            <Separator Margin="0,20,0,0" />
+
+            <TextBlock Text="A coordinates" FontWeight="Bold" FontSize="16" Margin="0,20,0,0"/>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,5,0,0">
+                <TextBlock Text="Plateau" FontWeight="Bold" FontSize="14" Margin="10,0,0,0"/>
+                <TextBlock x:Name="TxtDest_P_A" Text="NaN" FontSize="14" Margin="5,0,0,0"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="10,0,0,0">
+                <TextBlock Text="X" FontWeight="Bold" FontSize="14"/>
+                <TextBlock x:Name="TxtDest_X_A" Text="NaN" FontSize="14" Margin="5,0,0,0"/>
+                <TextBlock Text="Y " FontWeight="Bold" FontSize="14" Margin="15,0,0,0"/>
+                <TextBlock x:Name="TxtDest_Y_A" Text="NaN" FontSize="14" Margin="5,0,0,0"/>
+                <TextBlock Text="Z" FontWeight="Bold" FontSize="14" Margin="15,0,0,0"/>
+                <TextBlock x:Name="TxtDest_Z_A" Text="NaN" FontSize="14" Margin="5,0,0,0"/>
+            </StackPanel>
+
+            <TextBlock Text="B coordinates" FontWeight="Bold" FontSize="16" Margin="0,10,0,0"/>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,5,0,0">
+                <TextBlock Text="Plateau" FontWeight="Bold" FontSize="14" Margin="10,0,0,0"/>
+                <TextBlock x:Name="TxtDest_P_B" Text="NaN" FontSize="14" Margin="5,0,0,0"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="10,0,0,0">
+                <TextBlock Text="X" FontWeight="Bold" FontSize="14"/>
+                <TextBlock x:Name="TxtDest_X_B" Text="NaN" FontSize="14" Margin="5,0,0,0"/>
+                <TextBlock Text="Y " FontWeight="Bold" FontSize="14" Margin="15,0,0,0"/>
+                <TextBlock x:Name="TxtDest_Y_B" Text="NaN" FontSize="14" Margin="5,0,0,0"/>
+                <TextBlock Text="Z" FontWeight="Bold" FontSize="14" Margin="15,0,0,0"/>
+                <TextBlock x:Name="TxtDest_Z_B" Text="NaN" FontSize="14" Margin="5,0,0,0"/>
+            </StackPanel>
+
+            <Separator Margin="60,10,60,0" />
+
+            <TextBlock Text="Set coordinates" FontWeight="Bold" FontSize="16" Margin="0,10,0,0"/>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,10,0,0">
+                <TextBlock Text="Plateau:" FontWeight="Bold" FontSize="14" Margin="10,0,0,0"/>
+                <ComboBox x:Name="CmbPlateau" Width="40" Height="20" SelectedIndex="0" Margin="10,0,40,0">
+                    <ComboBoxItem Content="1"/>
+                    <ComboBoxItem Content="2"/>
+                </ComboBox>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,10,0,0">
+                <TextBlock Text="Slide:" FontWeight="Bold" FontSize="14" Margin="10,0,0,0"/>
+                <TextBlock Text="X" FontSize="14" Margin="10,0,0,0"/>
+                <ComboBox x:Name="CmbSlideX" Width="40" Height="20" SelectedIndex="0" Margin="5,0,0,0">
+                    <ComboBoxItem Content="1"/>
+                    <ComboBoxItem Content="2"/>
+                    <ComboBoxItem Content="3"/>
+                    <ComboBoxItem Content="4"/>
+                    <ComboBoxItem Content="5"/>
+                    <ComboBoxItem Content="6"/>
+                    <ComboBoxItem Content="7"/>
+                    <ComboBoxItem Content="8"/>
+                    <ComboBoxItem Content="9"/>
+                </ComboBox>
+                <TextBlock Text="Y" FontSize="14" Margin="10,0,0,0"/>
+                <ComboBox x:Name="CmbSlideY" Width="40" Height="20" SelectedIndex="0" Margin="5,0,40,0">
+                    <ComboBoxItem Content="1"/>
+                    <ComboBoxItem Content="2"/>
+                    <ComboBoxItem Content="3"/>
+                    <ComboBoxItem Content="4"/>
+                    <ComboBoxItem Content="5"/>
+                </ComboBox>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,10,0,0">
+                <TextBlock Text="Cavity:" FontWeight="Bold" FontSize="14" Margin="10,0,0,0"/>
+                <TextBlock Text="X" FontSize="14" Margin="10,0,0,0"/>
+                <ComboBox x:Name="CmbCavityX" Width="40" Height="20" SelectedIndex="0" Margin="5,0,0,0">
+                    <ComboBoxItem Content="1"/>
+                    <ComboBoxItem Content="2"/>
+                    <ComboBoxItem Content="3"/>
+                    <ComboBoxItem Content="4"/>
+                </ComboBox>
+                <TextBlock Text="Y" FontSize="14" Margin="10,0,0,0"/>
+                <ComboBox x:Name="CmbCavityY" Width="40" Height="20" SelectedIndex="0" Margin="5,0,40,0">
+                    <ComboBoxItem Content="1"/>
+                    <ComboBoxItem Content="2"/>
+                    <ComboBoxItem Content="3"/>
+                    <ComboBoxItem Content="4"/>
+                    <ComboBoxItem Content="5"/>
+                    <ComboBoxItem Content="6"/>
+                    <ComboBoxItem Content="7"/>
+                    <ComboBoxItem Content="8"/>
+                    <ComboBoxItem Content="9"/>
+                    <ComboBoxItem Content="10"/>
+                    <ComboBoxItem Content="11"/>
+                </ComboBox>
+            </StackPanel>
+            <Button x:Name="BtnSendCoord" Content="Send coordinates" Width="120" Height="20" Margin="0,20,0,0" Click="BtnSendCoord_Click" Background="#d9ddf9"/>
         </StackPanel>
 
         <StackPanel Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center">
@@ -32,12 +125,19 @@
                 <Button x:Name="BtnManual" Content="Manual" Width="65" Height="40" Margin="5" Click="BtnManual_Click"/>
             </StackPanel>
 
+            <Separator Margin="0,10,0,10" />
+
             <Button x:Name="BtnInit" Content="Init cycle" Width="150" Height="40" Margin="5" Click="BtnInit_Click" Background="#b5e0b3"/>
+
+            <Separator Margin="0,10,0,10" />
+
             <Button x:Name="BtnStartCycle" Content="Start cycle" Width="150" Height="40" Margin="5" Click="BtnStartCycle_Click" Background="#9dd2e0"/>
             <Button x:Name="BtnStopCycle" Content="Stop cycle" Width="150" Height="40" Margin="5" Click="BtnStopCycle_Click" Background="#9dd2e0"/>
 
-            <Button x:Name="BtnStartCollect" Content="Start collect" Width="150" Height="40" Margin="5,20,5,5" Click="StartCollect_Click" IsEnabled="False" Background="#d5bbe0"/>
-            <Button x:Name="BtnStopCollect" Content="Stop collect" Width="150" Height="40" Margin="5,5,5,5" Click="StopCollect_Click" IsEnabled="False" Background="#d5bbe0"/>
+            <Separator Margin="0,10,0,10" />
+
+            <Button x:Name="BtnStartCollect" Content="Start collect" Width="150" Height="40" Margin="5" Click="StartCollect_Click" IsEnabled="False" Background="#d5bbe0"/>
+            <Button x:Name="BtnStopCollect" Content="Stop collect" Width="150" Height="40" Margin="5" Click="StopCollect_Click" IsEnabled="False" Background="#d5bbe0"/>
 
             <TextBlock x:Name="TxtStatus" 
                    Text=""
@@ -71,39 +171,13 @@
             </StackPanel>
 
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <Button x:Name="BtnAnalyseVisionADone" Content="An. Vis. A Done" Width="100" Height="40" Margin="5,40,5,5" Click="AnalyseVisionADone_Click" IsEnabled="False" Background="#d5bbe0"/>
-                <Button x:Name="BtnAnalyseVisionBDone" Content="An. Vis. B Done" Width="100" Height="40" Margin="5,40,5,5" Click="AnalyseVisionBDone_Click" IsEnabled="False" Background="#d5bbe0"/>
+                <Button x:Name="BtnAnalyseVisionADone" Content="An. Vis. A Done" Width="100" Height="40" Margin="5,20,5,5" Click="AnalyseVisionADone_Click" IsEnabled="False" Background="#d5bbe0"/>
+                <Button x:Name="BtnAnalyseVisionBDone" Content="An. Vis. B Done" Width="100" Height="40" Margin="5,20,5,5" Click="AnalyseVisionBDone_Click" IsEnabled="False" Background="#d5bbe0"/>
             </StackPanel>
 
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <TextBlock Text="A coordinates" FontWeight="Bold" FontSize="16"/>
-                <TextBlock Text="Plateau" FontWeight="Bold" FontSize="14"/>
-                <TextBlock x:Name="TxtAPCoord" Text="NaN" FontSize="14" Margin="5,0,0,0"/>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <TextBlock Text="X_coord" FontWeight="Bold" FontSize="14"/>
-                <TextBlock x:Name="TxtAXCoord" Text="NaN" FontSize="14" Margin="5,0,0,0"/>
-                <TextBlock Text="Y_coord" FontWeight="Bold" FontSize="14"/>
-                <TextBlock x:Name="TxtAYCoord" Text="NaN" FontSize="14" Margin="5,0,0,0"/>
-                <TextBlock Text="Z_coord" FontWeight="Bold" FontSize="14"/>
-                <TextBlock x:Name="TxtAZCoord" Text="NaN" FontSize="14" Margin="5,0,0,0"/>
-            </StackPanel>
+            <Separator Margin="0,50,0,0" />
 
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <TextBlock Text="B coordinates" FontWeight="Bold" FontSize="16"/>
-                <TextBlock Text="Plateau" FontWeight="Bold" FontSize="14"/>
-                <TextBlock x:Name="TxtBPCoord" Text="NaN" FontSize="14" Margin="5,0,0,0"/>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <TextBlock Text="X_coord" FontWeight="Bold" FontSize="14"/>
-                <TextBlock x:Name="TxtBXCoord" Text="NaN" FontSize="14" Margin="5,0,0,0"/>
-                <TextBlock Text="Y_coord" FontWeight="Bold" FontSize="14"/>
-                <TextBlock x:Name="TxtBYCoord" Text="NaN" FontSize="14" Margin="5,0,0,0"/>
-                <TextBlock Text="Z_coord" FontWeight="Bold" FontSize="14"/>
-                <TextBlock x:Name="TxtBZCoord" Text="NaN" FontSize="14" Margin="5,0,0,0"/>
-            </StackPanel>
-
-            <Button x:Name="BtnHardReset" Content="Hard Reset" Width="100" Height="40" Margin="5,150,5,5" Click="BtnHardReset_Click" Background="#eb878e"/>
+            <Button x:Name="BtnHardReset" Content="Hard Reset" Width="100" Height="40" Margin="5,50,5,5" Click="BtnHardReset_Click" Background="#eb878e"/>
         </StackPanel>
         
         <StackPanel Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center">

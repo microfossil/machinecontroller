@@ -34,14 +34,14 @@ namespace ModbusTCP_Simplified
         public string TxtWord90 { get; private set; }
         public int Word91 { get; private set; }
         public string TxtWord91 { get; private set; }
-        public int DestAP { get; private set; }
-        public int DestAX { get; private set; }
-        public int DestAY { get; private set; }
-        public int DestAZ { get; private set; }
-        public int DestBP { get; private set; }
-        public int DestBX { get; private set; }
-        public int DestBY { get; private set; }
-        public int DestBZ { get; private set; }
+        public int Dest_P_A { get; private set; }
+        public int Dest_X_A { get; private set; }
+        public int Dest_Y_A { get; private set; }
+        public int Dest_Z_A { get; private set; }
+        public int Dest_P_B { get; private set; }
+        public int Dest_X_B { get; private set; }
+        public int Dest_Y_B { get; private set; }
+        public int Dest_Z_B { get; private set; }
         public int StepCyclePrincipal { get; private set; }
         public int FioleNumber { get; private set; }
         public bool DoneFlag { get; set; }
@@ -155,14 +155,14 @@ namespace ModbusTCP_Simplified
 
                 Word91 = await ReadHoldingRegisterAsync(91);
 
-                DestAP = await ReadHoldingRegisterAsync(96); //Destination_A_Plateau 
-                DestAX = await ReadHoldingRegisterAsync(97); // Destination_A_X
-                DestAY = await ReadHoldingRegisterAsync(98); // Destination_A_Y
-                DestAZ = await ReadHoldingRegisterAsync(99); // Destination_A_Z
-                DestBP = await ReadHoldingRegisterAsync(100); // Destination_B_Plateau
-                DestBX = await ReadHoldingRegisterAsync(101); // Destination_B_X
-                DestBY = await ReadHoldingRegisterAsync(102); // Destination_B_Y
-                DestBZ = await ReadHoldingRegisterAsync(103); // Destination_B_Z
+                Dest_P_A = await ReadHoldingRegisterAsync(96); //Destination_A_Plateau 
+                Dest_X_A = await ReadHoldingRegisterAsync(97); // Destination_A_X
+                Dest_Y_A = await ReadHoldingRegisterAsync(98); // Destination_A_Y
+                Dest_Z_A = await ReadHoldingRegisterAsync(99); // Destination_A_Z
+                Dest_P_B = await ReadHoldingRegisterAsync(100); // Destination_B_Plateau
+                Dest_X_B = await ReadHoldingRegisterAsync(101); // Destination_B_X
+                Dest_Y_B = await ReadHoldingRegisterAsync(102); // Destination_B_Y
+                Dest_Z_B = await ReadHoldingRegisterAsync(103); // Destination_B_Z
 
                 // TxtWord91 = GetTxtWord(91);
 
@@ -545,20 +545,11 @@ namespace ModbusTCP_Simplified
             }
         }
 
-        public async Task ComputeCoordAsync(int x_multiple_slide, int y_multiple_slide, int x_multiple_cavity, int y_multiple_cavity)
+        public async Task SendCoordinatesAsync(int plateau_nb, int x_multiple_slide, int y_multiple_slide, int x_multiple_cavity, int y_multiple_cavity)
         {
             if (!IsConnected)
             {
                 Console.WriteLine("Cannot write - Modbus not connected");
-                return;
-            }
-
-            if ((x_multiple_slide < 1 || x_multiple_slide > 9) ||
-                (y_multiple_slide < 1 || y_multiple_slide > 5) ||
-                (x_multiple_cavity < 1 || x_multiple_cavity > 4) ||
-                (y_multiple_cavity < 1 || y_multiple_cavity > 11))
-            {
-                Console.WriteLine("Invalid input values.");
                 return;
             }
 
@@ -567,6 +558,23 @@ namespace ModbusTCP_Simplified
 
             int x_coord_µm = x_coord * 1000; // Convert to micrometers
             int y_coord_µm = y_coord * 1000; // Convert to micrometers
+
+            try
+            {
+                await WriteSingleRegisterAsync(96, plateau_nb);  // Destination_A_Plateau
+                await WriteSingleRegisterAsync(97, x_coord_µm); // Destination_A_X
+                await WriteSingleRegisterAsync(98, y_coord_µm); // Destination_A_Y
+
+                await WriteSingleRegisterAsync(100, plateau_nb);  // Destination_B_Plateau
+                await WriteSingleRegisterAsync(101, x_coord_µm); // Destination_B_X
+                await WriteSingleRegisterAsync(102, y_coord_µm); // Destination_B_Y
+
+                Console.WriteLine($"\nCoordinates sent to GEMMA: Plateau={plateau_nb}, X={x_coord_µm} µm, Y={y_coord_µm} µm");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error sending coordinates: {ex.Message}");
+            }
 
             Console.WriteLine($"Computed coordinates: X={x_coord}, Y={y_coord}");
         }

@@ -48,14 +48,14 @@ namespace ControlUI
                 TxtGEMMAMode.Text = $"{Modbus.GemmaMode} (decimal)\n{Modbus.GemmaMode:X2} (hexa)\n({Modbus.GetGEMMADescription(Modbus.GemmaMode)})";
                 TxtFiole.Text = $"Fiole n°{Modbus.FioleNumber}";
 
-                TxtAPCoord.Text = $"{Modbus.DestAP}";
-                TxtAXCoord.Text = $"{Modbus.DestAX}µm";
-                TxtAYCoord.Text = $"{Modbus.DestAY}µm";
-                TxtAZCoord.Text = $"{Modbus.DestAZ}µm";
-                TxtBPCoord.Text = $"{Modbus.DestBP}";
-                TxtBXCoord.Text = $"{Modbus.DestBX}µm";
-                TxtBYCoord.Text = $"{Modbus.DestBY}µm";
-                TxtBZCoord.Text = $"{Modbus.DestBZ}µm";
+                TxtDest_P_A.Text = $"{Modbus.Dest_P_A}";
+                TxtDest_X_A.Text = $"{Modbus.Dest_X_A}µm";
+                TxtDest_Y_A.Text = $"{Modbus.Dest_Y_A}µm";
+                TxtDest_Z_A.Text = $"{Modbus.Dest_Z_A}µm";
+                TxtDest_P_B.Text = $"{Modbus.Dest_P_B}";
+                TxtDest_X_B.Text = $"{Modbus.Dest_X_B}µm";
+                TxtDest_Y_B.Text = $"{Modbus.Dest_Y_B}µm";
+                TxtDest_Z_B.Text = $"{Modbus.Dest_Z_B}µm";
 
                 TxtWord90.Text = Modbus.TxtWord90;
                 TxtStepCyclePrincipal.Text = $"{Modbus.StepCyclePrincipal}";
@@ -194,6 +194,19 @@ namespace ControlUI
             {
                 MessageBox.Show("Veuillez entrer un entier valide.", "Erreur", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
+        }
+
+        private async void BtnSendCoord_Click(object sender, RoutedEventArgs e)
+        {
+            int Plateau = int.Parse((CmbPlateau.SelectedItem as ComboBoxItem).Content.ToString());
+            int SlideX = int.Parse((CmbSlideX.SelectedItem as ComboBoxItem).Content.ToString());
+            int SlideY = int.Parse((CmbSlideY.SelectedItem as ComboBoxItem).Content.ToString());
+            int CavityX = int.Parse((CmbCavityX.SelectedItem as ComboBoxItem).Content.ToString());
+            int CavityY = int.Parse((CmbCavityY.SelectedItem as ComboBoxItem).Content.ToString());
+
+            TxtStatus.Text = $"Selected values:\nPlateau : {Plateau},\nSlide X : {SlideX}, Slide Y : {SlideY},\nCavity X : {CavityX}, Cavity Y : {CavityY}";
+
+            await Modbus.SendCoordinatesAsync(Plateau, SlideX, SlideY, CavityX, CavityY);
         }
     }
 }
