@@ -15,6 +15,13 @@
         <StackPanel Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center">
             <TextBlock Text="GEMMA Mode :" FontWeight="Bold" FontSize="16"/>
             <TextBlock x:Name="TxtGEMMAMode" Text="NaN" FontSize="14" TextWrapping="Wrap"/>
+
+            <TextBlock Text="Numéro de fiole :" FontWeight="Bold" FontSize="16"/>
+            <TextBlock x:Name="TxtFiole" Text="NaN" FontSize="14"/>
+            <StackPanel Orientation="Horizontal">
+                <TextBox x:Name="FioleInput" Width="80" Margin="0,10,10,0"/>
+                <Button Content="Valider" Margin="0,10,0,0" Click="ValidateFiole_Click"/>
+            </StackPanel>
         </StackPanel>
 
         <StackPanel Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center">
@@ -41,30 +48,9 @@
                    TextWrapping="Wrap"/>
         </StackPanel>
 
-        <Grid Grid.Column="2" HorizontalAlignment="Center">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
-
-            <StackPanel Grid.Row="0" VerticalAlignment="Center">
-                <TextBlock Text="Numéro de fiole :" FontWeight="Bold" FontSize="16"/>
-                <TextBlock x:Name="TxtFiole" Text="NaN" FontSize="14"/>
-                <StackPanel Orientation="Horizontal">
-                    <TextBox x:Name="FioleInput" Width="80" Margin="0,10,10,0"/>
-                    <Button Content="Valider" Margin="0,10,0,0" Click="ValidateFiole_Click"/>
-                </StackPanel>
-            </StackPanel>
-
-            <Button Grid.Row="1" 
-                    x:Name="BtnHardReset" 
-                    Content="Hard Reset" 
-                    Width="100" Height="40" 
-                    Margin="5,5,5,20" 
-                    Click="BtnHardReset_Click" 
-                    Background="#eb878e"
-                    VerticalAlignment="Bottom"/>
-        </Grid>
+        <StackPanel Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Button x:Name="BtnHardReset" Content="Hard Reset" Width="100" Height="40" Margin="5,5,5,20" Click="BtnHardReset_Click" Background="#eb878e"/>
+        </StackPanel>
         
         <StackPanel Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center">
 
