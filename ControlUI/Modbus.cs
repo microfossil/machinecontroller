@@ -34,6 +34,14 @@ namespace ModbusTCP_Simplified
         public string TxtWord90 { get; private set; }
         public int Word91 { get; private set; }
         public string TxtWord91 { get; private set; }
+        public int DestAP { get; private set; }
+        public int DestAX { get; private set; }
+        public int DestAY { get; private set; }
+        public int DestAZ { get; private set; }
+        public int DestBP { get; private set; }
+        public int DestBX { get; private set; }
+        public int DestBY { get; private set; }
+        public int DestBZ { get; private set; }
         public int StepCyclePrincipal { get; private set; }
         public int FioleNumber { get; private set; }
         public bool DoneFlag { get; set; }
@@ -146,6 +154,16 @@ namespace ModbusTCP_Simplified
                 TxtWord90 = GetTxtWord(90);
 
                 Word91 = await ReadHoldingRegisterAsync(91);
+
+                DestAP = await ReadHoldingRegisterAsync(96); //Destination_A_Plateau 
+                DestAX = await ReadHoldingRegisterAsync(97); // Destination_A_X
+                DestAY = await ReadHoldingRegisterAsync(98); // Destination_A_Y
+                DestAZ = await ReadHoldingRegisterAsync(99); // Destination_A_Z
+                DestBP = await ReadHoldingRegisterAsync(100); // Destination_B_Plateau
+                DestBX = await ReadHoldingRegisterAsync(101); // Destination_B_X
+                DestBY = await ReadHoldingRegisterAsync(102); // Destination_B_Y
+                DestBZ = await ReadHoldingRegisterAsync(103); // Destination_B_Z
+
                 // TxtWord91 = GetTxtWord(91);
 
                 StepCyclePrincipal = await ReadHoldingRegisterAsync(10);
@@ -525,6 +543,34 @@ namespace ModbusTCP_Simplified
             {
                 Console.WriteLine($"Error during AnalyseVisionADone: {ex.Message}");
             }
+        }
+
+        public async Task ComputeCoordAsync(int x_multiple_slide, int y_multiple_slide, int x_multiple_cavity, int y_multiple_cavity)
+        {
+            if (!IsConnected)
+            {
+                Console.WriteLine("Cannot write - Modbus not connected");
+                return;
+            }
+
+            if ((x_multiple_slide < 1 || x_multiple_slide > 9) ||
+                (y_multiple_slide < 1 || y_multiple_slide > 5) ||
+                (x_multiple_cavity < 1 || x_multiple_cavity > 4) ||
+                (y_multiple_cavity < 1 || y_multiple_cavity > 11))
+            {
+                Console.WriteLine("Invalid input values.");
+                return;
+            }
+
+            int x_coord = 30 * (x_multiple_slide - 1) + 6 * (x_multiple_cavity - 1);
+            int y_coord = 84 * (y_multiple_slide - 1) + 6 * (y_multiple_cavity - 1);
+
+            x_coord_µm = x_coord * 1000; // Convert to micrometers
+            y_coord_µm = y_coord * 1000; // Convert to micrometers
+
+            return (x_coord_µm, y_coord_µm);
+
+            Console.WriteLine($"Computed coordinates: X={x_coord}, Y={y_coord}");
         }
 
         public async Task HardResetAsync()

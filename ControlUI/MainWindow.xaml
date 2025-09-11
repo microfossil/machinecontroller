@@ -75,6 +75,34 @@
                 <Button x:Name="BtnAnalyseVisionBDone" Content="An. Vis. B Done" Width="100" Height="40" Margin="5,40,5,5" Click="AnalyseVisionBDone_Click" IsEnabled="False" Background="#d5bbe0"/>
             </StackPanel>
 
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <TextBlock Text="A coordinates" FontWeight="Bold" FontSize="16"/>
+                <TextBlock Text="Plateau" FontWeight="Bold" FontSize="14"/>
+                <TextBlock x:Name="TxtAPCoord" Text="NaN" FontSize="14" Margin="5,0,0,0"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <TextBlock Text="X_coord" FontWeight="Bold" FontSize="14"/>
+                <TextBlock x:Name="TxtAXCoord" Text="NaN" FontSize="14" Margin="5,0,0,0"/>
+                <TextBlock Text="Y_coord" FontWeight="Bold" FontSize="14"/>
+                <TextBlock x:Name="TxtAYCoord" Text="NaN" FontSize="14" Margin="5,0,0,0"/>
+                <TextBlock Text="Z_coord" FontWeight="Bold" FontSize="14"/>
+                <TextBlock x:Name="TxtAZCoord" Text="NaN" FontSize="14" Margin="5,0,0,0"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <TextBlock Text="B coordinates" FontWeight="Bold" FontSize="16"/>
+                <TextBlock Text="Plateau" FontWeight="Bold" FontSize="14"/>
+                <TextBlock x:Name="TxtBPCoord" Text="NaN" FontSize="14" Margin="5,0,0,0"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <TextBlock Text="X_coord" FontWeight="Bold" FontSize="14"/>
+                <TextBlock x:Name="TxtBXCoord" Text="NaN" FontSize="14" Margin="5,0,0,0"/>
+                <TextBlock Text="Y_coord" FontWeight="Bold" FontSize="14"/>
+                <TextBlock x:Name="TxtBYCoord" Text="NaN" FontSize="14" Margin="5,0,0,0"/>
+                <TextBlock Text="Z_coord" FontWeight="Bold" FontSize="14"/>
+                <TextBlock x:Name="TxtBZCoord" Text="NaN" FontSize="14" Margin="5,0,0,0"/>
+            </StackPanel>
+
             <Button x:Name="BtnHardReset" Content="Hard Reset" Width="100" Height="40" Margin="5,150,5,5" Click="BtnHardReset_Click" Background="#eb878e"/>
         </StackPanel>
         
