@@ -71,8 +71,8 @@
             </StackPanel>
 
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <Button x:Name="BtnAnalyseVisionADone" Content="An. Vis. A Done" Width="100" Height="40" Margin="5,20,5,5" Click="AnalyseVisionADone_Click" IsEnabled="False" Background="#d5bbe0"/>
-                <Button x:Name="BtnAnalyseVisionBDone" Content="An. Vis. B Done" Width="100" Height="40" Margin="5,5,5,5" Click="AnalyseVisionBDone_Click" IsEnabled="False" Background="#d5bbe0"/>
+                <Button x:Name="BtnAnalyseVisionADone" Content="An. Vis. A Done" Width="100" Height="40" Margin="5,40,5,5" Click="AnalyseVisionADone_Click" IsEnabled="False" Background="#d5bbe0"/>
+                <Button x:Name="BtnAnalyseVisionBDone" Content="An. Vis. B Done" Width="100" Height="40" Margin="5,40,5,5" Click="AnalyseVisionBDone_Click" IsEnabled="False" Background="#d5bbe0"/>
             </StackPanel>
 
             <Button x:Name="BtnHardReset" Content="Hard Reset" Width="100" Height="40" Margin="5,150,5,5" Click="BtnHardReset_Click" Background="#eb878e"/>
