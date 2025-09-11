@@ -576,7 +576,7 @@ namespace ModbusTCP_Simplified
                 Console.WriteLine($"Error sending coordinates: {ex.Message}");
             }
 
-            Console.WriteLine($"Computed coordinates: X={x_coord}, Y={y_coord}");
+            Console.WriteLine($"Computed coordinates: X={x_coord_mm}, Y={y_coord_mm}");
         }
 
         public async Task HardResetAsync()
