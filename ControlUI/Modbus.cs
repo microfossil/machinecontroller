@@ -63,7 +63,7 @@ namespace ModbusTCP_Simplified
 
             timer = new DispatcherTimer
             {
-                Interval = TimeSpan.FromMilliseconds(500) // Poll every 500 ms
+                Interval = TimeSpan.FromMilliseconds(1500) // Poll every 500 ms
             };
             timer.Tick += Timer_Tick;
         }
@@ -510,9 +510,22 @@ namespace ModbusTCP_Simplified
             {
                 int newValue = SetBit(Word91, 0); // Word91 updated by PollAsync()
                 await WriteSingleRegisterAsync(91, newValue);
-                DoneFlag = true; // Set the flag to true when done
 
-                // TODO Check to reset the bit to 0
+                // Bit requestAnalyseVisionA is constantly tracked and once it is false, we reset 
+                await Task.Run(async () =>
+                {
+                    while (true)
+                    {
+                        if (!RequestAnalyseVisionA) // Once RequestAnalyseVisionA is false, reset the bit Analyse Done
+                        {
+                            int resetValue = ClearBit(newValue, 0);
+                            await WriteSingleRegisterAsync(91, resetValue);
+                            DoneFlag = true;
+                            break;
+                        }
+                        await Task.Delay(200); // wait before reading again (avoids saturating CPU)
+                    }
+                });
 
                 Console.WriteLine($"\nWORD91.0 (Cde_Auto.AnalyseVisionA) analyse vision A done sent");
             }
@@ -533,9 +546,22 @@ namespace ModbusTCP_Simplified
             {
                 int newValue = SetBit(Word91, 1); // Word91 updated by PollAsync()
                 await WriteSingleRegisterAsync(91, newValue);
-                DoneFlag = true; // Set the flag to true when done
 
-                // TODO Check to reset the bit to 0
+                // Bit requestAnalyseVisionB is constantly tracked and once it is false, we reset
+                await Task.Run(async () =>
+                {
+                    while (true)
+                    {
+                        if (!RequestAnalyseVisionB) // Once RequestAnalyseVisionB is false, reset the bit Analyse Done
+                        {
+                            int resetValue = ClearBit(newValue, 1);
+                            await WriteSingleRegisterAsync(91, resetValue);
+                            DoneFlag = true;
+                            break;
+                        }
+                        await Task.Delay(200); // wait before reading again (avoids saturating CPU)
+                    }
+                });
 
                 Console.WriteLine($"\nWORD91.0 (Cde_Auto.AnalyseVisionA) analyse vision A done sent");
             }
@@ -555,19 +581,23 @@ namespace ModbusTCP_Simplified
 
             int x_coord_mm = 30 * (x_multiple_slide - 1) + 6 * (x_multiple_cavity - 1);
             int y_coord_mm = 84 * (y_multiple_slide - 1) + 6 * (y_multiple_cavity - 1);
+            int z_coord_mm = 70;
 
-            int x_coord_µm = x_coord_mm * 1000; // Convert to micrometers
-            int y_coord_µm = y_coord_mm * 1000; // Convert to micrometers
+            int x_coord_cmm = x_coord_mm * 100; // Convert to 100th of milimeters
+            int y_coord_cmm = y_coord_mm * 100; // Convert to 100th of milimeters
+            int z_coord_cmm = z_coord_mm * 100; // Convert to 100th of milimeters
 
             try
             {
                 await WriteSingleRegisterAsync(96, plateau_nb);  // Destination_A_Plateau
-                await WriteSingleRegisterAsync(97, x_coord_mm); // Destination_A_X
-                await WriteSingleRegisterAsync(98, y_coord_mm); // Destination_A_Y
+                await WriteSingleRegisterAsync(97, x_coord_cmm); // Destination_A_X
+                await WriteSingleRegisterAsync(98, y_coord_cmm); // Destination_A_Y
+                await WriteSingleRegisterAsync(99, z_coord_cmm); // Destination_A_Y
 
                 await WriteSingleRegisterAsync(100, plateau_nb);  // Destination_B_Plateau
-                await WriteSingleRegisterAsync(101, x_coord_mm); // Destination_B_X
-                await WriteSingleRegisterAsync(102, y_coord_mm); // Destination_B_Y
+                await WriteSingleRegisterAsync(101, x_coord_cmm); // Destination_B_X
+                await WriteSingleRegisterAsync(102, y_coord_cmm); // Destination_B_Y
+                await WriteSingleRegisterAsync(103, z_coord_cmm); // Destination_B_Z
 
                 Console.WriteLine($"\nCoordinates sent to GEMMA: Plateau={plateau_nb}, X={x_coord_mm} mm, Y={y_coord_mm} mm");
             }
@@ -617,9 +647,12 @@ namespace ModbusTCP_Simplified
                 Console.WriteLine($"\nError setting Auto mode: {ex.Message}");
             }
         }
+        //------------------------------------------------------------------------------------------
 
-        // Write specific bit in a word
-        public async Task WriteBitAsync(int wordNumber, int bitIndex, bool value, string role="Unknown")
+
+        /// Read / Write methods
+        //------------------------------------------------------------------------------------------
+        public async Task WriteBitAsync(int wordNumber, int bitIndex, bool value, string role = "Unknown")
         {
             if (!IsConnected)
             {
@@ -642,7 +675,7 @@ namespace ModbusTCP_Simplified
             }
         }
 
-        public async Task WriteWordAsync(int wordNumber, int value, string role="Unknown")
+        public async Task WriteWordAsync(int wordNumber, int value, string role = "Unknown")
         {
             if (!IsConnected)
             {
@@ -661,10 +694,7 @@ namespace ModbusTCP_Simplified
                 Console.WriteLine($"\nError writing to WORD{wordNumber}: {ex.Message}");
             }
         }
-        //----------------------------------------------------------------------------------------
 
-        /// Read / Write methods
-        //------------------------------------------------------------------------------------------
         public async Task<int> ReadHoldingRegisterAsync(int address)
         {
             if (!IsConnected)
@@ -884,7 +914,7 @@ namespace ModbusTCP_Simplified
                 return (bit) => (string)method.Invoke(this, new object[] { bit });
             return (bit) => $"Bit {bit} - Non défini pour WORD{wordNumber}";
         }
-        
+
 
         /// Get GEMMA description - hex-based encoding
         public string GetGEMMADescription(int mode)
@@ -1454,6 +1484,107 @@ namespace ModbusTCP_Simplified
                 13 => "Cde_Auto.Vision_B_Eclairage2 - Demande Eclairage vision B (Section 2)",
                 14 => "Cde_Auto.Vision_B_Eclairage3 - Demande Eclairage vision B (Section 3)",
                 15 => "Cde_Auto.Vision_B_Eclairage4 - Demande Eclairage vision B (Section 4)",
+                _ => "Réserve"
+            };
+        }
+
+        // Alarm words
+        private string GetBitNameWord70(int bit)
+        {
+            return bit switch
+            {
+                0 => "Alarme_1100 Arrêt d'urgence Enclenché",
+                1 => "Alarme_1101 Pneumatique faible",
+                2 => "Alarme_1102 Machine non réarmée",
+                3 => "Alarme_1103 Défaut 24V",
+                4 => "Alarme_1104 Défaut variateur Indexeur",
+                5 => "Alarme_1105 Défaut variateur Analyseur",
+                6 => "Alarme_1106 Défaut variateur Manip_XY",
+                7 => "Alarme_1107 Défaut variateur Manip_Z",
+                8 => "Alarme_1108 Défaut variateur Vision_Z",
+                9 => "Alarme_1109 Indexeur non référencé",
+                10 => "Alarme_1110 Analyseur non référencé",
+                11 => "Alarme_1111 Manip_XY non référencé",
+                12 => "Alarme_1112 Manip_Z non référencé",
+                13 => "Alarme_1113 Vision_Z non référencé",
+                _ => "Réserve"
+            };
+        }
+
+        private string GetBitNameWord71(int bit)
+        {
+            return bit switch
+            {
+                0 => "Alarme_1116 Timeout Fermeture Pince déverseur",
+                1 => "Alarme_1117 Timeout Ouverture Pince déverseur",
+                2 => "Alarme_1118 Timeout Contrôle Pince déverseur",
+                3 => "Alarme_1119 Timeout Fermeture Pince manipulateur",
+                4 => "Alarme_1120 Timeout Ouverture Pince manipulateur",
+                5 => "Alarme_1121 Timeout Contrôle Pince manipulateur",
+                6 => "Alarme_1122 Timeout Descendre vérin déverseur",
+                7 => "Alarme_1123 Timeout Monter vérin déverseur",
+                8 => "Alarme_1124 Incohérence capteurs vérin Descendre déverseur",
+                9 => "Alarme_1125 Timeout vérin avancer déverseur",
+                10 => "Alarme_1126 Timeout vérin reculer déverseur",
+                11 => "Alarme_1127 Incohérence capteurs vérin avancer/reculer déverseur",
+                12 => "Alarme_1128 Timeout vérin rotation 180 déverseur",
+                13 => "Alarme_1129 Timeout vérin rotation 0 déverseur",
+                14 => "Alarme_1130 Incohérence capteurs vérin rotation déverseur",
+                _ => "Réserve"
+            };
+        }
+
+        private string GetBitNameWord72(int bit)
+        {
+            return bit switch
+            {
+                0 => "Alarme_1132 Timeout vérin sortir basculeur nettoyage",
+                1 => "Alarme_1133 Timeout vérin rentrer basculeur nettoyage",
+                2 => "Alarme_1134 Incohérence capteurs vérin sortir/rentrer basculeur nettoyage",
+                3 => "Alarme_1135 Timeout vérin rotation 180 balayage nettoyage",
+                4 => "Alarme_1136 Timeout vérin rotation 0 balayage nettoyage",
+                5 => "Alarme_1137 Incohérence capteurs vérin rotation balayage nettoyage",
+                _ => "Réserve"
+            };
+        }
+
+        private string GetBitNameWord73(int bit)
+        {
+            return bit switch
+            {
+                0 => "Alarme_1148 Grafcet Main en défaut",
+                1 => "Alarme_1149 Grafcet Initialisation en défaut",
+                2 => "Alarme_1150 Grafcet Manip_Depose_Analyseur en défaut",
+                3 => "Alarme_1151 Grafcet Manip_Depose_Rack en défaut",
+                4 => "Alarme_1152 Grafcet Manip_Depose_Rebut en défaut",
+                5 => "Alarme_1153 Grafcet Manip_Depose_particule_A en défaut",
+                6 => "Alarme_1154 Grafcet Manip_Depose_particule_B en défaut",
+                7 => "Alarme_1155 Grafcet Manip_Controle_Fiole_Analyseur en défaut",
+                8 => "Alarme_1156 Grafcet Manip_Controle_Fiole_Rack en défaut",
+                9 => "Alarme_1157 Grafcet Manip_Controle_Fiole_Rebut en défaut",
+                10 => "Alarme_1158 Grafcet Manip_Prise_Fiole_Analyseur en défaut",
+                11 => "Alarme_1159 Grafcet Manip_Prise_Fiole_Rack en défaut",
+                12 => "Alarme_1160 Grafcet Manip_Prise_Fiole_Rebut en défaut",
+                13 => "Alarme_1161 Grafcet Manip_Prise_particule_A en défaut",
+                14 => "Alarme_1162 Grafcet Manip_Prise_particule_B en défaut",
+                15 => "Alarme_1163 Grafcet Deverseur_Prise en défaut",
+                _ => "Réserve"
+            };
+        }
+
+        private string GetBitNameWord74(int bit)
+        {
+            return bit switch
+            {
+                0 => "Alarme_1164 Grafcet Deverseur_Vider en défaut",
+                1 => "Alarme_1165 Grafcet Deverseur_Depose en défaut",
+                2 => "Alarme_1166 Grafcet Analyseur en défaut",
+                3 => "Alarme_1167 Grafcet Analyseur_Vision_A en défaut",
+                4 => "Alarme_1168 Grafcet Analyseur_Vision_B en défaut",
+                5 => "Alarme_1169 Grafcet reception_particule en défaut",
+                6 => "Alarme_1170 Grafcet Nettoyage_Auto en défaut",
+                7 => "Alarme_1171 Grafcet Aspiration_entonoir en défaut",
+                8 => "Alarme_1172 Grafcet Vidange en défaut",
                 _ => "Réserve"
             };
         }
