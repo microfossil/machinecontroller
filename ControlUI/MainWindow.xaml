@@ -185,6 +185,10 @@
 
             <Separator Margin="0,50,0,0" />
 
+            <Button x:Name="BtnStopVidange" Content="Stop Vidange" Width="100" Height="40" Margin="5,10,5,5" Click="StopVidange_Click" Background="#eb878e"/>
+
+            <Separator Margin="0,50,0,0" />
+
             <Button x:Name="BtnHardReset" Content="Hard Reset" Width="100" Height="40" Margin="5,50,5,5" Click="BtnHardReset_Click" Background="#eb878e"/>
         </StackPanel>
 

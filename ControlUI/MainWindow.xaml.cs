@@ -176,6 +176,12 @@ namespace ControlUI
             await Modbus.StopCollectAsync();
         }
 
+        private async void StopVidange_Click(object sender, RoutedEventArgs e)
+        {
+            TxtStatus.Text = "Cde_Auto.StopVidange\nstop vidange";
+            await Modbus.StopVidangeAsync();
+        }
+
         private async void BtnHardReset_Click(object sender, RoutedEventArgs e)
         {
             TxtStatus.Text = "Cde_Auto.HardReset\nhard reset";

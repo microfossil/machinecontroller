@@ -528,6 +528,32 @@ namespace ModbusTCP_Simplified
             }
         }
 
+        public async Task StopVidangeAsync()
+        {
+            if (!IsConnected)
+            {
+                Console.WriteLine("Cannot write - Modbus not connected");
+                return;
+            }
+            try
+            {
+                int newValue = SetBit(Word90, 8); // Word90 updated by PollAsync()
+                await WriteSingleRegisterAsync(90, newValue);
+
+                await Task.Delay(500);
+                int resetValue = ClearBit(newValue, 8);
+                await WriteSingleRegisterAsync(90, resetValue);
+
+                Console.WriteLine($"\nWORD90.8 (Cde_Auto.Vidange_Stop) stop vidange");
+
+                // Wait until the bit should be reset (customize condition as needed)
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error during StopVidange: {ex.Message}");
+            }
+        }
+
 
         public async Task AnalyseVisionADoneAsync()
         {
