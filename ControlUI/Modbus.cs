@@ -170,8 +170,8 @@ namespace ModbusTCP_Simplified
                 TxtWord90 = GetTxtWord(90);
 
                 Word91 = await ReadHoldingRegisterAsync(91);
-                VisionPresenceADone = GetBit(Word91, 2);
-                VisionPresenceBDone = GetBit(Word91, 3);
+                VisionPresenceADone = GetBit(Word91, 4);
+                VisionPresenceBDone = GetBit(Word91, 5);
 
                 Dest_P_A = await ReadHoldingRegisterAsync(96); //Destination_A_Plateau 
                 Dest_X_A = await ReadHoldingRegisterAsync(97); // Destination_A_X
