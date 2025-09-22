@@ -1,11 +1,13 @@
 ﻿<Window x:Class="ControlUI.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Machine Control" Height="600" Width="1100">
+        Title="Machine Control" Height="600" Width="1500">
 
     <Grid>
 
         <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
@@ -197,6 +199,107 @@
             <TextBlock x:Name="TxtWord90" 
                 Text="NaN"
                 FontSize="14"/>
+        </StackPanel>
+
+        <Border Grid.Column="2" BorderBrush="Black" BorderThickness="1,0,0,0"/>
+
+        <StackPanel Grid.Column="4" HorizontalAlignment="Center" VerticalAlignment="Center">
+
+            <TextBlock Text="Repetition Nettoyage:" FontWeight="Bold" FontSize="16" Margin="0,20,0,0"/>
+            <TextBlock x:Name="TxtRepetitionNettoyage" Text="NaN" FontSize="14"/>
+            <StackPanel Orientation="Horizontal">
+                <TextBox x:Name="RepetitionNettoyageInput" Width="80" Margin="0,5,10,0"/>
+                <Button Content="Validate" Margin="0,5,0,0" Click="ValidateRepetitionNettoyage_Click"/>
+            </StackPanel>
+
+            <TextBlock Text="Axe Vision Z position:" FontWeight="Bold" FontSize="16" Margin="0,20,0,0"/>
+            <TextBlock x:Name="TxtAxeVisionZPosition" Text="NaN" FontSize="14"/>
+            <StackPanel Orientation="Horizontal">
+                <TextBox x:Name="AxeVisionZPositionInput" Width="80" Margin="0,5,10,0"/>
+                <Button Content="Validate" Margin="0,5,0,0" Click="ValidateAxeVisionZPosition_Click"/>
+            </StackPanel>
+
+            <TextBlock Text="Vibration Bol:" FontWeight="Bold" FontSize="16" Margin="0,20,0,0"/>
+            <TextBlock x:Name="TxtVibrationBol" Text="NaN" FontSize="14"/>
+            <StackPanel Orientation="Horizontal">
+                <TextBox x:Name="VibrationBolInput" Width="80" Margin="0,5,10,0"/>
+                <Button Content="Validate" Margin="0,5,0,0" Click="ValidateVibrationBol_Click"/>
+            </StackPanel>
+
+            <TextBlock Text="Vibration rail 1:" FontWeight="Bold" FontSize="16" Margin="0,20,0,0"/>
+            <TextBlock x:Name="TxtVibrationRail1" Text="NaN" FontSize="14"/>
+            <StackPanel Orientation="Horizontal">
+                <TextBox x:Name="VibrationRail1Input" Width="80" Margin="0,5,10,0"/>
+                <Button Content="Validate" Margin="0,5,0,0" Click="ValidateVibrationRail1_Click"/>
+            </StackPanel>
+
+            <TextBlock Text="Vibration rail 2:" FontWeight="Bold" FontSize="16" Margin="0,20,0,0"/>
+            <TextBlock x:Name="TxtVibrationRail2" Text="NaN" FontSize="14"/>
+            <StackPanel Orientation="Horizontal">
+                <TextBox x:Name="VibrationRail2Input" Width="80" Margin="0,5,10,0"/>
+                <Button Content="Validate" Margin="0,5,0,0" Click="ValidateVibrationRail2_Click"/>
+            </StackPanel>
+        </StackPanel>
+
+        <Border Grid.Column="2" BorderBrush="Black" BorderThickness="1,0,0,0"/>
+
+        <Border Grid.Column="5" BorderBrush="Black" BorderThickness="1,0,0,0"/>
+            <TextBlock Text="Temps aspiration:" FontWeight="Bold" FontSize="16" Margin="0,20,0,0"/>
+            <TextBlock x:Name="TxtTempsAspiration" Text="NaN" FontSize="14"/>
+            <StackPanel Orientation="Horizontal">
+                <TextBox x:Name="TempsAspirationInput" Width="80" Margin="0,5,10,0"/>
+                <Button Content="Validate" Margin="0,5,0,0" Click="ValidateTempsAspiration_Click"/>
+            </StackPanel>
+
+            <TextBlock Text="Temps soufflage:" FontWeight="Bold" FontSize="16" Margin="0,20,0,0"/>
+            <TextBlock x:Name="TxtTempsSoufflage" Text="NaN" FontSize="14"/>
+            <StackPanel Orientation="Horizontal">
+                <TextBox x:Name="TempsSoufflageInput" Width="80" Margin="0,5,10,0"/>
+                <Button Content="Validate" Margin="0,5,0,0" Click="ValidateTempsSoufflage_Click"/>
+            </StackPanel>
+
+            <TextBlock Text="Nb Max Particule Non Vue:" FontWeight="Bold" FontSize="16" Margin="0,20,0,0"/>
+            <TextBlock x:Name="TxtNbMaxParticuleNonVue" Text="NaN" FontSize="14"/>
+            <StackPanel Orientation="Horizontal">
+                <TextBox x:Name="NbMaxParticuleNonVueInput" Width="80" Margin="0,5,10,0"/>
+                <Button Content="Validate" Margin="0,5,0,0" Click="ValidateNbMaxParticuleNonVue_Click"/>
+            </StackPanel>
+
+            <TextBlock Text="Temps vibration convoyage vide:" FontWeight="Bold" FontSize="16" Margin="0,20,0,0"/>
+            <TextBlock x:Name="TxtTempsVibrationConvoyageVide" Text="NaN" FontSize="14"/>
+            <StackPanel Orientation="Horizontal">
+                <TextBox x:Name="TempsVibrationConvoyageVideInput" Width="80" Margin="0,5,10,0"/>
+                <Button Content="Validate" Margin="0,5,0,0" Click="ValidateTempsVibrationConvoyageVide_Click"/>
+            </StackPanel>
+
+            <TextBlock Text="Temps espacement rail 1:" FontWeight="Bold" FontSize="16" Margin="0,20,0,0"/>
+            <TextBlock x:Name="TxtTempsEspacementRail1" Text="NaN" FontSize="14"/>
+            <StackPanel Orientation="Horizontal">
+                <TextBox x:Name="TempsEspacementRail1Input" Width="80" Margin="0,5,10,0"/>
+                <Button Content="Validate" Margin="0,5,0,0" Click="ValidateTempsEspacementRail1_Click"/>
+            </StackPanel>
+
+            <TextBlock Text="Temps espacement rail 2:" FontWeight="Bold" FontSize="16" Margin="0,20,0,0"/>
+            <TextBlock x:Name="TxtTempsEspacementRail2" Text="NaN" FontSize="14"/>
+            <StackPanel Orientation="Horizontal">
+                <TextBox x:Name="TempsEspacementRail2Input" Width="80" Margin="0,5,10,0"/>
+                <Button Content="Validate" Margin="0,5,0,0" Click="ValidateTempsEspacementRail2_Click"/>
+            </StackPanel>
+
+            <TextBlock Text="Vibration Amorcage Vidange:" FontWeight="Bold" FontSize="16" Margin="0,20,0,0"/>
+            <TextBlock x:Name="TxtVibrationAmorcageVidange" Text="NaN" FontSize="14"/>
+            <StackPanel Orientation="Horizontal">
+                <TextBox x:Name="VibrationAmorcageVidangeInput" Width="80" Margin="0,5,10,0"/>
+                <Button Content="Validate" Margin="0,5,0,0" Click="ValidateVibrationAmorcageVidange_Click"/>
+            </StackPanel>
+
+            <TextBlock Text="Temps Amorcage:" FontWeight="Bold" FontSize="16" Margin="0,20,0,0"/>
+            <TextBlock x:Name="TxtTempsAmorcage" Text="NaN" FontSize="14"/>
+            <StackPanel Orientation="Horizontal">
+                <TextBox x:Name="TempsAmorcageInput" Width="80" Margin="0,5,10,0"/>
+                <Button Content="Validate" Margin="0,5,0,0" Click="ValidateTempsAmorcage_Click"/>
+            </StackPanel>
+
         </StackPanel>
 
     </Grid>
