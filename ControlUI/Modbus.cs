@@ -23,6 +23,45 @@ namespace ModbusTCP_Simplified
         public bool IsConnected { get; private set; }
         public bool Enabled { get; private set; }
         public bool DoneFlag { get; set; }
+        public int Word0 { get; private set; }
+        public bool RequestAnalyseVisionA { get; private set; }
+        public bool RequestAnalyseVisionB { get; private set; }
+        public bool RequestControlVoidA { get; private set; }
+        public bool RequestControlVoidB { get; private set; }
+        public string TxtWord0 { get; private set; }
+
+        public int GemmaMode { get; private set; }
+
+        public int Word90 { get; private set; }
+        public string TxtWord90 { get; private set; }
+
+        public int Word91 { get; private set; }
+
+        public int Dest_P_A { get; private set; }
+        public int Dest_X_A { get; private set; }
+        public int Dest_Y_A { get; private set; }
+        public int Dest_Z_A { get; private set; }
+        public int Dest_P_B { get; private set; }
+        public int Dest_X_B { get; private set; }
+        public int Dest_Y_B { get; private set; }
+        public int Dest_Z_B { get; private set; }
+
+        public int Repetition_Nettoyage { get; private set; }
+        public int FioleNumber { get; private set; }
+        public int Axe_Vision_Z_position { get; private set; }
+        public int Vibration_Bol { get; private set; }
+        public int Vibration_rail_1 { get; private set; }
+        public int Vibration_rail_2 { get; private set; }
+        public int Temps_aspiration { get; private set; }
+        public int Temps_soufflage { get; private set; }
+        public int NbMaxParticule_Non_Vue { get; private set; }
+        public int Temps_vibration_convoyage_vide { get; private set; }
+        public int Temps_espacement_rail_1 { get; private set; }
+        public int Temps_espacement_rail_2 { get; private set; }
+        public int Vibration_AmorcageVidange { get; private set; }
+        public int Temps_Amorcage { get; private set; }
+
+        public int StepCyclePrincipal { get; private set; }
 
         public Modbus()
         {
@@ -119,47 +158,47 @@ namespace ModbusTCP_Simplified
 
             try
             {
-                int Word0 = await ReadHoldingRegisterAsync(0);
-                bool RequestAnalyseVisionA = GetBit(Word0, 0);
-                bool RequestAnalyseVisionB = GetBit(Word0, 1);
-                bool RequestControlVoidA = GetBit(Word0, 2);
-                bool RequestControlVoidB = GetBit(Word0, 3);
-                string TxtWord0 = GetTxtWord(0);
+                Word0 = await ReadHoldingRegisterAsync(0);
+                RequestAnalyseVisionA = GetBit(Word0, 0);
+                RequestAnalyseVisionB = GetBit(Word0, 1);
+                RequestControlVoidA = GetBit(Word0, 2);
+                RequestControlVoidB = GetBit(Word0, 3);
+                TxtWord0 = GetTxtWord(0);
 
-                int GemmaMode = await ReadHoldingRegisterAsync(1);
+                GemmaMode = await ReadHoldingRegisterAsync(1);
 
-                int Word90 = await ReadHoldingRegisterAsync(90);
-                string TxtWord90 = GetTxtWord(90);
+                Word90 = await ReadHoldingRegisterAsync(90);
+                TxtWord90 = GetTxtWord(90);
 
-                int Word91 = await ReadHoldingRegisterAsync(91);
+                Word91 = await ReadHoldingRegisterAsync(91);
 
-                int Dest_P_A = await ReadHoldingRegisterAsync(96); //Destination_A_Plateau 
-                int Dest_X_A = await ReadHoldingRegisterAsync(97); // Destination_A_X
-                int Dest_Y_A = await ReadHoldingRegisterAsync(98); // Destination_A_Y
-                int Dest_Z_A = await ReadHoldingRegisterAsync(99); // Destination_A_Z
-                int Dest_P_B = await ReadHoldingRegisterAsync(100); // Destination_B_Plateau
-                int Dest_X_B = await ReadHoldingRegisterAsync(101); // Destination_B_X
-                int Dest_Y_B = await ReadHoldingRegisterAsync(102); // Destination_B_Y
-                int Dest_Z_B = await ReadHoldingRegisterAsync(103); // Destination_B_Z
+                Dest_P_A = await ReadHoldingRegisterAsync(96); //Destination_A_Plateau 
+                Dest_X_A = await ReadHoldingRegisterAsync(97); // Destination_A_X
+                Dest_Y_A = await ReadHoldingRegisterAsync(98); // Destination_A_Y
+                Dest_Z_A = await ReadHoldingRegisterAsync(99); // Destination_A_Z
+                Dest_P_B = await ReadHoldingRegisterAsync(100); // Destination_B_Plateau
+                Dest_X_B = await ReadHoldingRegisterAsync(101); // Destination_B_X
+                Dest_Y_B = await ReadHoldingRegisterAsync(102); // Destination_B_Y
+                Dest_Z_B = await ReadHoldingRegisterAsync(103); // Destination_B_Z
 
-                int Repetition_Nettoyage = await ReadHoldingRegisterAsync(104);
-                int FioleNumber = await ReadHoldingRegisterAsync(105);
-                int Axe_Vision_Z_position = await ReadHoldingRegisterAsync(106);
-                int Vibration_Bol = await ReadHoldingRegisterAsync(107);
-                int Vibration_rail_1 = await ReadHoldingRegisterAsync(108);
-                int Vibration_rail_2 = await ReadHoldingRegisterAsync(109);
-                int Temps_aspiration = await ReadHoldingRegisterAsync(110);
-                int Temps_soufflage = await ReadHoldingRegisterAsync(111);
-                int NbMaxParticule_Non_Vue = await ReadHoldingRegisterAsync(112);
-                int Temps_vibration_convoyage_vide = await ReadHoldingRegisterAsync(113);
-                int Temps_espacement_rail_1 = await ReadHoldingRegisterAsync(114);
-                int Temps_espacement_rail_2 = await ReadHoldingRegisterAsync(115);
-                int Vibration_AmorcageVidange = await ReadHoldingRegisterAsync(116);
-                int Temps_Amorcage = await ReadHoldingRegisterAsync(117);
+                Repetition_Nettoyage = await ReadHoldingRegisterAsync(104);
+                FioleNumber = await ReadHoldingRegisterAsync(105);
+                Axe_Vision_Z_position = await ReadHoldingRegisterAsync(106);
+                Vibration_Bol = await ReadHoldingRegisterAsync(107);
+                Vibration_rail_1 = await ReadHoldingRegisterAsync(108);
+                Vibration_rail_2 = await ReadHoldingRegisterAsync(109);
+                Temps_aspiration = await ReadHoldingRegisterAsync(110);
+                Temps_soufflage = await ReadHoldingRegisterAsync(111);
+                NbMaxParticule_Non_Vue = await ReadHoldingRegisterAsync(112);
+                Temps_vibration_convoyage_vide = await ReadHoldingRegisterAsync(113);
+                Temps_espacement_rail_1 = await ReadHoldingRegisterAsync(114);
+                Temps_espacement_rail_2 = await ReadHoldingRegisterAsync(115);
+                Vibration_AmorcageVidange = await ReadHoldingRegisterAsync(116);
+                Temps_Amorcage = await ReadHoldingRegisterAsync(117);
 
                 // TxtWord91 = GetTxtWord(91);
 
-                int StepCyclePrincipal = await ReadHoldingRegisterAsync(10);
+                StepCyclePrincipal = await ReadHoldingRegisterAsync(10);
 
                 Console.WriteLine($"[Poll] GEMMA={GemmaMode:X2}, Auto/Man={Word90}, Vial={FioleNumber}");
             }
