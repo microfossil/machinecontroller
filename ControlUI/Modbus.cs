@@ -579,13 +579,13 @@ namespace ModbusTCP_Simplified
                 return;
             }
 
-            int x_coord_mm = 30 * (x_multiple_slide - 1) + 6 * (x_multiple_cavity - 1);
-            int y_coord_mm = 84 * (y_multiple_slide - 1) + 6 * (y_multiple_cavity - 1);
-            int z_coord_mm = 70;
+            uint x_coord_mm = 30 * (x_multiple_slide - 1) + 6 * (x_multiple_cavity - 1);
+            uint y_coord_mm = 84 * (y_multiple_slide - 1) + 6 * (y_multiple_cavity - 1);
+            uint z_coord_mm = 70;
 
-            int x_coord_cmm = x_coord_mm * 100; // Convert to 100th of milimeters
-            int y_coord_cmm = y_coord_mm * 100; // Convert to 100th of milimeters
-            int z_coord_cmm = z_coord_mm * 100; // Convert to 100th of milimeters
+            uint x_coord_cmm = x_coord_mm * 100; // Convert to 100th of milimeters
+            uint y_coord_cmm = y_coord_mm * 100; // Convert to 100th of milimeters
+            uint z_coord_cmm = z_coord_mm * 100; // Convert to 100th of milimeters
 
             try
             {
