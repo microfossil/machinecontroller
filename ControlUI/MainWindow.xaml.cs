@@ -49,7 +49,7 @@ namespace ControlUI
                 TxtGEMMAMode.Text = $"{Modbus.GemmaMode} (decimal)\n{Modbus.GemmaMode:X2} (hexa)\n({Modbus.GetGEMMADescription(Modbus.GemmaMode)})";
                 TxtFiole.Text = $"Vial n°{Modbus.FioleNumber}";
                 TxtRepetitionNettoyage.Text = $"{Modbus.Repetition_Nettoyage}";
-                TxtAxeVisionZPosition.Text = $"{Modbus.Axe_Vision_Z_position}mm";
+                TxtAxeVisionZPosition.Text = $"{(ushort)Modbus.Axe_Vision_Z_position/100}mm";
                 TxtVibrationBol.Text = $"{Modbus.Vibration_Bol}%";
                 TxtVibrationRail1.Text = $"{Modbus.Vibration_rail_1}%";
                 TxtVibrationRail2.Text = $"{Modbus.Vibration_rail_2}%";

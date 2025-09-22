@@ -710,7 +710,9 @@ namespace ModbusTCP_Simplified
             }
             try
             {
-                await WriteSingleRegisterAsync(106, value);
+                int z_vision_mm = value;
+                int z_coord_cmm = z_vision_mm * 100; // Convert to 100th of milimeters
+                await WriteSingleRegisterAsync(106, z_coord_cmm);
                 Console.WriteLine($"\nWORD106 (Axe Vision Z Position) set to {value}");
             }
             catch (Exception ex)
