@@ -185,7 +185,7 @@
 
             <Separator Margin="0,50,0,0" />
 
-            <Button x:Name="BtnStopVidange" Content="Stop Vidange" Width="100" Height="40" Margin="5,10,5,5" Click="StopVidange_Click" Background="#eb878e"/>
+            <Button x:Name="BtnStopVidange" Content="Stop Vidange" Width="100" Height="40" Margin="5,50,5,5" Click="StopVidange_Click" Background="#e3b985"/>
 
             <Separator Margin="0,50,0,0" />
 
@@ -241,18 +241,18 @@
                 <TextBox x:Name="VibrationRail2Input" Width="80" Margin="0,5,10,0"/>
                 <Button Content="Validate" Margin="0,5,0,0" Click="ValidateVibrationRail2_Click"/>
             </StackPanel>
-        </StackPanel>
 
-        <Border Grid.Column="5" BorderBrush="Black" BorderThickness="1,0,0,0"/>
-
-        <StackPanel Grid.Column="5" HorizontalAlignment="Center" VerticalAlignment="Center">
             <TextBlock Text="Temps aspiration:" FontWeight="Bold" FontSize="16" Margin="0,20,0,0"/>
             <TextBlock x:Name="TxtTempsAspiration" Text="NaN" FontSize="14"/>
             <StackPanel Orientation="Horizontal">
                 <TextBox x:Name="TempsAspirationInput" Width="80" Margin="0,5,10,0"/>
                 <Button Content="Validate" Margin="0,5,0,0" Click="ValidateTempsAspiration_Click"/>
             </StackPanel>
+        </StackPanel>
 
+        <Border Grid.Column="5" BorderBrush="Black" BorderThickness="1,0,0,0"/>
+
+        <StackPanel Grid.Column="5" HorizontalAlignment="Center" VerticalAlignment="Center">
             <TextBlock Text="Temps soufflage:" FontWeight="Bold" FontSize="16" Margin="0,20,0,0"/>
             <TextBlock x:Name="TxtTempsSoufflage" Text="NaN" FontSize="14"/>
             <StackPanel Orientation="Horizontal">
