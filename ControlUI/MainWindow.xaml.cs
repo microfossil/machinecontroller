@@ -77,8 +77,8 @@ namespace ControlUI
                 LedRequestAnalyseVisionA.Fill = Modbus.RequestAnalyseVisionA ? Brushes.LimeGreen : Brushes.Red;
                 LedRequestAnalyseVisionB.Fill = Modbus.RequestAnalyseVisionB ? Brushes.LimeGreen : Brushes.Red;
 
-                LedVisionCtrlVideADone.Fill = Modbus.VisionCtrlVideADone ? Brushes.LimeGreen : Brushes.Red;
-                LedVisionCtrlVideBDone.Fill = Modbus.VisionCtrlVideBDone ? Brushes.LimeGreen : Brushes.Red;
+                LedVisionPresenceADone.Fill = Modbus.VisionPresenceADone ? Brushes.LimeGreen : Brushes.Red;
+                LedVisionPresenceBDone.Fill = Modbus.VisionPresenceBDone ? Brushes.LimeGreen : Brushes.Red;
 
                 if (Modbus.DoneFlag)
                 {
@@ -102,24 +102,24 @@ namespace ControlUI
                 if (Modbus.RequestAnalyseVisionA)
                 {
                     BtnAnalyseVisionADone.IsEnabled = true;
-                    BtnVisionCtrlVideADone.IsEnabled = true;
+                    BtnVisionPresenceADone.IsEnabled = true;
                 }
                 else
                 {
                     BtnAnalyseVisionADone.IsEnabled = false;
-                    BtnVisionCtrlVideADone.IsEnabled = false;
+                    BtnVisionPresenceADone.IsEnabled = false;
                 }
 
                 // Activate Btn AnalyseVisionBDone when RequestAnalyseVisionB is true
                 if (Modbus.RequestAnalyseVisionB)
                 {
                     BtnAnalyseVisionBDone.IsEnabled = true;
-                    BtnVisionCtrlVideBDone.IsEnabled = true;
+                    BtnVisionPresenceBDone.IsEnabled = true;
                 }
                 else
                 {
                     BtnAnalyseVisionBDone.IsEnabled = false;
-                    BtnVisionCtrlVideBDone.IsEnabled = false;
+                    BtnVisionPresenceBDone.IsEnabled = false;
                 }
             }
             else

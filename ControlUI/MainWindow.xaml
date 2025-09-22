@@ -169,13 +169,13 @@
             </StackPanel>
 
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <Button x:Name="BtnVisionCtrlVideADone" Content="Ctrl. Vide A Done" Width="100" Height="40" Margin="5,20,5,5" Click="AnalyseVisionADone_Click" IsEnabled="False" Background="#d5bbe0"/>
-                <Button x:Name="BtnVisionCtrlVideBDone" Content="Ctrl. Vide B Done" Width="100" Height="40" Margin="5,20,5,5" Click="AnalyseVisionBDone_Click" IsEnabled="False" Background="#d5bbe0"/>
+                <Button x:Name="BtnVisionPresenceADone" Content="Ctrl. Vide A Done" Width="100" Height="40" Margin="5,20,5,5" Click="AnalyseVisionADone_Click" IsEnabled="False" Background="#d5bbe0"/>
+                <Button x:Name="BtnVisionPresenceBDone" Content="Ctrl. Vide B Done" Width="100" Height="40" Margin="5,20,5,5" Click="AnalyseVisionBDone_Click" IsEnabled="False" Background="#d5bbe0"/>
             </StackPanel>
 
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <Ellipse x:Name="LedVisionCtrlVideADone" Width="16" Height="16" Stroke="Black" StrokeThickness="1" Fill="Gray"/>
-                <Ellipse x:Name="LedVisionCtrlVideBDone" Width="16" Height="16" Stroke="Black" StrokeThickness="1" Fill="Gray"/>
+                <Ellipse x:Name="LedVisionPresenceADone" Width="16" Height="16" Stroke="Black" StrokeThickness="1" Fill="Gray"/>
+                <Ellipse x:Name="LedVisionPresenceBDone" Width="16" Height="16" Stroke="Black" StrokeThickness="1" Fill="Gray"/>
             </StackPanel>
 
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">

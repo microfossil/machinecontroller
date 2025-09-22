@@ -37,8 +37,8 @@ namespace ModbusTCP_Simplified
 
         public int Word91 { get; private set; }
 
-        public bool VisionCtrlVideADone { get; private set; }
-        public bool VisionCtrlVideBDone { get; private set; }
+        public bool VisionPresenceADone { get; private set; }
+        public bool VisionPresenceBDone { get; private set; }
 
         public int Dest_P_A { get; private set; }
         public int Dest_X_A { get; private set; }
@@ -174,8 +174,8 @@ namespace ModbusTCP_Simplified
                 TxtWord90 = GetTxtWord(90);
 
                 Word91 = await ReadHoldingRegisterAsync(91);
-                VisionCtrlVideADone = GetBit(Word91, 2);
-                VisionCtrlVideBDone = GetBit(Word91, 3);
+                VisionPresenceADone = GetBit(Word91, 2);
+                VisionPresenceBDone = GetBit(Word91, 3);
 
                 Dest_P_A = await ReadHoldingRegisterAsync(96); //Destination_A_Plateau 
                 Dest_X_A = await ReadHoldingRegisterAsync(97); // Destination_A_X
@@ -580,7 +580,7 @@ namespace ModbusTCP_Simplified
                         if (!RequestAnalyseVisionA) // Once RequestAnalyseVisionA is false, reset the bit Analyse Done
                         {
                             int resetValue1 = ClearBit(newValue, 0); // Clear bit 0 AnalyseVisionADone
-                            int resetValue2 = ClearBit(resetValue1, 2); // Also clear bit 2 VisionCtrlVideADone
+                            int resetValue2 = ClearBit(resetValue1, 4); // Also clear bit 4 VisionPresenceADone
                             await WriteSingleRegisterAsync(91, resetValue2);
                             DoneFlag = true;
                             break;
@@ -617,7 +617,7 @@ namespace ModbusTCP_Simplified
                         if (!RequestAnalyseVisionB) // Once RequestAnalyseVisionB is false, reset the bit Analyse Done
                         {
                             int resetValue1 = ClearBit(newValue, 1); // Clear bit 1 AnalyseVisionADone
-                            int resetValue2 = ClearBit(resetValue1, 3); // Also clear bit 3 VisionCtrlVideADone
+                            int resetValue2 = ClearBit(resetValue1, 5); // Also clear bit 5 VisionPresenceADone
                             await WriteSingleRegisterAsync(91, resetValue2);
                             DoneFlag = true;
                             break;
@@ -634,7 +634,7 @@ namespace ModbusTCP_Simplified
             }
         }
 
-        public async Task VisionCtrlVideADoneAsync()
+        public async Task VisionPresenceADoneAsync()
         {
             if (!IsConnected)
             {
@@ -643,18 +643,18 @@ namespace ModbusTCP_Simplified
             }
             try
             {
-            int newValue = SetBit(Word91, 2); // Word91 updated by PollAsync()
+            int newValue = SetBit(Word91, 4); // Word91 updated by PollAsync()
             await WriteSingleRegisterAsync(91, newValue);
 
-            Console.WriteLine($"\nWORD91.2 (Cde_Auto.Vision_Controle_vide_A_Done) vision contrôle vide A done sent");
+            Console.WriteLine($"\nWORD91.4 (Cde_Auto.Vision_Presence_A_Done) vision présence A done sent");
             }
             catch (Exception ex)
             {
-            Console.WriteLine($"Error during VisionCtrlVideADone: {ex.Message}");
+            Console.WriteLine($"Error during VisionPresenceADone: {ex.Message}");
             }
         }
 
-        public async Task VisionCtrlVideBDoneAsync()
+        public async Task VisionPresenceBDoneAsync()
         {
             if (!IsConnected)
             {
@@ -663,14 +663,14 @@ namespace ModbusTCP_Simplified
             }
             try
             {
-            int newValue = SetBit(Word91, 3); // Word91 updated by PollAsync()
+            int newValue = SetBit(Word91, 5); // Word91 updated by PollAsync()
             await WriteSingleRegisterAsync(91, newValue);
 
-            Console.WriteLine($"\nWORD91.3 (Cde_Auto.Vision_Controle_vide_B_Done) vision contrôle vide B done sent");
+            Console.WriteLine($"\nWORD91.5 (Cde_Auto.Vision_Presence_B_Done) vision présence B done sent");
             }
             catch (Exception ex)
             {
-            Console.WriteLine($"Error during VisionCtrlVideBDone: {ex.Message}");
+            Console.WriteLine($"Error during VisionPresenceBDone: {ex.Message}");
             }
         }
 
