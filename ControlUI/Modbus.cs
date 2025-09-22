@@ -37,6 +37,9 @@ namespace ModbusTCP_Simplified
 
         public int Word91 { get; private set; }
 
+        public bool VisionCtrlVideADone { get; private set; }
+        public bool VisionCtrlVideBDone { get; private set; }
+
         public int Dest_P_A { get; private set; }
         public int Dest_X_A { get; private set; }
         public int Dest_Y_A { get; private set; }
@@ -171,6 +174,8 @@ namespace ModbusTCP_Simplified
                 TxtWord90 = GetTxtWord(90);
 
                 Word91 = await ReadHoldingRegisterAsync(91);
+                VisionCtrlVideADone = GetBit(Word91, 2);
+                VisionCtrlVideBDone = GetBit(Word91, 3);
 
                 Dest_P_A = await ReadHoldingRegisterAsync(96); //Destination_A_Plateau 
                 Dest_X_A = await ReadHoldingRegisterAsync(97); // Destination_A_X
