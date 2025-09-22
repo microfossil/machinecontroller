@@ -241,7 +241,7 @@
 
         <Border Grid.Column="5" BorderBrush="Black" BorderThickness="1,0,0,0"/>
 
-        <StackPanel Grid.Column="5" BorderBrush="Black" BorderThickness="1,0,0,0"/>
+        <StackPanel Grid.Column="5" HorizontalAlignment="Center" VerticalAlignment="Center">
             <TextBlock Text="Temps aspiration:" FontWeight="Bold" FontSize="16" Margin="0,20,0,0"/>
             <TextBlock x:Name="TxtTempsAspiration" Text="NaN" FontSize="14"/>
             <StackPanel Orientation="Horizontal">
