@@ -74,8 +74,8 @@ namespace ControlUI
                 TxtWord90.Text = Modbus.TxtWord90;
                 TxtStepCyclePrincipal.Text = $"{Modbus.StepCyclePrincipal}";
 
-                LedRequestAnalyseVisionA.Fill = Modbus.RequestAnalyseVisionA ? Brushes.LimeGreen : Brushes.Red;
-                LedRequestAnalyseVisionB.Fill = Modbus.RequestAnalyseVisionB ? Brushes.LimeGreen : Brushes.Red;
+                LedRequestVisionPresenceA.Fill = Modbus.RequestVisionPresenceA ? Brushes.LimeGreen : Brushes.Red;
+                LedRequestVisionPresenceB.Fill = Modbus.RequestVisionPresenceB ? Brushes.LimeGreen : Brushes.Red;
 
                 LedVisionPresenceADone.Fill = Modbus.VisionPresenceADone ? Brushes.LimeGreen : Brushes.Red;
                 LedVisionPresenceBDone.Fill = Modbus.VisionPresenceBDone ? Brushes.LimeGreen : Brushes.Red;
@@ -98,27 +98,27 @@ namespace ControlUI
                     BtnStopCollect.IsEnabled = false;
                 }
 
-                // Activate Btn AnalyseVisionADone when RequestAnalyseVisionA is true
-                if (Modbus.RequestAnalyseVisionA)
+                // Activate Btn VisionPresenceADone when RequestVisionPresenceA is true
+                if (Modbus.RequestVisionPresenceA)
                 {
-                    BtnAnalyseVisionADone.IsEnabled = true;
+                    BtnVisionPresenceADone.IsEnabled = true;
                     BtnVisionPresenceADone.IsEnabled = true;
                 }
                 else
                 {
-                    BtnAnalyseVisionADone.IsEnabled = false;
+                    BtnVisionPresenceADone.IsEnabled = false;
                     BtnVisionPresenceADone.IsEnabled = false;
                 }
 
-                // Activate Btn AnalyseVisionBDone when RequestAnalyseVisionB is true
-                if (Modbus.RequestAnalyseVisionB)
+                // Activate Btn VisionPresenceBDone when RequestVisionPresenceB is true
+                if (Modbus.RequestVisionPresenceB)
                 {
-                    BtnAnalyseVisionBDone.IsEnabled = true;
+                    BtnVisionPresenceBDone.IsEnabled = true;
                     BtnVisionPresenceBDone.IsEnabled = true;
                 }
                 else
                 {
-                    BtnAnalyseVisionBDone.IsEnabled = false;
+                    BtnVisionPresenceBDone.IsEnabled = false;
                     BtnVisionPresenceBDone.IsEnabled = false;
                 }
             }
@@ -193,16 +193,16 @@ namespace ControlUI
             await Modbus.HardResetAsync();
         }
 
-        private async void AnalyseVisionADone_Click(object sender, RoutedEventArgs e)
+        private async void VisionPresenceADone_Click(object sender, RoutedEventArgs e)
         {
-            TxtStatus.Text = "Cde_Auto.AnalyseVisionADone\nAnalyse Vision A Done";
-            await Modbus.AnalyseVisionADoneAsync();
+            TxtStatus.Text = "Cde_Auto.VisionPresenceADone\nAnalyse Vision A Done";
+            await Modbus.VisionPresenceADoneAsync();
         }
 
-        private async void AnalyseVisionBDone_Click(object sender, RoutedEventArgs e)
+        private async void VisionPresenceBDone_Click(object sender, RoutedEventArgs e)
         {
-            TxtStatus.Text = "Cde_Auto.AnalyseVisionBDone\nAnalyse Vision B Done";
-            await Modbus.AnalyseVisionBDoneAsync();
+            TxtStatus.Text = "Cde_Auto.VisionPresenceBDone\nAnalyse Vision B Done";
+            await Modbus.VisionPresenceBDoneAsync();
         }
 
         private async void ValidateFiole_Click(object sender, RoutedEventArgs e)

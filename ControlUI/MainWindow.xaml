@@ -169,8 +169,8 @@
             </StackPanel>
 
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <Button x:Name="BtnVisionPresenceADone" Content="Vis. Pres. A Done" Width="100" Height="40" Margin="5,20,5,5" Click="AnalyseVisionADone_Click" IsEnabled="False" Background="#d5bbe0"/>
-                <Button x:Name="BtnVisionPresenceBDone" Content="Vis. Pres. B Done" Width="100" Height="40" Margin="5,20,5,5" Click="AnalyseVisionBDone_Click" IsEnabled="False" Background="#d5bbe0"/>
+                <Button x:Name="BtnVisionPresenceADone" Content="Vis. Pres. A Done" Width="100" Height="40" Margin="5,20,5,5" Click="VisionPresenceADone_Click" IsEnabled="False" Background="#d5bbe0"/>
+                <Button x:Name="BtnVisionPresenceBDone" Content="Vis. Pres. B Done" Width="100" Height="40" Margin="5,20,5,5" Click="VisionPresenceBDone_Click" IsEnabled="False" Background="#d5bbe0"/>
             </StackPanel>
 
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
