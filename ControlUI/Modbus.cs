@@ -574,8 +574,9 @@ namespace ModbusTCP_Simplified
                     {
                         if (!RequestAnalyseVisionA) // Once RequestAnalyseVisionA is false, reset the bit Analyse Done
                         {
-                            int resetValue = ClearBit(newValue, 0);
-                            await WriteSingleRegisterAsync(91, resetValue);
+                            int resetValue1 = ClearBit(newValue, 0); // Clear bit 0 AnalyseVisionADone
+                            int resetValue2 = ClearBit(resetValue1, 2); // Also clear bit 2 VisionCtrlVideADone
+                            await WriteSingleRegisterAsync(91, resetValue2);
                             DoneFlag = true;
                             break;
                         }
@@ -610,8 +611,9 @@ namespace ModbusTCP_Simplified
                     {
                         if (!RequestAnalyseVisionB) // Once RequestAnalyseVisionB is false, reset the bit Analyse Done
                         {
-                            int resetValue = ClearBit(newValue, 1);
-                            await WriteSingleRegisterAsync(91, resetValue);
+                            int resetValue1 = ClearBit(newValue, 1); // Clear bit 1 AnalyseVisionADone
+                            int resetValue2 = ClearBit(resetValue1, 3); // Also clear bit 3 VisionCtrlVideADone
+                            await WriteSingleRegisterAsync(91, resetValue2);
                             DoneFlag = true;
                             break;
                         }
@@ -624,6 +626,46 @@ namespace ModbusTCP_Simplified
             catch (Exception ex)
             {
                 Console.WriteLine($"Error during AnalyseVisionADone: {ex.Message}");
+            }
+        }
+
+        public async Task VisionCtrlVideADoneAsync()
+        {
+            if (!IsConnected)
+            {
+            Console.WriteLine("Cannot write - Modbus not connected");
+            return;
+            }
+            try
+            {
+            int newValue = SetBit(Word91, 2); // Word91 updated by PollAsync()
+            await WriteSingleRegisterAsync(91, newValue);
+
+            Console.WriteLine($"\nWORD91.2 (Cde_Auto.Vision_Controle_vide_A_Done) vision contrôle vide A done sent");
+            }
+            catch (Exception ex)
+            {
+            Console.WriteLine($"Error during VisionCtrlVideADone: {ex.Message}");
+            }
+        }
+
+        public async Task VisionCtrlVideBDoneAsync()
+        {
+            if (!IsConnected)
+            {
+            Console.WriteLine("Cannot write - Modbus not connected");
+            return;
+            }
+            try
+            {
+            int newValue = SetBit(Word91, 3); // Word91 updated by PollAsync()
+            await WriteSingleRegisterAsync(91, newValue);
+
+            Console.WriteLine($"\nWORD91.3 (Cde_Auto.Vision_Controle_vide_B_Done) vision contrôle vide B done sent");
+            }
+            catch (Exception ex)
+            {
+            Console.WriteLine($"Error during VisionCtrlVideBDone: {ex.Message}");
             }
         }
 
