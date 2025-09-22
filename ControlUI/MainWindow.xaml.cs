@@ -193,15 +193,27 @@ namespace ControlUI
             await Modbus.HardResetAsync();
         }
 
+        private async void AnalyseVisionADone_Click(object sender, RoutedEventArgs e)
+        {
+            TxtStatus.Text = "Cde_Auto.AnalyseVisionADone\nAnalyse Vision A Done";
+            await Modbus.AnalyseVisionADoneAsync();
+        }
+
+        private async void AnalyseVisionBDone_Click(object sender, RoutedEventArgs e)
+        {
+            TxtStatus.Text = "Cde_Auto.AnalyseVisionBDone\nAnalyse Vision B Done";
+            await Modbus.AnalyseVisionBDoneAsync();
+        }
+
         private async void VisionPresenceADone_Click(object sender, RoutedEventArgs e)
         {
-            TxtStatus.Text = "Cde_Auto.VisionPresenceADone\nAnalyse Vision A Done";
+            TxtStatus.Text = "Cde_Auto.VisionPresenceADone\nVision Presence A Done";
             await Modbus.VisionPresenceADoneAsync();
         }
 
         private async void VisionPresenceBDone_Click(object sender, RoutedEventArgs e)
         {
-            TxtStatus.Text = "Cde_Auto.VisionPresenceBDone\nAnalyse Vision B Done";
+            TxtStatus.Text = "Cde_Auto.VisionPresenceBDone\nVision Presence B Done";
             await Modbus.VisionPresenceBDoneAsync();
         }
 
