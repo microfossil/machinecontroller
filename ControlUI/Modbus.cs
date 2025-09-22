@@ -34,14 +34,14 @@ namespace ModbusTCP_Simplified
         public string TxtWord90 { get; private set; }
         public int Word91 { get; private set; }
         public string TxtWord91 { get; private set; }
-        public int Dest_P_A { get; private set; }
-        public int Dest_X_A { get; private set; }
-        public int Dest_Y_A { get; private set; }
-        public int Dest_Z_A { get; private set; }
-        public int Dest_P_B { get; private set; }
-        public int Dest_X_B { get; private set; }
-        public int Dest_Y_B { get; private set; }
-        public int Dest_Z_B { get; private set; }
+        public uint Dest_P_A { get; private set; }
+        public uint Dest_X_A { get; private set; }
+        public uint Dest_Y_A { get; private set; }
+        public uint Dest_Z_A { get; private set; }
+        public uint Dest_P_B { get; private set; }
+        public uint Dest_X_B { get; private set; }
+        public uint Dest_Y_B { get; private set; }
+        public uint Dest_Z_B { get; private set; }
         public int StepCyclePrincipal { get; private set; }
         public int FioleNumber { get; private set; }
         public bool DoneFlag { get; set; }
@@ -579,13 +579,13 @@ namespace ModbusTCP_Simplified
                 return;
             }
 
-            uint x_coord_mm = 30 * (x_multiple_slide - 1) + 6 * (x_multiple_cavity - 1);
-            uint y_coord_mm = 84 * (y_multiple_slide - 1) + 6 * (y_multiple_cavity - 1);
-            uint z_coord_mm = 70;
+            int x_coord_mm = 30 * (x_multiple_slide - 1) + 6 * (x_multiple_cavity - 1);
+            int y_coord_mm = 84 * (y_multiple_slide - 1) + 6 * (y_multiple_cavity - 1);
+            int z_coord_mm = 70;
 
-            uint x_coord_cmm = x_coord_mm * 100; // Convert to 100th of milimeters
-            uint y_coord_cmm = y_coord_mm * 100; // Convert to 100th of milimeters
-            uint z_coord_cmm = z_coord_mm * 100; // Convert to 100th of milimeters
+            int x_coord_cmm = x_coord_mm * 100; // Convert to 100th of milimeters
+            int y_coord_cmm = y_coord_mm * 100; // Convert to 100th of milimeters
+            int z_coord_cmm = z_coord_mm * 100; // Convert to 100th of milimeters
 
             try
             {
