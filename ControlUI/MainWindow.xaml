@@ -200,7 +200,7 @@
                 FontSize="14"/>
         </StackPanel>
 
-        <Border Grid.Column="2" BorderBrush="Black" BorderThickness="1,0,0,0"/>
+        <Border Grid.Column="4" BorderBrush="Black" BorderThickness="1,0,0,0"/>
 
         <StackPanel Grid.Column="4" HorizontalAlignment="Center" VerticalAlignment="Center">
             <TextBlock Text="Repetition Nettoyage:" FontWeight="Bold" FontSize="16" Margin="0,20,0,0"/>
@@ -239,7 +239,7 @@
             </StackPanel>
         </StackPanel>
 
-        <Border Grid.Column="2" BorderBrush="Black" BorderThickness="1,0,0,0"/>
+        <Border Grid.Column="5" BorderBrush="Black" BorderThickness="1,0,0,0"/>
 
         <StackPanel Grid.Column="5" BorderBrush="Black" BorderThickness="1,0,0,0"/>
             <TextBlock Text="Temps aspiration:" FontWeight="Bold" FontSize="16" Margin="0,20,0,0"/>
