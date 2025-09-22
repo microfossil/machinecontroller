@@ -621,6 +621,10 @@ namespace ModbusTCP_Simplified
                 int newValue = SetBit(Word90, 15); // Word90 updated by PollAsync()
                 await WriteSingleRegisterAsync(90, newValue);
                 DoneFlag = true; // Set the flag to true when done
+                
+                await Task.Delay(500);
+                int resetValue = ClearBit(newValue, 15);
+                await WriteSingleRegisterAsync(90, resetValue);
 
                 Console.WriteLine($"\nWORD90.15 (Cde_Auto.HardReset) hard reset sent");
             }
