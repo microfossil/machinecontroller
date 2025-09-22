@@ -74,8 +74,8 @@ namespace ControlUI
                 TxtWord90.Text = Modbus.TxtWord90;
                 TxtStepCyclePrincipal.Text = $"{Modbus.StepCyclePrincipal}";
 
-                LedRequestVisionPresenceA.Fill = Modbus.RequestVisionPresenceA ? Brushes.LimeGreen : Brushes.Red;
-                LedRequestVisionPresenceB.Fill = Modbus.RequestVisionPresenceB ? Brushes.LimeGreen : Brushes.Red;
+                LedRequestAnalyseVisionA.Fill = Modbus.RequestAnalyseVisionA ? Brushes.LimeGreen : Brushes.Red;
+                LedRequestAnalyseVisionB.Fill = Modbus.RequestAnalyseVisionB ? Brushes.LimeGreen : Brushes.Red;
 
                 LedVisionPresenceADone.Fill = Modbus.VisionPresenceADone ? Brushes.LimeGreen : Brushes.Red;
                 LedVisionPresenceBDone.Fill = Modbus.VisionPresenceBDone ? Brushes.LimeGreen : Brushes.Red;
@@ -98,27 +98,27 @@ namespace ControlUI
                     BtnStopCollect.IsEnabled = false;
                 }
 
-                // Activate Btn VisionPresenceADone when RequestVisionPresenceA is true
-                if (Modbus.RequestVisionPresenceA)
+                // Activate BtnAnalyseVisionADone and BtnVisionPresenceADone when RequestAnalyseVisionA is true
+                if (Modbus.RequestAnalyseVisionA)
                 {
-                    BtnVisionPresenceADone.IsEnabled = true;
+                    BtnAnalyseVisionADone.IsEnabled = true;
                     BtnVisionPresenceADone.IsEnabled = true;
                 }
                 else
                 {
-                    BtnVisionPresenceADone.IsEnabled = false;
+                    BtnAnalyseVisionADone.IsEnabled = false;
                     BtnVisionPresenceADone.IsEnabled = false;
                 }
 
-                // Activate Btn VisionPresenceBDone when RequestVisionPresenceB is true
-                if (Modbus.RequestVisionPresenceB)
+                // Activate BtnAnalyseVisionBDone and BtnVisionPresenceBDone when RequestAnalyseVisionB is true
+                if (Modbus.RequestAnalyseVisionB)
                 {
-                    BtnVisionPresenceBDone.IsEnabled = true;
+                    BtnAnalyseVisionBDone.IsEnabled = true;
                     BtnVisionPresenceBDone.IsEnabled = true;
                 }
                 else
                 {
-                    BtnVisionPresenceBDone.IsEnabled = false;
+                    BtnAnalyseVisionBDone.IsEnabled = false;
                     BtnVisionPresenceBDone.IsEnabled = false;
                 }
             }

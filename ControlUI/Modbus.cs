@@ -26,8 +26,6 @@ namespace ModbusTCP_Simplified
         public int Word0 { get; private set; }
         public bool RequestAnalyseVisionA { get; private set; }
         public bool RequestAnalyseVisionB { get; private set; }
-        public bool RequestControlVoidA { get; private set; }
-        public bool RequestControlVoidB { get; private set; }
         public string TxtWord0 { get; private set; }
 
         public int GemmaMode { get; private set; }
@@ -164,8 +162,6 @@ namespace ModbusTCP_Simplified
                 Word0 = await ReadHoldingRegisterAsync(0);
                 RequestAnalyseVisionA = GetBit(Word0, 0);
                 RequestAnalyseVisionB = GetBit(Word0, 1);
-                RequestControlVoidA = GetBit(Word0, 2);
-                RequestControlVoidB = GetBit(Word0, 3);
                 TxtWord0 = GetTxtWord(0);
 
                 GemmaMode = await ReadHoldingRegisterAsync(1);
