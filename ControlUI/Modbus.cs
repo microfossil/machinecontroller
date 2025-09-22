@@ -34,14 +34,14 @@ namespace ModbusTCP_Simplified
         public string TxtWord90 { get; private set; }
         public int Word91 { get; private set; }
         public string TxtWord91 { get; private set; }
-        public uint Dest_P_A { get; private set; }
-        public uint Dest_X_A { get; private set; }
-        public uint Dest_Y_A { get; private set; }
-        public uint Dest_Z_A { get; private set; }
-        public uint Dest_P_B { get; private set; }
-        public uint Dest_X_B { get; private set; }
-        public uint Dest_Y_B { get; private set; }
-        public uint Dest_Z_B { get; private set; }
+        public int Dest_P_A { get; private set; }
+        public int Dest_X_A { get; private set; }
+        public int Dest_Y_A { get; private set; }
+        public int Dest_Z_A { get; private set; }
+        public int Dest_P_B { get; private set; }
+        public int Dest_X_B { get; private set; }
+        public int Dest_Y_B { get; private set; }
+        public int Dest_Z_B { get; private set; }
         public int StepCyclePrincipal { get; private set; }
         public int FioleNumber { get; private set; }
         public bool DoneFlag { get; set; }
