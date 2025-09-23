@@ -555,6 +555,29 @@ namespace ModbusTCP_Simplified
             }
         }
 
+        public async Task StartNettoyageAsync()
+        {
+            if (!IsConnected)
+            {
+                Console.WriteLine("Cannot write - Modbus not connected");
+                return;
+            }
+            try
+            {
+                int newValue = SetBit(Word90, 9); // Word90 updated by PollAsync()
+                await WriteSingleRegisterAsync(90, newValue);
+
+                await Task.Delay(500);
+                int resetValue = ClearBit(newValue, 9);
+                await WriteSingleRegisterAsync(90, resetValue);
+
+                Console.WriteLine($"\nWORD90.9 (Cde_Auto.Nettoyage_Start) start nettoyage");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error during StartNettoyage: {ex.Message}");
+            }
+        }
 
         public async Task AnalyseVisionADoneAsync()
         {
@@ -706,6 +729,34 @@ namespace ModbusTCP_Simplified
             }
 
             Console.WriteLine($"Computed coordinates: X={x_coord_mm}, Y={y_coord_mm}");
+        }
+
+
+        public async Task ManualSetBitAsync(int word, int bit, string method)
+        {
+            if (!IsConnected)
+            {
+                Console.WriteLine("Cannot write - Modbus not connected");
+                return;
+            }
+            try
+            {
+                int currentValue = await ReadHoldingRegisterAsync(word);
+                if (method == "Set")
+                {
+                    int newValue = SetBit(currentValue, bit);
+                }
+                else if (method == "Clear")
+                {
+                    int newValue = ClearBit(currentValue, bit);
+                }
+                await WriteSingleRegisterAsync(word, newValue);
+                Console.WriteLine($"\nWORD{word}.{bit} ({method}) changed from {GetBit(currentValue, bit)} to {GetBit(newValue, bit)} (set to 1)");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"\nError setting WORD{word}.{bit} ({method}): {ex.Message}");
+            }
         }
 
         public async Task HardResetAsync()

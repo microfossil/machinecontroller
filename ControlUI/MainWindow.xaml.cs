@@ -134,6 +134,19 @@ namespace ControlUI
         //     TxtGEMMAMode.Text = $"{mode} (decimal)\n{mode:X2} (hexa)\n({Modbus.GetGEMMADescription(mode)})";
         // }
 
+        private async void BtnSendCoord_Click(object sender, RoutedEventArgs e)
+        {
+            int Plateau = int.Parse((CmbPlateau.SelectedItem as ComboBoxItem).Content.ToString());
+            int SlideX = int.Parse((CmbSlideX.SelectedItem as ComboBoxItem).Content.ToString());
+            int SlideY = int.Parse((CmbSlideY.SelectedItem as ComboBoxItem).Content.ToString());
+            int CavityX = int.Parse((CmbCavityX.SelectedItem as ComboBoxItem).Content.ToString());
+            int CavityY = int.Parse((CmbCavityY.SelectedItem as ComboBoxItem).Content.ToString());
+
+            TxtStatus.Text = $"Selected values:\nPlateau : {Plateau},\nSlide X : {SlideX}, Slide Y : {SlideY},\nCavity X : {CavityX}, Cavity Y : {CavityY}";
+
+            await Modbus.SendCoordinatesAsync(Plateau, SlideX, SlideY, CavityX, CavityY);
+        }
+
         private async void BtnAuto_Click(object sender, RoutedEventArgs e)
         {
             TxtStatus.Text = "Cde_Auto.Mode_Auto\nmode auto";
@@ -172,19 +185,25 @@ namespace ControlUI
 
         private async void StartCollect_Click(object sender, RoutedEventArgs e)
         {
-            TxtStatus.Text = "Cde_Auto.StartCollect\nstart collect";
+            TxtStatus.Text = "Cde_Auto.Collect_Start\nstart collect";
             await Modbus.StartCollectAsync();
         }
         private async void StopCollect_Click(object sender, RoutedEventArgs e)
         {
-            TxtStatus.Text = "Cde_Auto.StopCollect\nstop collect";
+            TxtStatus.Text = "Cde_Auto.Collect_Stop\nstop collect";
             await Modbus.StopCollectAsync();
         }
 
         private async void StopVidange_Click(object sender, RoutedEventArgs e)
         {
-            TxtStatus.Text = "Cde_Auto.StopVidange\nstop vidange";
+            TxtStatus.Text = "Cde_Auto.Vidange_Stop\nstop vidange";
             await Modbus.StopVidangeAsync();
+        }
+
+        private async void StartNettoyage_Click(object sender, RoutedEventArgs e)
+        {
+            TxtStatus.Text = "Cde_Auto.Nettoyage_Start\nstart nettoyage";
+            await Modbus.StartNettoyageAsync();
         }
 
         private async void BtnHardReset_Click(object sender, RoutedEventArgs e)
@@ -195,25 +214,25 @@ namespace ControlUI
 
         private async void AnalyseVisionADone_Click(object sender, RoutedEventArgs e)
         {
-            TxtStatus.Text = "Cde_Auto.AnalyseVisionADone\nAnalyse Vision A Done";
+            TxtStatus.Text = "Cde_Auto.Vision_Analyse_A_Done\nAnalyse Vision A Done";
             await Modbus.AnalyseVisionADoneAsync();
         }
 
         private async void AnalyseVisionBDone_Click(object sender, RoutedEventArgs e)
         {
-            TxtStatus.Text = "Cde_Auto.AnalyseVisionBDone\nAnalyse Vision B Done";
+            TxtStatus.Text = "Cde_Auto.Vision_Analyse_B_Done\nAnalyse Vision B Done";
             await Modbus.AnalyseVisionBDoneAsync();
         }
 
         private async void VisionPresenceADone_Click(object sender, RoutedEventArgs e)
         {
-            TxtStatus.Text = "Cde_Auto.VisionPresenceADone\nVision Presence A Done";
+            TxtStatus.Text = "Cde_Auto.Vision_Presence_A\nVision Presence A Done";
             await Modbus.VisionPresenceADoneAsync();
         }
 
         private async void VisionPresenceBDone_Click(object sender, RoutedEventArgs e)
         {
-            TxtStatus.Text = "Cde_Auto.VisionPresenceBDone\nVision Presence B Done";
+            TxtStatus.Text = "Cde_Auto.Vision_Presence_B\nVision Presence B Done";
             await Modbus.VisionPresenceBDoneAsync();
         }
 
@@ -232,16 +251,32 @@ namespace ControlUI
                 MessageBox.Show("Veuillez entrer un entier valide.", "Erreur", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
+
+        private async void BtnManSetValidate_Click(object sender, RoutedEventArgs e)
+        {
+            if (int.TryParse(ManSetWord.Text, out int WordSelected))
+            {
+                int BitSelected = int.Parse((CmbManSetBit.SelectedItem as ComboBoxItem).Content.ToString());
+                string MethodSelected = (CmbManSetMethod.SelectedItem as ComboBoxItem).Content.ToString();
+                await Modbus.ManualSetBitAsync(WordSelected, BitSelected, MethodSelected);
+
+            }
+            else
+            {
+                MessageBox.Show("Please choose a valide integer", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+        }
+
         private async void ValidateRepetitionNettoyage_Click(object sender, RoutedEventArgs e)
         {
             if (int.TryParse(RepetitionNettoyageInput.Text, out int repetitionNettoyage))
             {
-            TxtStatus.Text = $"Repetition nettoyage requested: {repetitionNettoyage}";
-            await Modbus.SetRepetitionNettoyageAsync(repetitionNettoyage);
+                TxtStatus.Text = $"Repetition nettoyage requested: {repetitionNettoyage}";
+                await Modbus.SetRepetitionNettoyageAsync(repetitionNettoyage);
             }
             else
             {
-            MessageBox.Show("Veuillez entrer un entier valide pour la répétition de nettoyage.", "Erreur", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Veuillez entrer un entier valide pour la répétition de nettoyage.", "Erreur", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
         
@@ -400,19 +435,6 @@ namespace ControlUI
             {
                 MessageBox.Show("Veuillez entrer un entier valide pour le temps d'amorçage.", "Erreur", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
-        }
-
-        private async void BtnSendCoord_Click(object sender, RoutedEventArgs e)
-        {
-            int Plateau = int.Parse((CmbPlateau.SelectedItem as ComboBoxItem).Content.ToString());
-            int SlideX = int.Parse((CmbSlideX.SelectedItem as ComboBoxItem).Content.ToString());
-            int SlideY = int.Parse((CmbSlideY.SelectedItem as ComboBoxItem).Content.ToString());
-            int CavityX = int.Parse((CmbCavityX.SelectedItem as ComboBoxItem).Content.ToString());
-            int CavityY = int.Parse((CmbCavityY.SelectedItem as ComboBoxItem).Content.ToString());
-
-            TxtStatus.Text = $"Selected values:\nPlateau : {Plateau},\nSlide X : {SlideX}, Slide Y : {SlideY},\nCavity X : {CavityX}, Cavity Y : {CavityY}";
-
-            await Modbus.SendCoordinatesAsync(Plateau, SlideX, SlideY, CavityX, CavityY);
         }
     }
 }
