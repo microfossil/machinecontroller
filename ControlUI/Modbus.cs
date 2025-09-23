@@ -742,13 +742,14 @@ namespace ModbusTCP_Simplified
             try
             {
                 int currentValue = await ReadHoldingRegisterAsync(word);
+                int newValue;
                 if (method == "Set")
                 {
-                    int newValue = SetBit(currentValue, bit);
+                    newValue = SetBit(currentValue, bit);
                 }
                 else if (method == "Clear")
                 {
-                    int newValue = ClearBit(currentValue, bit);
+                    newValue = ClearBit(currentValue, bit);
                 }
                 await WriteSingleRegisterAsync(word, newValue);
                 Console.WriteLine($"\nWORD{word}.{bit} ({method}) changed from {GetBit(currentValue, bit)} to {GetBit(newValue, bit)} (set to 1)");

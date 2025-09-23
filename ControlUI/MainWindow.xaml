@@ -186,7 +186,7 @@
             <Separator Margin="0,50,0,0" />
 
             <Button x:Name="BtnStopVidange" Content="Stop Vidange" Width="100" Height="40" Margin="5,50,5,5" Click="StopVidange_Click" Background="#e3b985"/>
-            <Button x:Name="BtnStartNettoyage" Content="Start Nettoyage" Width="100" Height="40" Margin="5" Click="StartNettoyage" Background="#acfff3"/>
+            <Button x:Name="BtnStartNettoyage" Content="Start Nettoyage" Width="100" Height="40" Margin="5" Click="StartNettoyage_Click" Background="#acfff3"/>
 
             <Separator Margin="0,50,0,0" />
 
