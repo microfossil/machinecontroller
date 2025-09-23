@@ -742,7 +742,8 @@ namespace ModbusTCP_Simplified
             try
             {
                 int currentValue = await ReadHoldingRegisterAsync(word);
-                int newValue;
+                int newValue = 0; // Ensure newValue is always assigned
+
                 if (method == "Set")
                 {
                     newValue = SetBit(currentValue, bit);
@@ -751,8 +752,12 @@ namespace ModbusTCP_Simplified
                 {
                     newValue = ClearBit(currentValue, bit);
                 }
+                else
+                {
+                    Console.WriteLine($"\nUnknown method '{method}' for ManualSetBitAsync. Must be 'Set' or 'Clear'.");
+                    return;
+                }
                 await WriteSingleRegisterAsync(word, newValue);
-                Console.WriteLine($"\nWORD{word}.{bit} ({method}) changed from {GetBit(currentValue, bit)} to {GetBit(newValue, bit)} (set to 1)");
             }
             catch (Exception ex)
             {

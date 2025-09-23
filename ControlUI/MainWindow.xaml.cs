@@ -259,6 +259,7 @@ namespace ControlUI
                 int BitSelected = int.Parse((CmbManSetBit.SelectedItem as ComboBoxItem).Content.ToString());
                 string MethodSelected = (CmbManSetMethod.SelectedItem as ComboBoxItem).Content.ToString();
                 await Modbus.ManualSetBitAsync(WordSelected, BitSelected, MethodSelected);
+                TxtStatus.Text = $"Manual set requested: {WordSelected}.{BitSelected} - {MethodSelected}";
 
             }
             else
