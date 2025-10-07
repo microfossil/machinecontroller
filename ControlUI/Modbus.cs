@@ -162,7 +162,7 @@ namespace ModbusTCP_Simplified
             try
             {
 
-                int[] registers_list = await ReadHoldingRegisterAsync(startAddress, numberOfRegisters);
+                int[] registers_list = await ReadHoldingRegistersAsync(startAddress, numberOfRegisters);
                 Word0 = registers_list[0];
                 RequestAnalyseVisionA = GetBit(Word0, 0);
                 RequestAnalyseVisionB = GetBit(Word0, 1);
