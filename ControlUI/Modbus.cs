@@ -23,6 +23,8 @@ namespace ModbusTCP_Simplified
         public bool IsConnected { get; private set; }
         public bool Enabled { get; private set; }
         public bool DoneFlag { get; set; }
+        private int startAddress = 0;
+        private int numberOfRegisters = 120;
         public int Word0 { get; private set; }
         public bool RequestAnalyseVisionA { get; private set; }
         public bool RequestAnalyseVisionB { get; private set; }
@@ -159,47 +161,49 @@ namespace ModbusTCP_Simplified
 
             try
             {
-                Word0 = await ReadHoldingRegisterAsync(0);
+
+                int[] registers_list = await ReadHoldingRegisterAsync(startAddress, numberOfRegisters);
+                Word0 = registers_list[0];
                 RequestAnalyseVisionA = GetBit(Word0, 0);
                 RequestAnalyseVisionB = GetBit(Word0, 1);
                 TxtWord0 = GetTxtWord(0);
 
-                GemmaMode = await ReadHoldingRegisterAsync(1);
+                GemmaMode = registers_list[1];
 
-                Word90 = await ReadHoldingRegisterAsync(90);
+                Word90 = registers_list[90];
                 TxtWord90 = GetTxtWord(90);
 
-                Word91 = await ReadHoldingRegisterAsync(91);
+                Word91 = registers_list[91];
                 VisionPresenceADone = GetBit(Word91, 4);
                 VisionPresenceBDone = GetBit(Word91, 5);
 
-                Dest_P_A = await ReadHoldingRegisterAsync(96); //Destination_A_Plateau 
-                Dest_X_A = await ReadHoldingRegisterAsync(97); // Destination_A_X
-                Dest_Y_A = await ReadHoldingRegisterAsync(98); // Destination_A_Y
-                Dest_Z_A = await ReadHoldingRegisterAsync(99); // Destination_A_Z
-                Dest_P_B = await ReadHoldingRegisterAsync(100); // Destination_B_Plateau
-                Dest_X_B = await ReadHoldingRegisterAsync(101); // Destination_B_X
-                Dest_Y_B = await ReadHoldingRegisterAsync(102); // Destination_B_Y
-                Dest_Z_B = await ReadHoldingRegisterAsync(103); // Destination_B_Z
+                Dest_P_A = registers_list[96]; //Destination_A_Plateau 
+                Dest_X_A = registers_list[97]; // Destination_A_X
+                Dest_Y_A = registers_list[98]; // Destination_A_Y
+                Dest_Z_A = registers_list[99]; // Destination_A_Z
+                Dest_P_B = registers_list[100]; // Destination_B_Plateau
+                Dest_X_B = registers_list[101]; // Destination_B_X
+                Dest_Y_B = registers_list[102]; // Destination_B_Y
+                Dest_Z_B = registers_list[103]; // Destination_B_Z
 
-                Repetition_Nettoyage = await ReadHoldingRegisterAsync(104);
-                FioleNumber = await ReadHoldingRegisterAsync(105);
-                Axe_Vision_Z_position = await ReadHoldingRegisterAsync(106);
-                Vibration_Bol = await ReadHoldingRegisterAsync(107);
-                Vibration_rail_1 = await ReadHoldingRegisterAsync(108);
-                Vibration_rail_2 = await ReadHoldingRegisterAsync(109);
-                Temps_aspiration = await ReadHoldingRegisterAsync(110);
-                Temps_soufflage = await ReadHoldingRegisterAsync(111);
-                NbMaxParticule_Non_Vue = await ReadHoldingRegisterAsync(112);
-                Temps_vibration_convoyage_vide = await ReadHoldingRegisterAsync(113);
-                Temps_espacement_rail_1 = await ReadHoldingRegisterAsync(114);
-                Temps_espacement_rail_2 = await ReadHoldingRegisterAsync(115);
-                Vibration_AmorcageVidange = await ReadHoldingRegisterAsync(116);
-                Temps_Amorcage = await ReadHoldingRegisterAsync(117);
+                Repetition_Nettoyage = registers_list[104];
+                FioleNumber = registers_list[105];
+                Axe_Vision_Z_position = registers_list[106];
+                Vibration_Bol = registers_list[107];
+                Vibration_rail_1 = registers_list[108];
+                Vibration_rail_2 = registers_list[109];
+                Temps_aspiration = registers_list[110];
+                Temps_soufflage = registers_list[111];
+                NbMaxParticule_Non_Vue = registers_list[112];
+                Temps_vibration_convoyage_vide = registers_list[113];
+                Temps_espacement_rail_1 = registers_list[114];
+                Temps_espacement_rail_2 = registers_list[115];
+                Vibration_AmorcageVidange = registers_list[116];
+                Temps_Amorcage = registers_list[117];
 
                 // TxtWord91 = GetTxtWord(91);
 
-                StepCyclePrincipal = await ReadHoldingRegisterAsync(10);
+                StepCyclePrincipal = registers_list[10];
 
                 Console.WriteLine($"[Poll] GEMMA={GemmaMode:X2}, Auto/Man={Word90}, Vial={FioleNumber}");
             }
@@ -239,7 +243,7 @@ namespace ModbusTCP_Simplified
 
             try
             {
-                int gemmaMode = await ReadHoldingRegisterAsync(1);
+                int gemmaMode = await ReadSingleHoldingRegisterAsync(1);
                 Console.WriteLine($"\nGEMMA Mode: {gemmaMode} (decimal) -> {gemmaMode:X2} (hexa) || {GetGEMMADescription(gemmaMode)}");
                 return gemmaMode;
             }
@@ -261,7 +265,7 @@ namespace ModbusTCP_Simplified
 
             try
             {
-                int currentValue = await ReadHoldingRegisterAsync(90);
+                int currentValue = await ReadSingleHoldingRegisterAsync(90);
                 int newValue = autoMode ? SetBit(currentValue, 1) : ClearBit(currentValue, 1);
 
                 await WriteSingleRegisterAsync(90, newValue);
@@ -741,7 +745,7 @@ namespace ModbusTCP_Simplified
             }
             try
             {
-                int currentValue = await ReadHoldingRegisterAsync(word);
+                int currentValue = await ReadSingleHoldingRegisterAsync(word);
                 int newValue = 0; // Ensure newValue is always assigned
 
                 if (method == "Set")
@@ -1057,7 +1061,7 @@ namespace ModbusTCP_Simplified
 
             try
             {
-                int currentValue = await ReadHoldingRegisterAsync(wordNumber);
+                int currentValue = await ReadSingleHoldingRegisterAsync(wordNumber);
                 int newValue = value ? SetBit(currentValue, bitIndex) : ClearBit(currentValue, bitIndex);
 
                 await WriteSingleRegisterAsync(wordNumber, newValue);
@@ -1080,7 +1084,7 @@ namespace ModbusTCP_Simplified
 
             try
             {
-                int currentvalue = await ReadHoldingRegisterAsync(wordNumber);
+                int currentvalue = await ReadSingleHoldingRegisterAsync(wordNumber);
                 await WriteSingleRegisterAsync(wordNumber, value);
                 Console.WriteLine($"\nWORD{wordNumber} ({role}) changed {currentvalue} (decimal) / 0x{currentvalue:X2} (hex) -> {value} (decimal) / 0x{value:X2} (hex)");
             }
@@ -1090,11 +1094,30 @@ namespace ModbusTCP_Simplified
             }
         }
 
-        public async Task<int> ReadHoldingRegisterAsync(int address)
+        public async Task<int> ReadHoldingRegisterAsync(int address, int count)
         {
             if (!IsConnected)
             {
-                Console.WriteLine($"[ReadHoldingRegisterAsync] Not connected (address {address})");
+                Console.WriteLine($"[ReadSingleHoldingRegisterAsync] Not connected (address {address})");
+                return -1;
+            }
+
+            try
+            {
+                return await Task.Run(() => modbusClient.ReadHoldingRegisters(address, count));
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[ReadSingleHoldingRegisterAsync] Error at address {address}: {ex.Message}");
+                IsConnected = false;
+                return -1;
+            }
+        }
+        public async Task<int> ReadSingleHoldingRegisterAsync(int address)
+        {
+            if (!IsConnected)
+            {
+                Console.WriteLine($"[ReadSingleHoldingRegisterAsync] Not connected (address {address})");
                 return -1;
             }
 
@@ -1104,7 +1127,7 @@ namespace ModbusTCP_Simplified
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"[ReadHoldingRegisterAsync] Error at address {address}: {ex.Message}");
+                Console.WriteLine($"[ReadSingleHoldingRegisterAsync] Error at address {address}: {ex.Message}");
                 IsConnected = false;
                 return -1;
             }
@@ -1122,7 +1145,7 @@ namespace ModbusTCP_Simplified
         private async Task DisplayWordBits(int wordNumber, int startBit = 0, int count = 16)
         {
             Console.WriteLine($"\n- Holding Registers word{wordNumber}:");
-            int wordValue = await ReadHoldingRegisterAsync(wordNumber);
+            int wordValue = await ReadSingleHoldingRegisterAsync(wordNumber);
             var getBitNameFunc = GetBitNameFuncByReflection(wordNumber);
             for (int i = 0; i < count; i++)
             {
