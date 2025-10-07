@@ -1094,12 +1094,12 @@ namespace ModbusTCP_Simplified
             }
         }
 
-        public async Task<int> ReadHoldingRegisterAsync(int address, int count)
+        public async Task<int[]> ReadHoldingRegistersAsync(int address, int count)
         {
             if (!IsConnected)
             {
-                Console.WriteLine($"[ReadSingleHoldingRegisterAsync] Not connected (address {address})");
-                return -1;
+                Console.WriteLine($"[ReadHoldingRegistersAsync] Not connected (address {address})");
+                return Array.Empty<int>();
             }
 
             try
@@ -1108,9 +1108,9 @@ namespace ModbusTCP_Simplified
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"[ReadSingleHoldingRegisterAsync] Error at address {address}: {ex.Message}");
+                Console.WriteLine($"[ReadHoldingRegistersAsync] Error at address {address}: {ex.Message}");
                 IsConnected = false;
-                return -1;
+                return Array.Empty<int>();
             }
         }
         public async Task<int> ReadSingleHoldingRegisterAsync(int address)
