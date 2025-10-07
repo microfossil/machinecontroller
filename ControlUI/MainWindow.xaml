@@ -14,327 +14,336 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <StackPanel Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <TextBlock Text="GEMMA Mode :" FontWeight="Bold" FontSize="16"/>
-            <TextBlock x:Name="TxtGEMMAMode" Text="NaN" FontSize="14" TextWrapping="Wrap"/>
+        <TabControl>
+            <TabItem Header="Machine Control">
 
-            <Separator Margin="0,20,0,0" />
+                <StackPanel Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <TextBlock Text="GEMMA Mode :" FontWeight="Bold" FontSize="16"/>
+                    <TextBlock x:Name="TxtGEMMAMode" Text="NaN" FontSize="14" TextWrapping="Wrap"/>
 
-            <TextBlock Text="Vial number:" FontWeight="Bold" FontSize="16" Margin="0,20,0,0"/>
-            <TextBlock x:Name="TxtFiole" Text="NaN" FontSize="14"/>
-            <StackPanel Orientation="Horizontal">
-                <TextBox x:Name="FioleInput" Width="80" Margin="0,5,10,0"/>
-                <Button Content="Validate" Margin="0,5,0,0" Click="ValidateFiole_Click"/>
-            </StackPanel>
+                    <Separator Margin="0,20,0,0" />
 
-            <Separator Margin="0,20,0,0" />
+                    <TextBlock Text="Vial number:" FontWeight="Bold" FontSize="16" Margin="0,20,0,0"/>
+                    <TextBlock x:Name="TxtFiole" Text="NaN" FontSize="14"/>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBox x:Name="FioleInput" Width="80" Margin="0,5,10,0"/>
+                        <Button Content="Validate" Margin="0,5,0,0" Click="ValidateFiole_Click"/>
+                    </StackPanel>
 
-            <TextBlock Text="A coordinates" FontWeight="Bold" FontSize="16" Margin="0,20,0,0"/>
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,5,0,0">
-                <TextBlock Text="Plateau" FontWeight="Bold" FontSize="14" Margin="10,0,0,0"/>
-                <TextBlock x:Name="TxtDest_P_A" Text="NaN" FontSize="14" Margin="5,0,0,0"/>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="10,0,0,0">
-                <TextBlock Text="X" FontWeight="Bold" FontSize="14"/>
-                <TextBlock x:Name="TxtDest_X_A" Text="NaN" FontSize="14" Margin="5,0,0,0"/>
-                <TextBlock Text="Y " FontWeight="Bold" FontSize="14" Margin="15,0,0,0"/>
-                <TextBlock x:Name="TxtDest_Y_A" Text="NaN" FontSize="14" Margin="5,0,0,0"/>
-                <TextBlock Text="Z" FontWeight="Bold" FontSize="14" Margin="15,0,0,0"/>
-                <TextBlock x:Name="TxtDest_Z_A" Text="NaN" FontSize="14" Margin="5,0,0,0"/>
-            </StackPanel>
+                    <Separator Margin="0,20,0,0" />
 
-            <TextBlock Text="B coordinates" FontWeight="Bold" FontSize="16" Margin="0,10,0,0"/>
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,5,0,0">
-                <TextBlock Text="Plateau" FontWeight="Bold" FontSize="14" Margin="10,0,0,0"/>
-                <TextBlock x:Name="TxtDest_P_B" Text="NaN" FontSize="14" Margin="5,0,0,0"/>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="10,0,0,0">
-                <TextBlock Text="X" FontWeight="Bold" FontSize="14"/>
-                <TextBlock x:Name="TxtDest_X_B" Text="NaN" FontSize="14" Margin="5,0,0,0"/>
-                <TextBlock Text="Y " FontWeight="Bold" FontSize="14" Margin="15,0,0,0"/>
-                <TextBlock x:Name="TxtDest_Y_B" Text="NaN" FontSize="14" Margin="5,0,0,0"/>
-                <TextBlock Text="Z" FontWeight="Bold" FontSize="14" Margin="15,0,0,0"/>
-                <TextBlock x:Name="TxtDest_Z_B" Text="NaN" FontSize="14" Margin="5,0,0,0"/>
-            </StackPanel>
+                    <TextBlock Text="A coordinates" FontWeight="Bold" FontSize="16" Margin="0,20,0,0"/>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,5,0,0">
+                        <TextBlock Text="Plateau" FontWeight="Bold" FontSize="14" Margin="10,0,0,0"/>
+                        <TextBlock x:Name="TxtDest_P_A" Text="NaN" FontSize="14" Margin="5,0,0,0"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="10,0,0,0">
+                        <TextBlock Text="X" FontWeight="Bold" FontSize="14"/>
+                        <TextBlock x:Name="TxtDest_X_A" Text="NaN" FontSize="14" Margin="5,0,0,0"/>
+                        <TextBlock Text="Y " FontWeight="Bold" FontSize="14" Margin="15,0,0,0"/>
+                        <TextBlock x:Name="TxtDest_Y_A" Text="NaN" FontSize="14" Margin="5,0,0,0"/>
+                        <TextBlock Text="Z" FontWeight="Bold" FontSize="14" Margin="15,0,0,0"/>
+                        <TextBlock x:Name="TxtDest_Z_A" Text="NaN" FontSize="14" Margin="5,0,0,0"/>
+                    </StackPanel>
 
-            <Separator Margin="60,10,60,0" />
+                    <TextBlock Text="B coordinates" FontWeight="Bold" FontSize="16" Margin="0,10,0,0"/>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,5,0,0">
+                        <TextBlock Text="Plateau" FontWeight="Bold" FontSize="14" Margin="10,0,0,0"/>
+                        <TextBlock x:Name="TxtDest_P_B" Text="NaN" FontSize="14" Margin="5,0,0,0"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="10,0,0,0">
+                        <TextBlock Text="X" FontWeight="Bold" FontSize="14"/>
+                        <TextBlock x:Name="TxtDest_X_B" Text="NaN" FontSize="14" Margin="5,0,0,0"/>
+                        <TextBlock Text="Y " FontWeight="Bold" FontSize="14" Margin="15,0,0,0"/>
+                        <TextBlock x:Name="TxtDest_Y_B" Text="NaN" FontSize="14" Margin="5,0,0,0"/>
+                        <TextBlock Text="Z" FontWeight="Bold" FontSize="14" Margin="15,0,0,0"/>
+                        <TextBlock x:Name="TxtDest_Z_B" Text="NaN" FontSize="14" Margin="5,0,0,0"/>
+                    </StackPanel>
 
-            <TextBlock Text="Set coordinates" FontWeight="Bold" FontSize="16" Margin="0,10,0,0"/>
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,10,0,0">
-                <TextBlock Text="Plateau:" FontWeight="Bold" FontSize="14" Margin="10,0,0,0"/>
-                <ComboBox x:Name="CmbPlateau" Width="40" Height="20" SelectedIndex="0" Margin="10,0,40,0">
-                    <ComboBoxItem Content="0"/>
-                    <ComboBoxItem Content="1"/>
-                    <ComboBoxItem Content="2"/>
-                    <ComboBoxItem Content="3"/>
-                </ComboBox>
-            </StackPanel>
+                    <Separator Margin="60,10,60,0" />
 
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,10,0,0">
-                <TextBlock Text="Slide:" FontWeight="Bold" FontSize="14" Margin="10,0,0,0"/>
-                <TextBlock Text="X" FontSize="14" Margin="10,0,0,0"/>
-                <ComboBox x:Name="CmbSlideX" Width="40" Height="20" SelectedIndex="0" Margin="5,0,0,0">
-                    <ComboBoxItem Content="1"/>
-                    <ComboBoxItem Content="2"/>
-                    <ComboBoxItem Content="3"/>
-                    <ComboBoxItem Content="4"/>
-                    <ComboBoxItem Content="5"/>
-                    <ComboBoxItem Content="6"/>
-                    <ComboBoxItem Content="7"/>
-                    <ComboBoxItem Content="8"/>
-                    <ComboBoxItem Content="9"/>
-                </ComboBox>
-                <TextBlock Text="Y" FontSize="14" Margin="10,0,0,0"/>
-                <ComboBox x:Name="CmbSlideY" Width="40" Height="20" SelectedIndex="0" Margin="5,0,40,0">
-                    <ComboBoxItem Content="1"/>
-                    <ComboBoxItem Content="2"/>
-                    <ComboBoxItem Content="3"/>
-                    <ComboBoxItem Content="4"/>
-                    <ComboBoxItem Content="5"/>
-                </ComboBox>
-            </StackPanel>
+                    <TextBlock Text="Set coordinates" FontWeight="Bold" FontSize="16" Margin="0,10,0,0"/>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,10,0,0">
+                        <TextBlock Text="Plateau:" FontWeight="Bold" FontSize="14" Margin="10,0,0,0"/>
+                        <ComboBox x:Name="CmbPlateau" Width="40" Height="20" SelectedIndex="0" Margin="10,0,40,0">
+                            <ComboBoxItem Content="0"/>
+                            <ComboBoxItem Content="1"/>
+                            <ComboBoxItem Content="2"/>
+                            <ComboBoxItem Content="3"/>
+                        </ComboBox>
+                    </StackPanel>
 
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,10,0,0">
-                <TextBlock Text="Cavity:" FontWeight="Bold" FontSize="14" Margin="10,0,0,0"/>
-                <TextBlock Text="X" FontSize="14" Margin="10,0,0,0"/>
-                <ComboBox x:Name="CmbCavityX" Width="40" Height="20" SelectedIndex="0" Margin="5,0,0,0">
-                    <ComboBoxItem Content="1"/>
-                    <ComboBoxItem Content="2"/>
-                    <ComboBoxItem Content="3"/>
-                    <ComboBoxItem Content="4"/>
-                </ComboBox>
-                <TextBlock Text="Y" FontSize="14" Margin="10,0,0,0"/>
-                <ComboBox x:Name="CmbCavityY" Width="40" Height="20" SelectedIndex="0" Margin="5,0,40,0">
-                    <ComboBoxItem Content="1"/>
-                    <ComboBoxItem Content="2"/>
-                    <ComboBoxItem Content="3"/>
-                    <ComboBoxItem Content="4"/>
-                    <ComboBoxItem Content="5"/>
-                    <ComboBoxItem Content="6"/>
-                    <ComboBoxItem Content="7"/>
-                    <ComboBoxItem Content="8"/>
-                    <ComboBoxItem Content="9"/>
-                    <ComboBoxItem Content="10"/>
-                    <ComboBoxItem Content="11"/>
-                </ComboBox>
-            </StackPanel>
-            <Button x:Name="BtnSendCoord" Content="Send coordinates" Width="120" Height="20" Margin="0,20,0,0" Click="BtnSendCoord_Click" Background="#d9ddf9"/>
-        </StackPanel>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,10,0,0">
+                        <TextBlock Text="Slide:" FontWeight="Bold" FontSize="14" Margin="10,0,0,0"/>
+                        <TextBlock Text="X" FontSize="14" Margin="10,0,0,0"/>
+                        <ComboBox x:Name="CmbSlideX" Width="40" Height="20" SelectedIndex="0" Margin="5,0,0,0">
+                            <ComboBoxItem Content="1"/>
+                            <ComboBoxItem Content="2"/>
+                            <ComboBoxItem Content="3"/>
+                            <ComboBoxItem Content="4"/>
+                            <ComboBoxItem Content="5"/>
+                            <ComboBoxItem Content="6"/>
+                            <ComboBoxItem Content="7"/>
+                            <ComboBoxItem Content="8"/>
+                            <ComboBoxItem Content="9"/>
+                        </ComboBox>
+                        <TextBlock Text="Y" FontSize="14" Margin="10,0,0,0"/>
+                        <ComboBox x:Name="CmbSlideY" Width="40" Height="20" SelectedIndex="0" Margin="5,0,40,0">
+                            <ComboBoxItem Content="1"/>
+                            <ComboBoxItem Content="2"/>
+                            <ComboBoxItem Content="3"/>
+                            <ComboBoxItem Content="4"/>
+                            <ComboBoxItem Content="5"/>
+                        </ComboBox>
+                    </StackPanel>
 
-        <Border Grid.Column="1" BorderBrush="Black" BorderThickness="1,0,0,0"/>
-        
-        <StackPanel Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <Button x:Name="BtnAcquitDef" Content="Acquit. Def." Width="100" Height="40" Margin="5" Click="BtnAcquitDef_Click" Background="#d2c58d"/>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,10,0,0">
+                        <TextBlock Text="Cavity:" FontWeight="Bold" FontSize="14" Margin="10,0,0,0"/>
+                        <TextBlock Text="X" FontSize="14" Margin="10,0,0,0"/>
+                        <ComboBox x:Name="CmbCavityX" Width="40" Height="20" SelectedIndex="0" Margin="5,0,0,0">
+                            <ComboBoxItem Content="1"/>
+                            <ComboBoxItem Content="2"/>
+                            <ComboBoxItem Content="3"/>
+                            <ComboBoxItem Content="4"/>
+                        </ComboBox>
+                        <TextBlock Text="Y" FontSize="14" Margin="10,0,0,0"/>
+                        <ComboBox x:Name="CmbCavityY" Width="40" Height="20" SelectedIndex="0" Margin="5,0,40,0">
+                            <ComboBoxItem Content="1"/>
+                            <ComboBoxItem Content="2"/>
+                            <ComboBoxItem Content="3"/>
+                            <ComboBoxItem Content="4"/>
+                            <ComboBoxItem Content="5"/>
+                            <ComboBoxItem Content="6"/>
+                            <ComboBoxItem Content="7"/>
+                            <ComboBoxItem Content="8"/>
+                            <ComboBoxItem Content="9"/>
+                            <ComboBoxItem Content="10"/>
+                            <ComboBoxItem Content="11"/>
+                        </ComboBox>
+                    </StackPanel>
+                    <Button x:Name="BtnSendCoord" Content="Send coordinates" Width="120" Height="20" Margin="0,20,0,0" Click="BtnSendCoord_Click" Background="#d9ddf9"/>
+                </StackPanel>
 
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <Button x:Name="BtnAuto" Content="Auto" Width="65" Height="40" Margin="5" Click="BtnAuto_Click"/>
-                <Button x:Name="BtnManual" Content="Manual" Width="65" Height="40" Margin="5" Click="BtnManual_Click"/>
-            </StackPanel>
+                <Border Grid.Column="1" BorderBrush="Black" BorderThickness="1,0,0,0"/>
 
-            <Separator Margin="0,10,0,10" />
+                <StackPanel Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Button x:Name="BtnAcquitDef" Content="Acquit. Def." Width="100" Height="40" Margin="5" Click="BtnAcquitDef_Click" Background="#d2c58d"/>
 
-            <Button x:Name="BtnInit" Content="Init cycle" Width="150" Height="40" Margin="5" Click="BtnInit_Click" Background="#b5e0b3"/>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <Button x:Name="BtnAuto" Content="Auto" Width="65" Height="40" Margin="5" Click="BtnAuto_Click"/>
+                        <Button x:Name="BtnManual" Content="Manual" Width="65" Height="40" Margin="5" Click="BtnManual_Click"/>
+                    </StackPanel>
 
-            <Separator Margin="0,10,0,10" />
+                    <Separator Margin="0,10,0,10" />
 
-            <Button x:Name="BtnStartCycle" Content="Start cycle" Width="150" Height="40" Margin="5" Click="BtnStartCycle_Click" Background="#9dd2e0"/>
-            <Button x:Name="BtnStopCycle" Content="Stop cycle" Width="150" Height="40" Margin="5" Click="BtnStopCycle_Click" Background="#9dd2e0"/>
+                    <Button x:Name="BtnInit" Content="Init cycle" Width="150" Height="40" Margin="5" Click="BtnInit_Click" Background="#b5e0b3"/>
 
-            <Separator Margin="0,10,0,10" />
+                    <Separator Margin="0,10,0,10" />
 
-            <Button x:Name="BtnStartCollect" Content="Start collect" Width="150" Height="40" Margin="5" Click="StartCollect_Click" IsEnabled="False" Background="#d5bbe0"/>
-            <Button x:Name="BtnStopCollect" Content="Stop collect" Width="150" Height="40" Margin="5" Click="StopCollect_Click" IsEnabled="False" Background="#d5bbe0"/>
+                    <Button x:Name="BtnStartCycle" Content="Start cycle" Width="150" Height="40" Margin="5" Click="BtnStartCycle_Click" Background="#9dd2e0"/>
+                    <Button x:Name="BtnStopCycle" Content="Stop cycle" Width="150" Height="40" Margin="5" Click="BtnStopCycle_Click" Background="#9dd2e0"/>
 
-            <TextBlock x:Name="TxtStatus" 
-                   Text=""
-                   FontSize="16" 
-                   Margin="5,20,5,5"
-                   HorizontalAlignment="Center"
-                   FontStyle="Italic"
-                   TextWrapping="Wrap"/>
-        </StackPanel>
+                    <Separator Margin="0,10,0,10" />
 
-        <Border Grid.Column="2" BorderBrush="Black" BorderThickness="1,0,0,0"/>
+                    <Button x:Name="BtnStartCollect" Content="Start collect" Width="150" Height="40" Margin="5" Click="StartCollect_Click" IsEnabled="False" Background="#d5bbe0"/>
+                    <Button x:Name="BtnStopCollect" Content="Stop collect" Width="150" Height="40" Margin="5" Click="StopCollect_Click" IsEnabled="False" Background="#d5bbe0"/>
 
-        <StackPanel Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <TextBlock Text="Word 0:" FontWeight="Bold" FontSize="16"/>
-            <StackPanel Orientation="Horizontal" Margin="2">
-                <TextBlock Text="Request Analyse Vision A" Width="150"/>
-                <Ellipse x:Name="LedRequestAnalyseVisionA" Width="16" Height="16" Stroke="Black" StrokeThickness="1" Fill="Gray"/>
-            </StackPanel>
-        
-            <StackPanel Orientation="Horizontal" Margin="2">
-                <TextBlock Text="Request Analyse Vision B" Width="150"/>
-                <Ellipse x:Name="LedRequestAnalyseVisionB" Width="16" Height="16" Stroke="Black" StrokeThickness="1" Fill="Gray"/>
-            </StackPanel>
+                    <TextBlock x:Name="TxtStatus" 
+                           Text=""
+                           FontSize="16" 
+                           Margin="5,20,5,5"
+                           HorizontalAlignment="Center"
+                           FontStyle="Italic"
+                           TextWrapping="Wrap"/>
+                </StackPanel>
 
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <Button x:Name="BtnVisionPresenceADone" Content="Vis. Pres. A Done" Width="100" Height="40" Margin="5,20,5,5" Click="VisionPresenceADone_Click" IsEnabled="False" Background="#d5bbe0"/>
-                <Button x:Name="BtnVisionPresenceBDone" Content="Vis. Pres. B Done" Width="100" Height="40" Margin="5,20,5,5" Click="VisionPresenceBDone_Click" IsEnabled="False" Background="#d5bbe0"/>
-            </StackPanel>
+                <Border Grid.Column="2" BorderBrush="Black" BorderThickness="1,0,0,0"/>
 
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <Ellipse x:Name="LedVisionPresenceADone" Width="16" Height="16" Stroke="Black" Margin="0,5,90,10" StrokeThickness="1" Fill="Gray"/>
-                <Ellipse x:Name="LedVisionPresenceBDone" Width="16" Height="16" Stroke="Black" Margin="0,5,0,10" StrokeThickness="1" Fill="Gray"/>
-            </StackPanel>
+                <StackPanel Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <TextBlock Text="Word 0:" FontWeight="Bold" FontSize="16"/>
+                    <StackPanel Orientation="Horizontal" Margin="2">
+                        <TextBlock Text="Request Analyse Vision A" Width="150"/>
+                        <Ellipse x:Name="LedRequestAnalyseVisionA" Width="16" Height="16" Stroke="Black" StrokeThickness="1" Fill="Gray"/>
+                    </StackPanel>
 
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <Button x:Name="BtnAnalyseVisionADone" Content="An. Vis. A Done" Width="100" Height="40" Margin="5,20,5,5" Click="AnalyseVisionADone_Click" IsEnabled="False" Background="#d5bbe0"/>
-                <Button x:Name="BtnAnalyseVisionBDone" Content="An. Vis. B Done" Width="100" Height="40" Margin="5,20,5,5" Click="AnalyseVisionBDone_Click" IsEnabled="False" Background="#d5bbe0"/>
-            </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="2">
+                        <TextBlock Text="Request Analyse Vision B" Width="150"/>
+                        <Ellipse x:Name="LedRequestAnalyseVisionB" Width="16" Height="16" Stroke="Black" StrokeThickness="1" Fill="Gray"/>
+                    </StackPanel>
 
-            <Separator Margin="0,50,0,0" />
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <Button x:Name="BtnVisionPresenceADone" Content="Vis. Pres. A Done" Width="100" Height="40" Margin="5,20,5,5" Click="VisionPresenceADone_Click" IsEnabled="False" Background="#d5bbe0"/>
+                        <Button x:Name="BtnVisionPresenceBDone" Content="Vis. Pres. B Done" Width="100" Height="40" Margin="5,20,5,5" Click="VisionPresenceBDone_Click" IsEnabled="False" Background="#d5bbe0"/>
+                    </StackPanel>
 
-            <Button x:Name="BtnStopVidange" Content="Stop Vidange" Width="100" Height="40" Margin="5,50,5,5" Click="StopVidange_Click" Background="#e3b985"/>
-            <Button x:Name="BtnStartNettoyage" Content="Start Nettoyage" Width="100" Height="40" Margin="5" Click="StartNettoyage_Click" Background="#acfff3"/>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <Ellipse x:Name="LedVisionPresenceADone" Width="16" Height="16" Stroke="Black" Margin="0,5,90,10" StrokeThickness="1" Fill="Gray"/>
+                        <Ellipse x:Name="LedVisionPresenceBDone" Width="16" Height="16" Stroke="Black" Margin="0,5,0,10" StrokeThickness="1" Fill="Gray"/>
+                    </StackPanel>
 
-            <Separator Margin="0,50,0,0" />
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <Button x:Name="BtnAnalyseVisionADone" Content="An. Vis. A Done" Width="100" Height="40" Margin="5,20,5,5" Click="AnalyseVisionADone_Click" IsEnabled="False" Background="#d5bbe0"/>
+                        <Button x:Name="BtnAnalyseVisionBDone" Content="An. Vis. B Done" Width="100" Height="40" Margin="5,20,5,5" Click="AnalyseVisionBDone_Click" IsEnabled="False" Background="#d5bbe0"/>
+                    </StackPanel>
 
-            <Button x:Name="BtnHardReset" Content="Hard Reset" Width="100" Height="40" Margin="5,50,5,5" Click="BtnHardReset_Click" Background="#eb878e"/>
-        </StackPanel>
+                    <Separator Margin="0,50,0,0" />
 
-        <Border Grid.Column="3" BorderBrush="Black" BorderThickness="1,0,0,0"/>
+                    <Button x:Name="BtnStopVidange" Content="Stop Vidange" Width="100" Height="40" Margin="5,50,5,5" Click="StopVidange_Click" Background="#e3b985"/>
+                    <Button x:Name="BtnStartNettoyage" Content="Start Nettoyage" Width="100" Height="40" Margin="5" Click="StartNettoyage_Click" Background="#acfff3"/>
 
-        <StackPanel Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <TextBlock Text="Main cycle step:" FontWeight="Bold" FontSize="16"/>
-            <TextBlock x:Name="TxtStepCyclePrincipal" Text="NaN" FontSize="14" Margin="0,0,0,50"/>
+                    <Separator Margin="0,50,0,0" />
 
-            <TextBlock Text="Word 90:" FontWeight="Bold" FontSize="16"/>
-            <TextBlock x:Name="TxtWord90" Text="NaN" FontSize="14" Margin="0,0,0,50"/>
+                    <Button x:Name="BtnHardReset" Content="Hard Reset" Width="100" Height="40" Margin="5,50,5,5" Click="BtnHardReset_Click" Background="#eb878e"/>
+                </StackPanel>
 
-            <TextBlock Text="Manual bit setting" FontWeight="Bold" FontSize="16"/>
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,10,0,0">
-                <TextBlock Text="Word" FontWeight="Bold" FontSize="14" Margin="0,0,10,0"/>
-                <TextBlock Text="Bit" FontWeight="Bold" FontSize="14" Margin="0,0,25,0"/>
-                <TextBlock Text="Method" FontWeight="Bold" FontSize="14" Margin="0,0,0,0"/>
-            </StackPanel>
+                <Border Grid.Column="3" BorderBrush="Black" BorderThickness="1,0,0,0"/>
 
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,10,0,0">
-                <TextBox x:Name="ManSetWord" Width="40" Margin="0,0,5,0"/>
-                <ComboBox x:Name="CmbManSetBit" Width="40" Height="20" SelectedIndex="0" Margin="0,0,5,0">
-                    <ComboBoxItem Content="0"/>
-                    <ComboBoxItem Content="1"/>
-                    <ComboBoxItem Content="2"/>
-                    <ComboBoxItem Content="3"/>
-                    <ComboBoxItem Content="4"/>
-                    <ComboBoxItem Content="5"/>
-                    <ComboBoxItem Content="6"/>
-                    <ComboBoxItem Content="7"/>
-                    <ComboBoxItem Content="8"/>
-                    <ComboBoxItem Content="9"/>
-                    <ComboBoxItem Content="10"/>
-                    <ComboBoxItem Content="11"/>
-                    <ComboBoxItem Content="12"/>
-                    <ComboBoxItem Content="13"/>
-                    <ComboBoxItem Content="14"/>
-                    <ComboBoxItem Content="15"/>
-                </ComboBox>
-                <ComboBox x:Name="CmbManSetMethod" Width="60" Height="20" SelectedIndex="0" Margin="0,0,20,0">
-                    <ComboBoxItem Content="Set"/>
-                    <ComboBoxItem Content="Clear"/>
-                </ComboBox>
-                <Button x:Name="BtnManSetValidate" Content="Validate" Width="60" Height="20" Click="BtnManSetValidate_Click" Background="#d9ddf9"/>
-            </StackPanel>
-        </StackPanel>
+                <StackPanel Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <TextBlock Text="Main cycle step:" FontWeight="Bold" FontSize="16"/>
+                    <TextBlock x:Name="TxtStepCyclePrincipal" Text="NaN" FontSize="14" Margin="0,0,0,50"/>
 
-        <Border Grid.Column="4" BorderBrush="Black" BorderThickness="1,0,0,0"/>
+                    <TextBlock Text="Word 90:" FontWeight="Bold" FontSize="16"/>
+                    <TextBlock x:Name="TxtWord90" Text="NaN" FontSize="14" Margin="0,0,0,50"/>
 
-        <StackPanel Grid.Column="4" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <TextBlock Text="Repetition Nettoyage:" FontWeight="Bold" FontSize="16" Margin="0,20,0,0"/>
-            <TextBlock x:Name="TxtRepetitionNettoyage" Text="NaN" FontSize="14"/>
-            <StackPanel Orientation="Horizontal">
-                <TextBox x:Name="RepetitionNettoyageInput" Width="80" Margin="0,5,10,0"/>
-                <Button Content="Validate" Margin="0,5,0,0" Click="ValidateRepetitionNettoyage_Click"/>
-            </StackPanel>
+                    <TextBlock Text="Manual bit setting" FontWeight="Bold" FontSize="16"/>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,10,0,0">
+                        <TextBlock Text="Word" FontWeight="Bold" FontSize="14" Margin="0,0,10,0"/>
+                        <TextBlock Text="Bit" FontWeight="Bold" FontSize="14" Margin="0,0,25,0"/>
+                        <TextBlock Text="Method" FontWeight="Bold" FontSize="14" Margin="0,0,0,0"/>
+                    </StackPanel>
 
-            <TextBlock Text="Axe Vision Z position:" FontWeight="Bold" FontSize="16" Margin="0,20,0,0"/>
-            <TextBlock x:Name="TxtAxeVisionZPosition" Text="NaN" FontSize="14"/>
-            <StackPanel Orientation="Horizontal">
-                <TextBox x:Name="AxeVisionZPositionInput" Width="80" Margin="0,5,10,0"/>
-                <Button Content="Validate" Margin="0,5,0,0" Click="ValidateAxeVisionZPosition_Click"/>
-            </StackPanel>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,10,0,0">
+                        <TextBox x:Name="ManSetWord" Width="40" Margin="0,0,5,0"/>
+                        <ComboBox x:Name="CmbManSetBit" Width="40" Height="20" SelectedIndex="0" Margin="0,0,5,0">
+                            <ComboBoxItem Content="0"/>
+                            <ComboBoxItem Content="1"/>
+                            <ComboBoxItem Content="2"/>
+                            <ComboBoxItem Content="3"/>
+                            <ComboBoxItem Content="4"/>
+                            <ComboBoxItem Content="5"/>
+                            <ComboBoxItem Content="6"/>
+                            <ComboBoxItem Content="7"/>
+                            <ComboBoxItem Content="8"/>
+                            <ComboBoxItem Content="9"/>
+                            <ComboBoxItem Content="10"/>
+                            <ComboBoxItem Content="11"/>
+                            <ComboBoxItem Content="12"/>
+                            <ComboBoxItem Content="13"/>
+                            <ComboBoxItem Content="14"/>
+                            <ComboBoxItem Content="15"/>
+                        </ComboBox>
+                        <ComboBox x:Name="CmbManSetMethod" Width="60" Height="20" SelectedIndex="0" Margin="0,0,20,0">
+                            <ComboBoxItem Content="Set"/>
+                            <ComboBoxItem Content="Clear"/>
+                        </ComboBox>
+                        <Button x:Name="BtnManSetValidate" Content="Validate" Width="60" Height="20" Click="BtnManSetValidate_Click" Background="#d9ddf9"/>
+                    </StackPanel>
+                </StackPanel>
 
-            <TextBlock Text="Vibration Bol:" FontWeight="Bold" FontSize="16" Margin="0,20,0,0"/>
-            <TextBlock x:Name="TxtVibrationBol" Text="NaN" FontSize="14"/>
-            <StackPanel Orientation="Horizontal">
-                <TextBox x:Name="VibrationBolInput" Width="80" Margin="0,5,10,0"/>
-                <Button Content="Validate" Margin="0,5,0,0" Click="ValidateVibrationBol_Click"/>
-            </StackPanel>
+                <Border Grid.Column="4" BorderBrush="Black" BorderThickness="1,0,0,0"/>
 
-            <TextBlock Text="Vibration rail 1:" FontWeight="Bold" FontSize="16" Margin="0,20,0,0"/>
-            <TextBlock x:Name="TxtVibrationRail1" Text="NaN" FontSize="14"/>
-            <StackPanel Orientation="Horizontal">
-                <TextBox x:Name="VibrationRail1Input" Width="80" Margin="0,5,10,0"/>
-                <Button Content="Validate" Margin="0,5,0,0" Click="ValidateVibrationRail1_Click"/>
-            </StackPanel>
+                <StackPanel Grid.Column="4" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <TextBlock Text="Repetition Nettoyage:" FontWeight="Bold" FontSize="16" Margin="0,20,0,0"/>
+                    <TextBlock x:Name="TxtRepetitionNettoyage" Text="NaN" FontSize="14"/>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBox x:Name="RepetitionNettoyageInput" Width="80" Margin="0,5,10,0"/>
+                        <Button Content="Validate" Margin="0,5,0,0" Click="ValidateRepetitionNettoyage_Click"/>
+                    </StackPanel>
 
-            <TextBlock Text="Vibration rail 2:" FontWeight="Bold" FontSize="16" Margin="0,20,0,0"/>
-            <TextBlock x:Name="TxtVibrationRail2" Text="NaN" FontSize="14"/>
-            <StackPanel Orientation="Horizontal">
-                <TextBox x:Name="VibrationRail2Input" Width="80" Margin="0,5,10,0"/>
-                <Button Content="Validate" Margin="0,5,0,0" Click="ValidateVibrationRail2_Click"/>
-            </StackPanel>
+                    <TextBlock Text="Axe Vision Z position:" FontWeight="Bold" FontSize="16" Margin="0,20,0,0"/>
+                    <TextBlock x:Name="TxtAxeVisionZPosition" Text="NaN" FontSize="14"/>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBox x:Name="AxeVisionZPositionInput" Width="80" Margin="0,5,10,0"/>
+                        <Button Content="Validate" Margin="0,5,0,0" Click="ValidateAxeVisionZPosition_Click"/>
+                    </StackPanel>
 
-            <TextBlock Text="Temps aspiration:" FontWeight="Bold" FontSize="16" Margin="0,20,0,0"/>
-            <TextBlock x:Name="TxtTempsAspiration" Text="NaN" FontSize="14"/>
-            <StackPanel Orientation="Horizontal">
-                <TextBox x:Name="TempsAspirationInput" Width="80" Margin="0,5,10,0"/>
-                <Button Content="Validate" Margin="0,5,0,0" Click="ValidateTempsAspiration_Click"/>
-            </StackPanel>
-        </StackPanel>
+                    <TextBlock Text="Vibration Bol:" FontWeight="Bold" FontSize="16" Margin="0,20,0,0"/>
+                    <TextBlock x:Name="TxtVibrationBol" Text="NaN" FontSize="14"/>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBox x:Name="VibrationBolInput" Width="80" Margin="0,5,10,0"/>
+                        <Button Content="Validate" Margin="0,5,0,0" Click="ValidateVibrationBol_Click"/>
+                    </StackPanel>
 
-        <Border Grid.Column="5" BorderBrush="Black" BorderThickness="1,0,0,0"/>
+                    <TextBlock Text="Vibration rail 1:" FontWeight="Bold" FontSize="16" Margin="0,20,0,0"/>
+                    <TextBlock x:Name="TxtVibrationRail1" Text="NaN" FontSize="14"/>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBox x:Name="VibrationRail1Input" Width="80" Margin="0,5,10,0"/>
+                        <Button Content="Validate" Margin="0,5,0,0" Click="ValidateVibrationRail1_Click"/>
+                    </StackPanel>
 
-        <StackPanel Grid.Column="5" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <TextBlock Text="Temps soufflage:" FontWeight="Bold" FontSize="16" Margin="0,20,0,0"/>
-            <TextBlock x:Name="TxtTempsSoufflage" Text="NaN" FontSize="14"/>
-            <StackPanel Orientation="Horizontal">
-                <TextBox x:Name="TempsSoufflageInput" Width="80" Margin="0,5,10,0"/>
-                <Button Content="Validate" Margin="0,5,0,0" Click="ValidateTempsSoufflage_Click"/>
-            </StackPanel>
+                    <TextBlock Text="Vibration rail 2:" FontWeight="Bold" FontSize="16" Margin="0,20,0,0"/>
+                    <TextBlock x:Name="TxtVibrationRail2" Text="NaN" FontSize="14"/>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBox x:Name="VibrationRail2Input" Width="80" Margin="0,5,10,0"/>
+                        <Button Content="Validate" Margin="0,5,0,0" Click="ValidateVibrationRail2_Click"/>
+                    </StackPanel>
 
-            <TextBlock Text="Nb Max Particule Non Vue:" FontWeight="Bold" FontSize="16" Margin="0,20,0,0"/>
-            <TextBlock x:Name="TxtNbMaxParticuleNonVue" Text="NaN" FontSize="14"/>
-            <StackPanel Orientation="Horizontal">
-                <TextBox x:Name="NbMaxParticuleNonVueInput" Width="80" Margin="0,5,10,0"/>
-                <Button Content="Validate" Margin="0,5,0,0" Click="ValidateNbMaxParticuleNonVue_Click"/>
-            </StackPanel>
+                    <TextBlock Text="Temps aspiration:" FontWeight="Bold" FontSize="16" Margin="0,20,0,0"/>
+                    <TextBlock x:Name="TxtTempsAspiration" Text="NaN" FontSize="14"/>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBox x:Name="TempsAspirationInput" Width="80" Margin="0,5,10,0"/>
+                        <Button Content="Validate" Margin="0,5,0,0" Click="ValidateTempsAspiration_Click"/>
+                    </StackPanel>
+                </StackPanel>
 
-            <TextBlock Text="Temps vibration convoyage vide:" FontWeight="Bold" FontSize="16" Margin="0,20,0,0"/>
-            <TextBlock x:Name="TxtTempsVibrationConvoyageVide" Text="NaN" FontSize="14"/>
-            <StackPanel Orientation="Horizontal">
-                <TextBox x:Name="TempsVibrationConvoyageVideInput" Width="80" Margin="0,5,10,0"/>
-                <Button Content="Validate" Margin="0,5,0,0" Click="ValidateTempsVibrationConvoyageVide_Click"/>
-            </StackPanel>
+                <Border Grid.Column="5" BorderBrush="Black" BorderThickness="1,0,0,0"/>
 
-            <TextBlock Text="Temps espacement rail 1:" FontWeight="Bold" FontSize="16" Margin="0,20,0,0"/>
-            <TextBlock x:Name="TxtTempsEspacementRail1" Text="NaN" FontSize="14"/>
-            <StackPanel Orientation="Horizontal">
-                <TextBox x:Name="TempsEspacementRail1Input" Width="80" Margin="0,5,10,0"/>
-                <Button Content="Validate" Margin="0,5,0,0" Click="ValidateTempsEspacementRail1_Click"/>
-            </StackPanel>
+                <StackPanel Grid.Column="5" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <TextBlock Text="Temps soufflage:" FontWeight="Bold" FontSize="16" Margin="0,20,0,0"/>
+                    <TextBlock x:Name="TxtTempsSoufflage" Text="NaN" FontSize="14"/>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBox x:Name="TempsSoufflageInput" Width="80" Margin="0,5,10,0"/>
+                        <Button Content="Validate" Margin="0,5,0,0" Click="ValidateTempsSoufflage_Click"/>
+                    </StackPanel>
 
-            <TextBlock Text="Temps espacement rail 2:" FontWeight="Bold" FontSize="16" Margin="0,20,0,0"/>
-            <TextBlock x:Name="TxtTempsEspacementRail2" Text="NaN" FontSize="14"/>
-            <StackPanel Orientation="Horizontal">
-                <TextBox x:Name="TempsEspacementRail2Input" Width="80" Margin="0,5,10,0"/>
-                <Button Content="Validate" Margin="0,5,0,0" Click="ValidateTempsEspacementRail2_Click"/>
-            </StackPanel>
+                    <TextBlock Text="Nb Max Particule Non Vue:" FontWeight="Bold" FontSize="16" Margin="0,20,0,0"/>
+                    <TextBlock x:Name="TxtNbMaxParticuleNonVue" Text="NaN" FontSize="14"/>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBox x:Name="NbMaxParticuleNonVueInput" Width="80" Margin="0,5,10,0"/>
+                        <Button Content="Validate" Margin="0,5,0,0" Click="ValidateNbMaxParticuleNonVue_Click"/>
+                    </StackPanel>
 
-            <TextBlock Text="Vibration Amorcage Vidange:" FontWeight="Bold" FontSize="16" Margin="0,20,0,0"/>
-            <TextBlock x:Name="TxtVibrationAmorcageVidange" Text="NaN" FontSize="14"/>
-            <StackPanel Orientation="Horizontal">
-                <TextBox x:Name="VibrationAmorcageVidangeInput" Width="80" Margin="0,5,10,0"/>
-                <Button Content="Validate" Margin="0,5,0,0" Click="ValidateVibrationAmorcageVidange_Click"/>
-            </StackPanel>
+                    <TextBlock Text="Temps vibration convoyage vide:" FontWeight="Bold" FontSize="16" Margin="0,20,0,0"/>
+                    <TextBlock x:Name="TxtTempsVibrationConvoyageVide" Text="NaN" FontSize="14"/>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBox x:Name="TempsVibrationConvoyageVideInput" Width="80" Margin="0,5,10,0"/>
+                        <Button Content="Validate" Margin="0,5,0,0" Click="ValidateTempsVibrationConvoyageVide_Click"/>
+                    </StackPanel>
 
-            <TextBlock Text="Temps Amorcage:" FontWeight="Bold" FontSize="16" Margin="0,20,0,0"/>
-            <TextBlock x:Name="TxtTempsAmorcage" Text="NaN" FontSize="14"/>
-            <StackPanel Orientation="Horizontal">
-                <TextBox x:Name="TempsAmorcageInput" Width="80" Margin="0,5,10,0"/>
-                <Button Content="Validate" Margin="0,5,0,0" Click="ValidateTempsAmorcage_Click"/>
-            </StackPanel>
-        </StackPanel>
+                    <TextBlock Text="Temps espacement rail 1:" FontWeight="Bold" FontSize="16" Margin="0,20,0,0"/>
+                    <TextBlock x:Name="TxtTempsEspacementRail1" Text="NaN" FontSize="14"/>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBox x:Name="TempsEspacementRail1Input" Width="80" Margin="0,5,10,0"/>
+                        <Button Content="Validate" Margin="0,5,0,0" Click="ValidateTempsEspacementRail1_Click"/>
+                    </StackPanel>
+
+                    <TextBlock Text="Temps espacement rail 2:" FontWeight="Bold" FontSize="16" Margin="0,20,0,0"/>
+                    <TextBlock x:Name="TxtTempsEspacementRail2" Text="NaN" FontSize="14"/>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBox x:Name="TempsEspacementRail2Input" Width="80" Margin="0,5,10,0"/>
+                        <Button Content="Validate" Margin="0,5,0,0" Click="ValidateTempsEspacementRail2_Click"/>
+                    </StackPanel>
+
+                    <TextBlock Text="Vibration Amorcage Vidange:" FontWeight="Bold" FontSize="16" Margin="0,20,0,0"/>
+                    <TextBlock x:Name="TxtVibrationAmorcageVidange" Text="NaN" FontSize="14"/>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBox x:Name="VibrationAmorcageVidangeInput" Width="80" Margin="0,5,10,0"/>
+                        <Button Content="Validate" Margin="0,5,0,0" Click="ValidateVibrationAmorcageVidange_Click"/>
+                    </StackPanel>
+
+                    <TextBlock Text="Temps Amorcage:" FontWeight="Bold" FontSize="16" Margin="0,20,0,0"/>
+                    <TextBlock x:Name="TxtTempsAmorcage" Text="NaN" FontSize="14"/>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBox x:Name="TempsAmorcageInput" Width="80" Margin="0,5,10,0"/>
+                        <Button Content="Validate" Margin="0,5,0,0" Click="ValidateTempsAmorcage_Click"/>
+                    </StackPanel>
+                </StackPanel>
+            </TabItem>
+            <TabItem Header="Settings">
+            </TabItem>
+            <TabItem Header="Alarms">
+            </TabItem>
+        </TabControl>
     </Grid>
 
 
