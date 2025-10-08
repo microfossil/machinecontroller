@@ -253,11 +253,11 @@
                             <ComboBoxItem Content="7"/>
                             <ComboBoxItem Content="8"/>
                             <ComboBoxItem Content="9"/>
-                            <ComboBoxItem Content="70 alarme"/>
-                            <ComboBoxItem Content="71 alarme"/>
-                            <ComboBoxItem Content="72 alarme"/>
-                            <ComboBoxItem Content="73 alarme"/>
-                            <ComboBoxItem Content="74 alarme"/>
+                            <ComboBoxItem Content="70"/>
+                            <ComboBoxItem Content="71"/>
+                            <ComboBoxItem Content="72"/>
+                            <ComboBoxItem Content="73"/>
+                            <ComboBoxItem Content="74"/>
                             <ComboBoxItem Content="78"/>
                             <ComboBoxItem Content="79"/>
                             <ComboBoxItem Content="80"/>
