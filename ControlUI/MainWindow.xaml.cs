@@ -46,7 +46,7 @@ namespace ControlUI
         {
             if (Modbus.IsConnected)
             {
-                TxtGEMMAMode.Text = $"{Modbus.GemmaMode} (decimal)\n{Modbus.GemmaMode:X2} (hexa)\n({Modbus.GetGEMMADescription(Modbus.GemmaMode)})";
+                TxtGEMMAMode.Text = $"({Modbus.GetGEMMADescription(Modbus.GemmaMode)})";
                 TxtFiole.Text = $"Vial n°{Modbus.FioleNumber}";
                 TxtRepetitionNettoyage.Text = $"{Modbus.Repetition_Nettoyage}";
                 TxtAxeVisionZPosition.Text = $"{(ushort)Modbus.Axe_Vision_Z_position}µm";
@@ -66,10 +66,10 @@ namespace ControlUI
                 TxtDest_X_A.Text = $"{(ushort)Modbus.Dest_X_A/100}mm"; //µm
                 TxtDest_Y_A.Text = $"{(ushort)Modbus.Dest_Y_A/100}mm";
                 TxtDest_Z_A.Text = $"{(ushort)Modbus.Dest_Z_A/100}mm";
-                TxtDest_P_B.Text = $"{(ushort)Modbus.Dest_P_B}";
-                TxtDest_X_B.Text = $"{(ushort)Modbus.Dest_X_B/100}mm";
-                TxtDest_Y_B.Text = $"{(ushort)Modbus.Dest_Y_B/100}mm";
-                TxtDest_Z_B.Text = $"{(ushort)Modbus.Dest_Z_B/100}mm";
+                //TxtDest_P_B.Text = $"{(ushort)Modbus.Dest_P_B}";
+                //TxtDest_X_B.Text = $"{(ushort)Modbus.Dest_X_B/100}mm";
+                //TxtDest_Y_B.Text = $"{(ushort)Modbus.Dest_Y_B/100}mm";
+                //TxtDest_Z_B.Text = $"{(ushort)Modbus.Dest_Z_B/100}mm";
 
                 TxtWord90.Text = Modbus.TxtWord90;
                 TxtStepCyclePrincipal.Text = $"{Modbus.StepCyclePrincipal}";

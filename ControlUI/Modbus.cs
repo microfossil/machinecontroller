@@ -1340,26 +1340,26 @@ namespace ModbusTCP_Simplified
             return mode switch
             {
                 // Stop states (A series) - hex encoded
-                161 => "A1 - Arrêt dans état initial",                    // 0xA1
-                162 => "A2 - Arrêt demandé en fin de cycle",             // 0xA2
-                163 => "A3 - Arrêt demandé dans état déterminé",         // 0xA3
-                164 => "A4 - Arrêt obtenu",                              // 0xA4
-                165 => "A5 - Préparation pour remise en route après défaillance", // 0xA5
-                166 => "A6 - Mise en position pour production",          // 0xA6
-                167 => "A7 - Mise en énergie",                           // 0xA7
+                161 => "A1 - Wait for start cycle\nArrêt dans état initial",
+                162 => "A2 - Arrêt demandé en fin de cycle",
+                163 => "A3 - Arrêt demandé dans état déterminé",
+                164 => "A4 - Arrêt obtenu",
+                165 => "A5 - Wait for init\nPrép. remise rte après défail.",
+                166 => "A6 - Mise en position pour production",
+                167 => "A7 - Mise en énergie",
 
                 // Operating states (F series) - hex encoded
-                241 => "F1 - Production normale",                        // 0xF1
-                242 => "F2 - Marche de préparation",                     // 0xF2
-                243 => "F3 - Marche de clôture",                         // 0xF3
-                244 => "F4 - Marche de vérification dans le désordre",   // 0xF4
-                245 => "F5 - Marche de vérification dans l'ordre",       // 0xF5
-                246 => "F6 - Marche de test",                            // 0xF6
+                241 => "F1 - Production normale",
+                242 => "F2 - Marche de préparation",
+                243 => "F3 - Marche de clôture",
+                244 => "F4 - Manual mode\nMarche vérif. ds le désordre",
+                245 => "F5 - Marche vérif. ds l'ordre",
+                246 => "F6 - Marche de test",
 
                 // Fault states (D series) - hex encoded
-                209 => "D1 - Arrêt d'urgence",                           // 0xD1
-                210 => "D2 - Diagnostic/traitement défaillance",         // 0xD2
-                211 => "D3 - Production tout de même",                   // 0xD3
+                209 => "D1 - Wait for Acquit. Def\nArrêt d'urgence",
+                210 => "D2 - Diagnostic/traitement défaillance",
+                211 => "D3 - Production tout de même",
 
                 _ => $"Mode non défini ({mode} = 0x{mode:X2})"
             };
