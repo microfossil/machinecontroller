@@ -71,6 +71,11 @@ namespace ControlUI
                 //TxtDest_Y_B.Text = $"{(ushort)Modbus.Dest_Y_B/100}mm";
                 //TxtDest_Z_B.Text = $"{(ushort)Modbus.Dest_Z_B/100}mm";
 
+                TxtWord70.Text = Modbus.TxtWord70;
+                TxtWord71.Text = Modbus.TxtWord71;
+                TxtWord72.Text = Modbus.TxtWord72;
+                TxtWord73.Text = Modbus.TxtWord73;
+                TxtWord74.Text = Modbus.TxtWord74;
                 //TxtWord90.Text = Modbus.TxtWord90;
                 TxtStepCyclePrincipal.Text = $"{Modbus.StepCyclePrincipal}";
 

@@ -13,9 +13,7 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
-
                 </Grid.ColumnDefinitions>
-
 
                 <StackPanel Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Top">
                     <TextBlock Text="Machine state" FontWeight="Bold" FontSize="20" Margin="0,20,0,30"/>
@@ -387,6 +385,32 @@
             </Grid>
         </TabItem>
         <TabItem Header="Alarms">
+            <Grid>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Top">
+                    <TextBlock x:Name="TxtWord70" Text="NaN" FontSize="14" TextWrapping="Wrap" Margin="0,0,0,0"/>
+                </StackPanel>
+                <StackPanel Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Top">
+                    <TextBlock x:Name="TxtWord71" Text="NaN" FontSize="14" TextWrapping="Wrap" Margin="0,0,0,0"/>
+                </StackPanel>
+                <StackPanel Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Top">
+                    <TextBlock x:Name="TxtWord72" Text="NaN" FontSize="14" TextWrapping="Wrap" Margin="0,0,0,0"/>
+                </StackPanel>
+                <StackPanel Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Top">
+                    <TextBlock x:Name="TxtWord73" Text="NaN" FontSize="14" TextWrapping="Wrap" Margin="0,0,0,0"/>
+                </StackPanel>
+                <StackPanel Grid.Column="4" HorizontalAlignment="Center" VerticalAlignment="Top">
+                    <TextBlock x:Name="TxtWord74" Text="NaN" FontSize="14" TextWrapping="Wrap" Margin="0,0,0,0"/>
+                </StackPanel>
+            </Grid>
         </TabItem>
     </TabControl>
 

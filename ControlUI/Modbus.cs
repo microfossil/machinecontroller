@@ -36,6 +36,11 @@ namespace ModbusTCP_Simplified
         public int Word90 { get; private set; }
         public string TxtWord90 { get; private set; }
 
+        public int Word70 { get; private set; }
+        public int Word71 { get; private set; }
+        public int Word72 { get; private set; }
+        public int Word73 { get; private set; }
+        public int Word74 { get; private set; }
         public int Word91 { get; private set; }
 
         public bool VisionPresenceADone { get; private set; }
@@ -171,7 +176,11 @@ namespace ModbusTCP_Simplified
 
                 GemmaMode = registers_list[1];
 
-                TxtWord90 = GetTxtWord(90);
+                TxtWord70 = GetTxtWord(70);
+                TxtWord71 = GetTxtWord(71);
+                TxtWord72 = GetTxtWord(72);
+                TxtWord73 = GetTxtWord(73);
+                TxtWord74 = GetTxtWord(74);
 
                 Word91 = registers_list[91];
                 VisionPresenceADone = GetBit(Word91, 4);
