@@ -89,7 +89,7 @@ namespace ModbusTCP_Simplified
 
             timer = new DispatcherTimer
             {
-                Interval = TimeSpan.FromMilliseconds(2000) // Poll every 2000 ms
+                Interval = TimeSpan.FromMilliseconds(500) // Poll every 500 ms
             };
             timer.Tick += Timer_Tick;
         }
