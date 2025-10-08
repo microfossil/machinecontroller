@@ -71,7 +71,7 @@ namespace ControlUI
                 //TxtDest_Y_B.Text = $"{(ushort)Modbus.Dest_Y_B/100}mm";
                 //TxtDest_Z_B.Text = $"{(ushort)Modbus.Dest_Z_B/100}mm";
 
-                TxtWord90.Text = Modbus.TxtWord90;
+                //TxtWord90.Text = Modbus.TxtWord90;
                 TxtStepCyclePrincipal.Text = $"{Modbus.StepCyclePrincipal}";
 
                 LedRequestAnalyseVisionA.Fill = Modbus.RequestAnalyseVisionA ? Brushes.LimeGreen : Brushes.Red;
@@ -267,6 +267,15 @@ namespace ControlUI
                 MessageBox.Show("Please choose a valide integer", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
+
+
+        private void BtnDisplayWord_Click(object sender, RoutedEventArgs e)
+        {
+            int WordSelected = int.Parse((CmbDisplayWord.SelectedItem as ComboBoxItem).Content.ToString());
+            TxtStatus.Text = $"Display word {WordSelected}";
+            TxtWord.Text = Modbus.GetTxtWord(WordSelected);
+        }
+
 
         private async void ValidateRepetitionNettoyage_Click(object sender, RoutedEventArgs e)
         {

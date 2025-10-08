@@ -25,6 +25,7 @@ namespace ModbusTCP_Simplified
         public bool DoneFlag { get; set; }
         private int startAddress = 0;
         private int numberOfRegisters = 120;
+        public int[] registers_list { get; set; }
         public int Word0 { get; private set; }
         public bool RequestAnalyseVisionA { get; private set; }
         public bool RequestAnalyseVisionB { get; private set; }
@@ -162,7 +163,7 @@ namespace ModbusTCP_Simplified
             try
             {
 
-                int[] registers_list = await ReadHoldingRegistersAsync(startAddress, numberOfRegisters);
+                registers_list = await ReadHoldingRegistersAsync(startAddress, numberOfRegisters);
                 Word0 = registers_list[0];
                 RequestAnalyseVisionA = GetBit(Word0, 0);
                 RequestAnalyseVisionB = GetBit(Word0, 1);
@@ -170,7 +171,6 @@ namespace ModbusTCP_Simplified
 
                 GemmaMode = registers_list[1];
 
-                Word90 = registers_list[90];
                 TxtWord90 = GetTxtWord(90);
 
                 Word91 = registers_list[91];
@@ -214,14 +214,14 @@ namespace ModbusTCP_Simplified
             }
         }
 
-        private string GetTxtWord(int wordNumber)
+        public string GetTxtWord(int wordNumber)
         {
             StringBuilder sb = new StringBuilder();
             var getBitNameFunc = GetBitNameFuncByReflection(wordNumber);
 
             for (int i = 0; i < 8; i++)
             {
-                bool bitValue = GetBit(Word90, i);
+                bool bitValue = GetBit(registers_list[wordNumber], i);
                 string bitName = getBitNameFunc(i);
                 sb.AppendLine($"{bitName} - {bitValue}");
             }
