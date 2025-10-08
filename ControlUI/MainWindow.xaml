@@ -256,12 +256,12 @@
             <Grid>
 
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="400"/>
+                    <ColumnDefinition Width="400"/>
 
                 </Grid.ColumnDefinitions>
 
-                <StackPanel Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <StackPanel Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Top">
                     <TextBlock Text="Repetition Nettoyage:" FontWeight="Bold" FontSize="16" Margin="0,20,0,0"/>
                     <TextBlock x:Name="TxtRepetitionNettoyage" Text="NaN" FontSize="14"/>
                     <StackPanel Orientation="Horizontal">
@@ -312,9 +312,7 @@
                     </StackPanel>
                 </StackPanel>
 
-                <Border Grid.Column="1" BorderBrush="Black" BorderThickness="1,0,0,0"/>
-
-                <StackPanel Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <StackPanel Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Top">
 
                     <TextBlock Text="Nb Max Particule Non Vue:" FontWeight="Bold" FontSize="16" Margin="0,20,0,0"/>
                     <TextBlock x:Name="TxtNbMaxParticuleNonVue" Text="NaN" FontSize="14"/>
