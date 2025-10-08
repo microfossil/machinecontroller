@@ -46,7 +46,7 @@ namespace ControlUI
         {
             if (Modbus.IsConnected)
             {
-                TxtGEMMAMode.Text = $"({Modbus.GetGEMMADescription(Modbus.GemmaMode)})";
+                TxtGEMMAMode.Text = $"{Modbus.GetGEMMADescription(Modbus.GemmaMode)}";
                 TxtFiole.Text = $"Vial n°{Modbus.FioleNumber}";
                 TxtRepetitionNettoyage.Text = $"{Modbus.Repetition_Nettoyage}";
                 TxtAxeVisionZPosition.Text = $"{(ushort)Modbus.Axe_Vision_Z_position}µm";
