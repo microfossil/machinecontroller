@@ -36,11 +36,11 @@ namespace ModbusTCP_Simplified
         public int Word90 { get; private set; }
         public string TxtWord90 { get; private set; }
 
-        public int Word70 { get; private set; }
-        public int Word71 { get; private set; }
-        public int Word72 { get; private set; }
-        public int Word73 { get; private set; }
-        public int Word74 { get; private set; }
+        public int TxtWord70 { get; private set; }
+        public int TxtWord71 { get; private set; }
+        public int TxtWord72 { get; private set; }
+        public int TxtWord73 { get; private set; }
+        public int TxtWord74 { get; private set; }
         public int Word91 { get; private set; }
 
         public bool VisionPresenceADone { get; private set; }
