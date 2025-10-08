@@ -3,7 +3,33 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Machine Control" Height="800" Width="1200">
 
-    <TabControl>
+    <TabControl x:Name="MainTabControl">
+        <TabItem Header="Connection" x:Name="TabConnection">
+            <StackPanel Margin="20" HorizontalAlignment="Center" VerticalAlignment="Center" Width="300">
+
+                <TextBlock Text="Connexion Modbus TCP" FontWeight="Bold" FontSize="18" Margin="0,0,0,20" TextAlignment="Center"/>
+
+                <TextBlock Text="Adresse IP :" FontWeight="Bold" />
+                <TextBox x:Name="TxtIPAddress" Text="192.168.0.1" Margin="0,5,0,10"/>
+
+                <TextBlock Text="Port :" FontWeight="Bold" />
+                <TextBox x:Name="TxtPort" Text="502" Margin="0,5,0,20"/>
+
+                <StackPanel Orientation="Horizontal" Margin="0,15,0,0">
+                    <Button x:Name="BtnConnect" Content="Connect" Width="150" Height="35" Click="BtnConnect_Click" Background="#b5e0b3"/>
+                    <Button x:Name="BtnDisconnect" Content="Disconnect" Width="150" Height="35" Click="BtnDisconnect_Click" Background="#ffa2ab" Margin="10,0,0,0"/>
+                </StackPanel>
+
+                <TextBlock x:Name="TxtConnectionStatus" 
+                   Text="Not connected" 
+                   FontSize="14"
+                   FontWeight="Bold"
+                   Margin="0,15,0,0"
+                   TextAlignment="Center"/>
+
+            </StackPanel>
+        </TabItem>
+        
         <TabItem Header="Machine Control">
 
             <Grid>

@@ -16,30 +16,57 @@ namespace ControlUI
         public MainWindow()
         {
             InitializeComponent();
-
-            // lancer la connexion après chargement de la fenêtre
-            Loaded += async (s, e) => await ConnectAsync();
+            UpdateTabAvailability(); // All tab except connection are disabled
         }
 
-        public async Task ConnectAsync()
+        private async void BtnConnect_Click(object sender, RoutedEventArgs e)
         {
+            // Récupère IP et Port depuis les TextBox
+            string ip = TxtIPAddress.Text.Trim();
+            if (!int.TryParse(TxtPort.Text, out int port))
+                port = 502;
+
+            BtnConnect.IsEnabled = false;
+            TxtConnectionStatus.Text = "Connecting...";
+            TxtConnectionStatus.Foreground = Brushes.Orange;
+
             Modbus = new Modbus();
+            Modbus.IPAddress = ip;
+            Modbus.Port = port;
+
             await Modbus.StartAsync();
 
             if (Modbus.IsConnected)
             {
-                TxtStatus.Text = "✅ Connection successful";
+                TxtConnectionStatus.Text = $"Connected to {ip}:{port}";
+                TxtConnectionStatus.Foreground = Brushes.Green;
 
-                // Timer UI pour rafraîchir les valeurs affichées
+                // Lance la mise à jour de l'UI
                 uiTimer = new DispatcherTimer();
                 uiTimer.Interval = TimeSpan.FromMilliseconds(500);
                 uiTimer.Tick += (s2, e2) => UpdateUI();
                 uiTimer.Start();
+                UpdateTabAvailability(); // Enable all tabs
             }
             else
             {
-                TxtStatus.Text = "❌ Connection failed";
+                TxtConnectionStatus.Text = "Connection failed";
+                TxtConnectionStatus.Foreground = Brushes.Red;
             }
+
+            BtnConnect.IsEnabled = true;
+        }
+
+        private void BtnDisconnect_Click(object sender, RoutedEventArgs e)
+        {
+            if (Modbus != null)
+            {
+                Modbus.Stop();
+                TxtConnectionStatus.Text = "Disconnected";
+                TxtConnectionStatus.Foreground = Brushes.Gray;
+                uiTimer?.Stop();
+            }
+            UpdateTabAvailability();
         }
 
         private void UpdateUI()
@@ -138,6 +165,27 @@ namespace ControlUI
         //     int mode = Modbus.GetGEMMAMode();
         //     TxtGEMMAMode.Text = $"{mode} (decimal)\n{mode:X2} (hexa)\n({Modbus.GetGEMMADescription(mode)})";
         // }
+
+        /// <summary>
+        /// Enable or disable other tabs depending on Modbus connectio,.
+        /// Tab 0 (Connection) remains always accessible.
+        /// </summary>
+        private void UpdateTabAvailability()
+        {
+            if (MainTabControl == null)
+                return;
+
+            bool isConnected = Modbus?.IsConnected == true;
+
+            // On commence à i = 1 pour laisser l’onglet "Connexion" toujours actif
+            for (int i = 1; i < MainTabControl.Items.Count; i++)
+            {
+                if (MainTabControl.Items[i] is TabItem tab)
+                {
+                    tab.IsEnabled = isConnected;
+                }
+            }
+        }
 
         private async void BtnSendCoord_Click(object sender, RoutedEventArgs e)
         {
