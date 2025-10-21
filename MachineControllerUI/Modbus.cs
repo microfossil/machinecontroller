@@ -228,7 +228,7 @@ namespace ModbusTCP_Simplified
             StringBuilder sb = new StringBuilder();
             var getBitNameFunc = GetBitNameFuncByReflection(wordNumber);
 
-            for (int i = 0; i < 8; i++)
+            for (int i = 0; i < 16; i++)
             {
                 bool bitValue = GetBit(registers_list[wordNumber], i);
                 string bitName = getBitNameFunc(i);
@@ -1791,22 +1791,22 @@ namespace ModbusTCP_Simplified
         {
             return bit switch
             {
-                0 => "Cde_Auto.Vision_Analyse_A_Done - Retour d'information fin d'analyse vision du slot A",
-                1 => "Cde_Auto.Vision_Analyse_B_Done - Retour d'information fin d'analyse vision du slot B",
-                2 => "Cde_Auto.Vision_Controle_vide_A_Done - Retour d'information fin de contrôle vide du slot A",
-                3 => "Cde_Auto.Vision_Controle_vide_B_Done - Retour d'information fin de contrôle vide du slot B",
-                4 => "Cde_Auto.Vision_presence_A - Présence particule dans le slot A (TRUE=Présence/FALSE=Absence)",
-                5 => "Cde_Auto.Vision_presence_B - Présence particule dans le slot B (TRUE=Présence/FALSE=Absence)",
+                0 => "Cde_Auto.Vision_Analyse_A_Done",
+                1 => "Cde_Auto.Vision_Analyse_B_Done",
+                2 => "Cde_Auto.Vision_Controle_vide_A_Done",
+                3 => "Cde_Auto.Vision_Controle_vide_B_Done",
+                4 => "Cde_Auto.Vision_presence_A",
+                5 => "Cde_Auto.Vision_presence_B",
                 6 => "Cde_Auto.Axe_Vision_Z_Execute - Demande déplacement axe vision à la position",
                 7 => "Réserve",
-                8 => "Cde_Auto.Vision_A_Eclairage1 - Demande Eclairage vision A (Section 1)",
-                9 => "Cde_Auto.Vision_A_Eclairage2 - Demande Eclairage vision A (Section 2)",
-                10 => "Cde_Auto.Vision_A_Eclairage3 - Demande Eclairage vision A (Section 3)",
-                11 => "Cde_Auto.Vision_A_Eclairage4 - Demande Eclairage vision A (Section 4)",
-                12 => "Cde_Auto.Vision_B_Eclairage1 - Demande Eclairage vision B (Section 1)",
-                13 => "Cde_Auto.Vision_B_Eclairage2 - Demande Eclairage vision B (Section 2)",
-                14 => "Cde_Auto.Vision_B_Eclairage3 - Demande Eclairage vision B (Section 3)",
-                15 => "Cde_Auto.Vision_B_Eclairage4 - Demande Eclairage vision B (Section 4)",
+                8 => "Cde_Auto.Vision_A_Eclairage1",
+                9 => "Cde_Auto.Vision_A_Eclairage2",
+                10 => "Cde_Auto.Vision_A_Eclairage3",
+                11 => "Cde_Auto.Vision_A_Eclairage4",
+                12 => "Cde_Auto.Vision_B_Eclairage1",
+                13 => "Cde_Auto.Vision_B_Eclairage2",
+                14 => "Cde_Auto.Vision_B_Eclairage3",
+                15 => "Cde_Auto.Vision_B_Eclairage4",
                 _ => "Réserve"
             };
         }
