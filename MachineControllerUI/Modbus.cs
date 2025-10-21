@@ -1811,6 +1811,44 @@ namespace ModbusTCP_Simplified
             };
         }
 
+        private string GetBitNameWord93(int bit)
+        {
+            return bit switch
+            {
+                0 => "Cde_Manu.Voyant_Rouge",
+                1 => "Cde_Manu.Voyant_Bleu",
+                2 => "Cde_Manu.Voyant_Vert",
+                3 => "Cde_Manu.Marche_Bol_vibrant",
+                4 => "Cde_Manu.Marche_Vibrateur1",
+                5 => "Cde_Manu.Marche_Vibrateur2",
+                6 => "Cde_Manu.Marche_Aspiration_Manip",
+                7 => "Cde_Manu.Marche_Soufflage_Manip",
+                8 => "Cde_Manu.Descendre_Pince_deverseur",
+                9 => "Cde_Manu.Avancer_Pince_deverseur",
+                10 => "Cde_Manu.Pivoter_Pince_deverseur",
+                11 => "Cde_Manu.Deplacer_tiroir_B",
+                12 => "Cde_Manu.Degagement_Entonnoir",
+                13 => "Cde_Manu.Basculer_Nettoyage",
+                14 => "Cde_Manu.Balayer_Nettoyage",
+                15 => "Cde_Manu.Marche_Aspiration_Nettoyage_Bol",
+                _ => "Réserve"
+            };
+        }
+
+        private string GetBitNameWord94(int bit)
+        {
+            return bit switch
+            {
+                0 => "Cde_Manu.Marche_Aspiration_Nettoyage_Vibrateurs",
+                1 => "Cde_Manu.Marche_Aspiration_canne",
+                2 => "Cde_Manu.Marche_Soufflage_Nettoyage_Vibrateurs",
+                3 => "Cde_Manu.Alim_venturi",
+                4 => "Cde_Manu.Ouverture_Pince_deverseur",
+                5 => "Cde_Manu.Ouverture_Pince_Manip",
+                _ => "Réserve"
+            };
+        }
+
         // Alarm words
         private string GetBitNameWord70(int bit)
         {

@@ -287,6 +287,8 @@
                             <ComboBoxItem Content="85"/>
                             <ComboBoxItem Content="90"/>
                             <ComboBoxItem Content="91"/>
+                            <ComboBoxItem Content="93"/>
+                            <ComboBoxItem Content="94"/>
                         </ComboBox>
                         <Button x:Name="BtnDisplayWord" Content="Display" Width="60" Height="20" Click="BtnDisplayWord_Click" Background="#d9ddf9"/>
                     </StackPanel>
